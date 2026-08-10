@@ -73,9 +73,18 @@ user -> frontend -> backend -> database -> response -> user
 ---
  # ***API***
 
- 
 
- 
+
+ ---
+ # ***HTTP***
+
+
+---
+# ***REQUEST VS RESPONSE***
+
+
+ ---
+ # ***API***
 
 
 
