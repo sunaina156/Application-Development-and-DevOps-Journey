@@ -55,6 +55,9 @@
 - Backend   --------------------->  Database
                    SQL Query
 
+<img width="1920" height="1080" alt="Screenshot (1248)" src="https://github.com/user-attachments/assets/166cb892-8eb2-4483-a68d-ccb0cdffe274" />
+
+<img width="1920" height="1080" alt="Screenshot (1250)" src="https://github.com/user-attachments/assets/c844f6cb-2e8d-425e-a51d-98bdb310e482" />
 
 
 
