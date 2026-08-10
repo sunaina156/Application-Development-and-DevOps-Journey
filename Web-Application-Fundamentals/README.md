@@ -20,7 +20,7 @@
   
 ## Website vs Web Application
 
-
+---
 
 # ***CLIENT && SERVER***
 
@@ -36,6 +36,7 @@
 - Web server is a computer that stores web server software and websites files.
 - The computer that stores these resources used by client is called web server
 
+---
 
 # ***FRONTEND && BACKEND && DATABASE***
 
