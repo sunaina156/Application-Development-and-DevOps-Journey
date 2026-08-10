@@ -1,5 +1,5 @@
 
-# **WEB APPLICATION**
+# ***WEB APPLICATION***
 
 ## Standalone Application
 - Need to install in your system
@@ -22,7 +22,7 @@
 
 
 
-# **CLIENT && SERVER**
+# ***CLIENT && SERVER***
 
 ## Client
 - The browser we use is called web client
@@ -37,7 +37,7 @@
 - The computer that stores these resources used by client is called web server
 
 
-# **FRONTEND && BACKEND && DATABASE**
+# ***FRONTEND && BACKEND && DATABASE***
 
 ## Frontend
 
