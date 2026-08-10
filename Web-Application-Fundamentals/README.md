@@ -7,7 +7,7 @@ Standalone Application
 - Require OS services to work
 - Doesnot require internet connection
 - ex: MS Office, Powerpoint
-
+ 
 Web Application
 - A web application or web app is a client-server software application in which the client (or user interface)
   runs in a web browser
