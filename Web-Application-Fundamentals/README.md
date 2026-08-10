@@ -20,6 +20,17 @@
   
 ## Website vs Web Application
 
+### Website
+- A website mainly provides information or content to users.
+- ex: portfolio, blog, news website, documentation
+user -> website -> information
+
+### Web Application
+- A web application allows users to interact with the application and perform actions.
+- ex: instagram, gmail, netflix, amazon, url shortener
+
+user -> frontend -> backend -> database -> response -> user
+
 ---
 
 # ***CLIENT && SERVER***
