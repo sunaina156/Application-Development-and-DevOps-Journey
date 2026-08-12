@@ -73,6 +73,15 @@ user -> frontend -> backend -> database -> response -> user
 ---
  # ***API***
 
+## API
+- Application Programming Interface (API) is a bridge through which two software systems can communicate.
+ Frontend -> API -> Backend -> Database
+
+<img width="1684" height="888" alt="image" src="https://github.com/user-attachments/assets/87ba2428-84a9-4fc1-8db3-4e04ffe1705f" />
+
+<img width="976" height="627" alt="image" src="https://github.com/user-attachments/assets/28b30956-eec8-4543-9f92-20588766ed12" />
+
+## Types of API
 
 
  ---
@@ -82,10 +91,13 @@ user -> frontend -> backend -> database -> response -> user
 ---
 # ***REQUEST VS RESPONSE***
 
+Client -> Server
+ex: Please create a short URL for this long URL
+
+Server -> Client
+ex: Done. Here is your short URL
 
  ---
- # ***API***
-
 
 
 
