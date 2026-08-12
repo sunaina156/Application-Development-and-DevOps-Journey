@@ -123,6 +123,54 @@ Ex:   <br>
 GET /api/urls/123   <br>
 means: Give m URL number 123 <br>
 
+## POST
+POST is generally used to create something or submit data.   <br>
+
+For URL Shortener:   <br>
+POST /api/urls/   <br>
+
+Request:    <br>
+{   <br>
+   "long_url": "https://example.com"   <br>
+}   <br>
+
+Backend might respond:   <br>
+{   <br>
+   "short_url": "https://short.ly/aB92x"   <br>
+}   <br>
+
+## **PUT vs PATCH**    <br>
+These are both for updates    <br>
+
+### PUT    <br>
+Usually means replace the resource    <br>
+
+### PATCH    <br>
+Usually means partially update the resource    <br>
+
+For ex:    <br>
+**PUT /users/10**    <br>
+could replace the users's complete information    <br>
+
+While:    <br>
+**PATCH /users/10**    <br>
+could change only:    <br>
+{    <br>
+  "name": "Sunaina"    <br>
+}    <br>
+
+## DELETE    <br>
+Used to delete something    <br>
+
+Ex:    <br>
+**DELETE /api/urls/123**    <br>
+Means:    <br>
+Delete url 123.    <br>
+
+
+
+
+
 ---
 What are HTTP headers<br>
 
