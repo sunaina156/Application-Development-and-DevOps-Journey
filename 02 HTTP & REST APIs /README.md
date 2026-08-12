@@ -60,28 +60,22 @@ HTTP is a protocol that defines how a client and server format, send, receive, a
 # ***HTTP Request***
 
 A request is sent by the client to the server.
+<br><br>
 
-
-for ex:
-
+for ex:   <br>
 GET /products
 
-A request contains important information such as:
-
+<br><br>
+A request contains important information such as: <br>
 Method, URL, Headers, Body (sometimes)
 
-
-Example:
-
-POST /api/urls
-
-Content-Type: application/json
-
-{
-
-  "long_url": "https://example.com"
-  
-} 
+<br><br>
+Example:  <br>
+POST /api/urls  <br>
+Content-Type: application/json    <br>
+{                            <br>
+  "long_url": "https://example.com"    <br>
+}                       <br>
 
 ---
 
