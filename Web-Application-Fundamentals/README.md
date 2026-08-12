@@ -1,4 +1,4 @@
-
+<img width="1361" height="537" alt="image" src="https://github.com/user-attachments/assets/a33ccb6c-b8fd-46c2-8ede-9ff158724635" />
 # ***WEB APPLICATION***
 
 ## Standalone Application
@@ -85,10 +85,36 @@ Frontend -> API -> Backend -> Database
 
 ## Types of API
 
+1. REST API
+It is most widely used API style for industry web applications.
 
- ---
- # ***HTTP***
+<img width="1235" height="587" alt="image" src="https://github.com/user-attachments/assets/14fa6d86-bbfc-443a-b71a-b6510c89e690" />
 
+
+2. GraphQL
+It is used when clients need flexible data fetching
+
+<img width="1429" height="750" alt="image" src="https://github.com/user-attachments/assets/0312685f-6469-420c-a0a8-39a1296c1389" />
+
+3. WebSocket
+It is used for real-time communication
+
+<img width="1454" height="690" alt="image" src="https://github.com/user-attachments/assets/afefd3da-91fc-45bf-9273-2a95abf9fe52" />
+
+4. gRPC
+It is used between microservices
+
+<img width="1361" height="537" alt="image" src="https://github.com/user-attachments/assets/c21da43d-79d2-4615-be26-1740ffbcc729" />
+
+5. SOAP 
+It is used in some enterprise systems
+
+<img width="1277" height="722" alt="image" src="https://github.com/user-attachments/assets/1d7b943e-4a94-446e-91e4-2ca4888021d3" />
+
+6. Webhooks
+These are used for event-based notifications
+
+<img width="1417" height="734" alt="image" src="https://github.com/user-attachments/assets/a24303f6-cb6a-4c18-b5df-541ca940925b" />
 
 ---
 # ***REQUEST VS RESPONSE***
