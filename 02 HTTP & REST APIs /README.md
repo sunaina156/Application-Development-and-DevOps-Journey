@@ -94,18 +94,18 @@ Body (sometimes)
 
 
 ---
-What are HTTP headers
+What are HTTP headers<br>
 
-metadata -> key-value sent along with request and response
+metadata -> key-value sent along with request and response<br>
 
-caching, authentication, manage state
+caching, authentication, manage state <br>
 x- prfix  -> 2012 (X- deprecated)
 
-Request Headers            -> from Client
-Response Headers          -> from server
-Representation Headers -> encoding / compression
-Payload Headers             -> data
-                               (id, email etc)
+Request Headers            -> from Client         <br> 
+Response Headers          -> from server          <br>
+Representation Headers -> encoding / compression  <br>
+Payload Headers             -> data              <br>
+                               (id, email etc)   <br>
 
 **Most common Headers**
 - Accept : application/josn
