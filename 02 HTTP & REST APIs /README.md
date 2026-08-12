@@ -90,4 +90,6 @@ Headers   <br>
 Body (sometimes)
 
 ---
+# HTTP Methods
+
 
