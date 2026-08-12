@@ -59,12 +59,12 @@ HTTP is a protocol that defines how a client and server format, send, receive, a
 
 # ***HTTP Request***
 
-A request is sent by the client to the server.
+**A request is sent by the client to the server.**
 
 for ex:   <br>
 GET /products  
 
-A request contains important information such as: <br>
+**A request contains important information such as:** <br>
 Method, URL, Headers, Body (sometimes)  
 
 Example:  <br>
@@ -77,7 +77,7 @@ Content-Type: application/json    <br>
 ---
 # HTTP Response
 
-The server sends a response back to the client
+**The server sends a response back to the client**
 
 For ex:   <br>
 HTTP/1.1 201 Created   <br>
@@ -85,9 +85,10 @@ HTTP/1.1 201 Created   <br>
   "short_url": "https://short.ly/aB92x"   <br>
 }    <br>
 
-A response usually contains:   <br>
+**A response usually contains:**   <br>
 Status Code  <br>
 Headers   <br>
 Body (sometimes)
 
+---
 
