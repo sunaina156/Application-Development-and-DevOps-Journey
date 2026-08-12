@@ -93,3 +93,38 @@ Body (sometimes)
 # HTTP Methods
 
 
+---
+What are HTTP headers
+
+metadata -> key-value sent along with request and response
+
+caching, authentication, manage state
+x- prfix  -> 2012 (X- deprecated)
+
+Request Headers            -> from Client
+Response Headers          -> from server
+Representation Headers -> encoding / compression
+Payload Headers             -> data
+                               (id, email etc)
+
+**Most common Headers**
+- Accept : application/josn
+- User-Agent
+- Authorization
+- Content-Type
+- Cookie
+- Cache-Control
+
+**CORS**
+- Access-Control-Allow-Origin
+- Access-Control-Allow-Credentials
+- Access-Control-Allow-Method
+
+**Security**
+- Cross-Origin-Embedder-Policy
+- Cross-Origin-Opener-Policy
+- Content-Security-Policy
+- X-XSS-Protection
+
+---
+
