@@ -13,4 +13,33 @@ HTTP clients (internet browsers) use TCP/IP or UDP networking protocol with HTTP
 
 <img width="1920" height="1080" alt="Screenshot (1280)" src="https://github.com/user-attachments/assets/67370752-468d-4630-91ed-e5dc1236752f" />
 
+
+HTTP defines rules such as:
+
+How to structure a request
+Method → GET, POST, PUT, DELETE
+URL/path → /index.html
+Headers → Host, Content-Type, etc.
+Body → data sent to the server, when needed
+How the server should respond
+HTTP/1.1 200 OK
+Content-Type: text/html
+
+<html>...</html>
+
+HTTP defines what these mean:
+
+200 → request was successful
+404 → requested resource was not found
+500 → server error
+What different methods mean
+GET → "Give me this data."
+POST → "Here is some data; create/process it."
+PUT → "Update/replace this resource."
+DELETE → "Delete this resource."
+
+HTTP is a protocol that defines how a client and server format, send, receive, and understand messages over a network.
+
 ---
+# HTTP Request
+
