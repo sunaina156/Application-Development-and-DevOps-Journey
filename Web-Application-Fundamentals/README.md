@@ -1,4 +1,4 @@
-<img width="1361" height="537" alt="image" src="https://github.com/user-attachments/assets/a33ccb6c-b8fd-46c2-8ede-9ff158724635" />
+
 # ***WEB APPLICATION***
 
 ## Standalone Application
