@@ -51,7 +51,7 @@ PUT → "Update/replace this resource."
 
 DELETE → "Delete this resource."
 
-## Definition
+### Definition
 HTTP is a protocol that defines how a client and server format, send, receive, and understand messages over a network.
 
 ---
@@ -75,4 +75,19 @@ Content-Type: application/json    <br>
 }                       <br>
 
 ---
+# HTTP Response
+
+The server sends a response back to the client
+
+For ex:   <br>
+HTTP/1.1 201 Created   <br>
+{    <br>
+  "short_url": "https://short.ly/aB92x"   <br>
+}    <br>
+
+A response usually contains:   <br>
+Status Code  <br>
+Headers   <br>
+Body (sometimes)
+
 
