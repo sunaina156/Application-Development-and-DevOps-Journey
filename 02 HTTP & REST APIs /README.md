@@ -59,7 +59,7 @@ HTTP is a protocol that defines how a client and server format, send, receive, a
 
 # ***HTTP Request***
 
-A request is sent by the client to the server.<br><br>
+A request is sent by the client to the server.
 
 for ex:   <br>
 GET /products  <br><br>
