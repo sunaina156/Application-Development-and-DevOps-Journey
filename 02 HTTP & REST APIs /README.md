@@ -113,6 +113,15 @@ GET         /api/urls/123   <br>
 DELETE   /api/urls/123    <br> 
 
 ## GET
+GET is generally used to retrieve data   <br>
+
+Ex:      <br>
+GET /api/urls     <br>
+means: Give me the URLS    <br>
+
+Ex:   <br>
+GET /api/urls/123   <br>
+means: Give m URL number 123 <br>
 
 ---
 What are HTTP headers<br>
