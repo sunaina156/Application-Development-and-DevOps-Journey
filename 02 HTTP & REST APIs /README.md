@@ -1,4 +1,4 @@
-***#HTTP***
+# ***HTTP***
 
 HTTP is a protocol(set of rules) which allows the fetching of resources, such as HTML(hyper text markup language) documents.
 
@@ -55,7 +55,7 @@ DELETE → "Delete this resource."
 HTTP is a protocol that defines how a client and server format, send, receive, and understand messages over a network.
 
 ---
-***# HTTP Request***
+#***HTTP Request***
 
 
 
