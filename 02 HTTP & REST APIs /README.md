@@ -92,6 +92,27 @@ Body (sometimes)
 ---
 # HTTP Methods
 
+<img width="940" height="527" alt="image" src="https://github.com/user-attachments/assets/763f0517-a32b-407a-a47f-b5cb3f797550" />
+
+HTTP methods tell the server what the client wants to do.   <br>
+
+**The most important ones are:**   <br>
+GET        ->    Retrieve data         <br>
+POST      ->    Create data         <br>
+PUT        ->    Replace/update data         <br>
+PATCH    ->    Partially update data         <br>
+DELETE  ->    Delete data         <br>
+
+**Example**   <br>
+/api/urls           <br>
+
+We might have:   <br> 
+GET         /api/urls/    <br> 
+POST       /api/urls    <br> 
+GET         /api/urls/123   <br> 
+DELETE   /api/urls/123    <br> 
+
+## GET
 
 ---
 What are HTTP headers<br>
