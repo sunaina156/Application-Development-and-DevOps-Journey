@@ -15,7 +15,7 @@ HTTP clients (internet browsers) use TCP/IP or UDP networking protocol with HTTP
 <img width="1920" height="1080" alt="Screenshot (1280)" src="https://github.com/user-attachments/assets/67370752-468d-4630-91ed-e5dc1236752f" />
 
 
-## HTTP defines rules such as:
+**HTTP defines rules such as:**
 
 1. How to structure a request
 
@@ -51,8 +51,7 @@ PUT → "Update/replace this resource."
 
 DELETE → "Delete this resource."
 
-### Definition
-HTTP is a protocol that defines how a client and server format, send, receive, and understand messages over a network.
+**HTTP is a protocol that defines how a client and server format, send, receive, and understand messages over a network.**
 
 ---
 ---
@@ -67,7 +66,7 @@ GET /products
 **A request contains important information such as:** <br>
 Method, URL, Headers, Body (sometimes)  
 
-Example:  <br>
+**Example:**  <br>
 POST /api/urls  <br>
 Content-Type: application/json    <br>
 {                            <br>
@@ -79,7 +78,7 @@ Content-Type: application/json    <br>
 
 **The server sends a response back to the client**
 
-For ex:   <br>
+**For ex:**   <br>
 HTTP/1.1 201 Created   <br>
 {    <br>
   "short_url": "https://short.ly/aB92x"   <br>
