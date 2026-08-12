@@ -63,17 +63,24 @@ A request is sent by the client to the server.
 
 
 for ex:
+
 GET /products
 
 A request contains important information such as:
+
 Method, URL, Headers, Body (sometimes)
 
 
 Example:
+
 POST /api/urls
+
 Content-Type: application/json
+
 {
+
   "long_url": "https://example.com"
+  
 } 
 
 ---
