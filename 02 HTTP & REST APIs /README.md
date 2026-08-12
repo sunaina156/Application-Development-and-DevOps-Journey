@@ -64,11 +64,9 @@ A request is sent by the client to the server.
 
 for ex:   <br>
 GET /products
-
 <br><br>
 A request contains important information such as: <br>
 Method, URL, Headers, Body (sometimes)
-
 <br><br>
 Example:  <br>
 POST /api/urls  <br>
