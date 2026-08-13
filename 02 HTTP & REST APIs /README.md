@@ -197,13 +197,13 @@ The server uses status codes to tell the client what happened.
 
 ## Important Status Codes
 
-**200   OK**
+**200   OK**  <br>
 Request succeeded  <br>
 
 GET /users  <br>
 -> 200   OK  <br>
 
-**201   Created**
+**201   Created**  <br>
 Something was successfully created  <br>
 
 POST /api/urls  <br>
@@ -211,7 +211,7 @@ POST /api/urls  <br>
 
 This is perfect for URL shortener when a short URL is created  <br>
 
-**400  Bad Request**
+**400  Bad Request**  <br>
 The client send invalid data  <br>
 
 Ex:  <br>
@@ -221,24 +221,25 @@ Ex:  <br>
 
 when a valid URL was required  <br>
 
-**401   Unauthorized**
+**401   Unauthorized**  <br>
 The user needs to authenticate  <br>
 
-**403 Forbidden**
+**403 Forbidden**  <br>
 The server understood the request but refuses to allow it  <br>
 
-**404  Not Found**
+**404  Not Found**  <br>
 The request resource doesn't exist  <br>
 
 ex:  <br>
 GET /api/urls/99999  <br>
 -> 404 Not Found  <br>
 
-**500 Internal Server Error**
+**500 Internal Server Error**  <br>
 Something went wrong on the server  <br>
 
 ---
 # JSON
+
 
 
 ---
