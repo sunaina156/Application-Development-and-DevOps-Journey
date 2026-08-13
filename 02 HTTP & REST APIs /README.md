@@ -1,3 +1,16 @@
+**Topics Covered**
+- HTTP
+- HTTP Request
+- HTTP Response
+- HTTP Methods
+- HTTP Status Codes
+- JSON
+- HTTP Headers
+- Body
+- API Endpoint
+- REST API
+
+---
 # ***HTTP***
 
 HTTP is a protocol(set of rules) which allows the fetching of resources, such as HTML(hyper text markup language) documents.
