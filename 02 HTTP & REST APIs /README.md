@@ -240,7 +240,125 @@ Something went wrong on the server  <br>
 ---
 # JSON
 
- 
+JavaScript Object Notation
+
+- Lightweight data format
+- Easy to read and write for humans
+- Language Independent based on Javascript Syntax
+
+JSON is used in 
+- API (REST, Graphql)
+- Response, Request
+- Config files
+- Data storage
+- Web app, mobile apps
+
+Data is in KEY-VALUE pair
+
+Keys are always in strings
+"name": value
+
+Value can be
+- String
+- Number
+- Boolean
+- Array
+- Object
+- null
+
+
+Ex of josn:
+{
+    "name": "Durgesh",
+    "age": 20,
+    "isStudent": false,
+    "skills": ["Java", "Spring Boot", "Python", "Angular"],
+    "address": {
+        "street": "1/23",
+        "city": "Delhi",
+        "pincode": 110112
+   }
+}
+
+
+Json Rules
+1. Keys must be in double quotes
+2. String is in double quotes.
+3. No comments are allowed.
+4. No Trailing Commas.
+5. Data Types: String, Number, Boolean, Array, Object, null
+
+
+Json vs JavaScript
+JSON -> strict type, data exchange
+JS  -> flexible, General Programming
+
+
+
+ {
+    "languages": ["Java", "Python", "JavaScript"]
+}
+
+
+Nested:
+{
+  "users": [
+     {"name": "A", "age": 25},
+     {"name": "B", "age": 30}
+  ]
+}
+
+
+Use jsonlint.com for syntax validation
+
+
+----------------
+Json in Javascript
+
+jsonop.js
+console.log("This is my json operations");
+const json=`{
+    "name": "Durgesh",
+    "phone": "9839466732",
+    "skills": ["Java", "Python"],
+    "address": {
+      "city": "LKO",
+      "pincode": 2455
+   }
+}`
+
+console.log(json);
+
+// parse this json to perform operations
+const user = JSON.parse(json);
+console.log(typeof json);
+console.log(typeof user);
+console.log(user.name);
+console.log(user.phone);
+console.log(user.skills);
+console.log(user.address.city);
+
+
+
+const todo = {
+  title: "learn django",
+  isCompleted: true,
+};
+
+// convert js object to json string
+const jsonTodo=JSON.stringify(todo)
+console.log(jsonTodo);
+
+
+> node jsonop.json
+
+
+
+
+
+JSON in Python
+
+
 
 ---
 What are HTTP headers<br>
