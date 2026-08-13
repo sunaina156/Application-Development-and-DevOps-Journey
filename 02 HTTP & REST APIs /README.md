@@ -238,171 +238,158 @@ GET /api/urls/99999  <br>
 Something went wrong on the server  <br>
 
 ---
-# JSON
+# JSON      <br>
 
-JavaScript Object Notation
+JavaScript Object Notation      <br>
 
-- Lightweight data format
-- Easy to read and write for humans
-- Language Independent based on Javascript Syntax
+- Lightweight data format      <br>
+- Easy to read and write for humans      <br>
+- Language Independent based on Javascript Syntax      <br>
 
-JSON is used in 
-- API (REST, Graphql)
-- Response, Request
-- Config files
-- Data storage
-- Web app, mobile apps
+**JSON is used in**       <br>
+- API (REST, Graphql)      <br>
+- Response, Request      <br>
+- Config files      <br>
+- Data storage      <br>
+- Web app, mobile apps      <br>
 
-Data is in KEY-VALUE pair
+Data is in KEY-VALUE pair      <br>
 
-Keys are always in strings
-"name": value
+Keys are always in strings      <br>
+"name": value      <br>
 
-Value can be
-- String
-- Number
-- Boolean
-- Array
-- Object
-- null
-
-
-Ex of josn:
-{
-    "name": "Durgesh",
-    "age": 20,
-    "isStudent": false,
-    "skills": ["Java", "Spring Boot", "Python", "Angular"],
-    "address": {
-        "street": "1/23",
-        "city": "Delhi",
-        "pincode": 110112
-   }
-}
+**Value can be**      <br>
+- String      <br>
+- Number      <br>
+- Boolean      <br>
+- Array      <br>
+- Object      <br>
+- null      <br>
 
 
-Json Rules
-1. Keys must be in double quotes
-2. String is in double quotes.
-3. No comments are allowed.
-4. No Trailing Commas.
-5. Data Types: String, Number, Boolean, Array, Object, null
+## Ex of josn:      <br>
+{      <br>
+    "name": "Durgesh",      <br>
+    "age": 20,      <br>
+    "isStudent": false,      <br>
+    "skills": ["Java", "Spring Boot", "Python", "Angular"],      <br>
+    "address": {      <br>
+        "street": "1/23",      <br>
+        "city": "Delhi",      <br>
+        "pincode": 110112      <br>
+   }      <br>
+}      <br>
 
 
-Json vs JavaScript
-JSON -> strict type, data exchange
-JS  -> flexible, General Programming
+**Json Rules**      <br>
+1. Keys must be in double quotes      <br>
+2. String is in double quotes.      <br>
+3. No comments are allowed.      <br>
+4. No Trailing Commas.      <br>
+5. Data Types: String, Number, Boolean, Array, Object, null      <br>
+
+
+**Json vs JavaScript**      <br>
+JSON -> strict type, data exchange      <br>
+JS  -> flexible, General Programming      <br>
 
 
 
- {
-    "languages": ["Java", "Python", "JavaScript"]
-}
+ {      <br>
+    "languages": ["Java", "Python", "JavaScript"]      <br>
+}      <br>
 
 
-Nested:
-{
-  "users": [
-     {"name": "A", "age": 25},
-     {"name": "B", "age": 30}
-  ]
-}
+Nested:      <br>
+{      <br>
+  "users": [      <br>
+     {"name": "A", "age": 25},      <br>
+     {"name": "B", "age": 30}      <br>
+  ]      <br>
+}      <br>
 
 
-Use jsonlint.com for syntax validation
+Use jsonlint.com for syntax validation      <br>
 
 
 ----------------
-Json in Javascript
+## Json in Javascript
 
-jsonop.js
-console.log("This is my json operations");
-const json=`{
-    "name": "Durgesh",
-    "phone": "9839466732",
-    "skills": ["Java", "Python"],
-    "address": {
-      "city": "LKO",
-      "pincode": 2455
-   }
-}`
+**jsonop.js**      <br>
+console.log("This is my json operations");      <br>
+const json=`{      <br>
+    "name": "Durgesh",      <br>
+    "phone": "9839466732",      <br>
+    "skills": ["Java", "Python"],      <br>
+    "address": {      <br>
+      "city": "LKO",      <br>
+      "pincode": 2455      <br>
+   }      <br>
+}`      <br>
 
-console.log(json);
+console.log(json);      <br>
 
-// parse this json to perform operations
-const user = JSON.parse(json);
-console.log(typeof json);
-console.log(typeof user);
-console.log(user.name);
-console.log(user.phone);
-console.log(user.skills);
-console.log(user.address.city);
-
-
-
-const todo = {
-  title: "learn django",
-  isCompleted: true,
-};
-
-// convert js object to json string
-const jsonTodo=JSON.stringify(todo)
-console.log(jsonTodo);
-
-
-> node jsonop.json
+// parse this json to perform operations      <br>
+const user = JSON.parse(json);      <br>
+console.log(typeof json);      <br>
+console.log(typeof user);      <br>
+console.log(user.name);      <br>
+console.log(user.phone);      <br>
+console.log(user.skills);      <br>
+console.log(user.address.city);      <br>
 
 
 
+const todo = {      <br>
+  title: "learn django",      <br>
+  isCompleted: true,      <br>
+};      <br>
+
+// convert js object to json string      <br>
+const jsonTodo=JSON.stringify(todo)      <br>
+console.log(jsonTodo);      <br>
 
 
-JSON in Python
-
-jsonop.py
-
-import json
-print("This is python json operations")
-jsonUser="""
-{
-    "name": "Durgesh",
-    "phone": "9839466732",
-    "skills": ["Java", "Python"],
-    "address": {
-      "city": "LKO",
-      "pincode": 2455
-   }
-}
-"""
-
-print(jsonUser)
-print(type(jsonUser))
-
-userDict=json.loads(jsonUser)
-print(userDict)
-print(type(userDict))
-print(userDict['name'])
-print(userDict['phone'])
-print(userDict['address']['city'])
+> node jsonop.json    <br>
 
 
-todo={
-  'title': "learn python core for ai",
-  'isCompleted': False
-}
+## JSON in Python
 
-jsonTodo=json.dumps(todo)
-print(type(jsonTodo))
-print(jsonTodo)
+jsonop.py    <br>
+
+import json    <br>
+print("This is python json operations")    <br>
+jsonUser="""    <br>
+{    <br>
+    "name": "Durgesh",    <br>
+    "phone": "9839466732",    <br>
+    "skills": ["Java", "Python"],    <br>
+    "address": {    <br>
+      "city": "LKO",    <br>
+      "pincode": 2455    <br>
+   }    <br>
+}    <br>
+"""    <br>
+
+print(jsonUser)    <br>
+print(type(jsonUser))    <br>
+
+userDict=json.loads(jsonUser)    <br>
+print(userDict)    <br>
+print(type(userDict))    <br>
+print(userDict['name'])    <br>
+print(userDict['phone'])    <br>
+print(userDict['address']['city'])    <br>
 
 
----------------------
+todo={    <br>
+  'title': "learn python core for ai",    <br>
+  'isCompleted': False    <br>
+}    <br>
 
-JSON in Java
-
-
-
-
-
+jsonTodo=json.dumps(todo)    <br>
+print(type(jsonTodo))    <br>
+print(jsonTodo)    <br>
 
 ---
 What are HTTP headers<br>
