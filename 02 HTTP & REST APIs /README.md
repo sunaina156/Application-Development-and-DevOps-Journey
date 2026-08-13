@@ -449,3 +449,39 @@ Request  <br>
 ---
 
 # API Endpoint
+
+An Endpoint is a specific location defined within an API that it uses to handle requests  <br>
+So when a request is made the API can then recognize the appropriate endpoint and then processes it accordingly  <br>
+
+The endpoint is like a route or an address that the API goes to fulfill a request  <br>
+
+API:  <br>
+It is a software interface that allows two applications to interact with each other.  <br>
+API is defined as a code that helps two different software's to communicate and exchange data with each other.  <br>
+
+
+**API Endpoint**    <br>
+An endpoint is  a specific URL through which an API provides functionality.    <br>
+
+For ex:    <br>
+POST /api/urls    <br>
+is an endpoint for creating a short URL    <br>
+
+---
+
+# REST API
+
+REST -> Representational State Transfer   <br>
+
+A REST API is an API that follows common principles for designing web resources and uses HTTP methods to interact with them.   <br>
+
+**For ex:**   <br>
+GET        /users   <br>
+POST      /users   <br>
+GET        /users/10   <br>
+PATCH    /users/10   <br>
+DELETE  /users/10   <br>
+
+---
+
+
