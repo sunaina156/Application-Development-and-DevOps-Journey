@@ -1,4 +1,14 @@
+**Topics Covered**
 
+- Web Application
+- Website vs Web Application
+- Client && Server
+- Frontend vs Backend vs Database
+- API
+- Request vs Response
+
+---
+  
 # ***WEB APPLICATION***
 
 ## Standalone Application
