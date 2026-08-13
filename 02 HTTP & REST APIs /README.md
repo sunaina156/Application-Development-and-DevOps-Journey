@@ -392,12 +392,13 @@ print(type(jsonTodo))    <br>
 print(jsonTodo)    <br>
 
 ---
-What are HTTP headers<br>
+# HTTP headers
 
+Headers provide additional information about a request or response.  <br>
 metadata -> key-value sent along with request and response<br>
 
 caching, authentication, manage state <br>
-x- prfix  -> 2012 (X- deprecated)
+x- prefix  -> 2012 (X- deprecated)
 
 Request Headers            -> from Client         <br> 
 Response Headers          -> from server          <br>
@@ -405,24 +406,46 @@ Representation Headers -> encoding / compression  <br>
 Payload Headers             -> data              <br>
                                (id, email etc)   <br>
 
-**Most common Headers**
-- Accept : application/josn
-- User-Agent
-- Authorization
-- Content-Type
-- Cookie
-- Cache-Control
+**Most common Headers**              <br>
+- Accept : application/josn              <br>
+- User-Agent              <br>
+- Authorization              <br>
+- Content-Type              <br>
+- Cookie              <br>
+- Cache-Control              <br>
 
-**CORS**
-- Access-Control-Allow-Origin
-- Access-Control-Allow-Credentials
-- Access-Control-Allow-Method
+**CORS**              <br>
+- Access-Control-Allow-Origin              <br>
+- Access-Control-Allow-Credentials              <br>
+- Access-Control-Allow-Method              <br>
 
-**Security**
-- Cross-Origin-Embedder-Policy
-- Cross-Origin-Opener-Policy
-- Content-Security-Policy
-- X-XSS-Protection
+**Security**              <br>
+- Cross-Origin-Embedder-Policy              <br>
+- Cross-Origin-Opener-Policy              <br>
+- Content-Security-Policy              <br>
+- X-XSS-Protection              <br>
 
 ---
 
+# BODY
+
+The body contains the actual data being sent.  <br>
+
+For ex:  <br>
+POST /api/urls  <br>
+
+**Body:**  <br>
+{  <br>
+    "long_url": "https://example.com"  <br>
+}  <br>
+
+Think:  <br>
+Request  <br>
+|- Method  <br>
+|- URL  <br>
+|- Headers  <br>
+|- Body  <br>
+
+---
+
+# API Endpoint
