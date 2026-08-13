@@ -170,6 +170,75 @@ Delete url 123.    <br>
 ---
 # HTTP Status Codes
 
+<img width="980" height="609" alt="image" src="https://github.com/user-attachments/assets/4fbd6ed4-cd3d-4316-8811-1ec60750e152" />
+
+The server uses status codes to tell the client what happened.
+
+**2xx - Success**  <br>
+200    OK  <br>
+201    Created  <br>
+204    No Content  <br>
+
+**3xx - Redirection**  <br>
+301   Moved Permanently  <br>
+302   Found / Temporary Redirect  <br>
+
+**4xx - Client Error**  <br>
+400    Bad Request  <br>
+401    Unauthorized  <br>
+403    Forbidden  <br>
+404    Not Found  <br>
+
+**5xx - Server Error**  <br>
+500    Internal Server Error  <br>
+502    Bad Gateway  <br>
+503    Service Unavailable  <br>
+
+
+## Important Status Codes
+
+**200   OK**
+Request succeeded  <br>
+
+GET /users  <br>
+-> 200   OK  <br>
+
+**201   Created**
+Something was successfully created  <br>
+
+POST /api/urls  <br>
+-> 201  Created  <br>
+
+This is perfect for URL shortener when a short URL is created  <br>
+
+**400  Bad Request**
+The client send invalid data  <br>
+
+Ex:  <br>
+{  <br>
+    "long_url": "hello"  <br>
+}  <br>
+
+when a valid URL was required  <br>
+
+**401   Unauthorized**
+The user needs to authenticate  <br>
+
+**403 Forbidden**
+The server understood the request but refuses to allow it  <br>
+
+**404  Not Found**
+The request resource doesn't exist  <br>
+
+ex:  <br>
+GET /api/urls/99999  <br>
+-> 404 Not Found  <br>
+
+**500 Internal Server Error**
+Something went wrong on the server  <br>
+
+---
+# JSON
 
 
 ---
