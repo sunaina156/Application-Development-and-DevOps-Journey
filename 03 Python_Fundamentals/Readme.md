@@ -48,7 +48,7 @@ The typpe of x can change bcoz the name can refer to a different object.
 | float | Decimal number | 10.5 |
 | bool | Boolean value (True/False) | True | 
 | list | ordered, mutable collection | [1, 2, 3] | 
-| tuple | (1, 2, 3) | Ordered, immutable collection | 
+| tuple | Ordered, immutable collection |  (1, 2, 3) |
 | set | unordered collection of unique values | {1, 2, 3} | 
 | dict | key-value data | {"name": "Sunaina"} |
 | None | Absence of a value | None | 
@@ -87,6 +87,51 @@ output:
 <class 'int'>
 ```
 
+---
+# Mutable vs Immutable
+
+## Immutable
+An immutable object cannot be changed after it is created.
+
+Ex:
+```text
+int
+float
+bool
+str
+tuple
+```
+
+Ex:
+```python
+name = "Python"
+#name[0] = "J"  # error
+```
+A new string must be created instead
+
+## Mutable
+A mutable object can be changed after creation.
+
+Ex:
+```text
+list
+dict
+set
+```
+
+Ex:
+```python
+skills = ["Python", "Docker"]
+skills.append("kubernetes")
+
+print(skills)
+```
+
+output:
+```text
+['Python', 'Docker', 'kubernetes']
+```
+
 --- 
 
 # Strings
@@ -123,6 +168,41 @@ output:
 ```text
 My name is Sunaina and I am 21 years old.
 ```
+
+Strings are ordered sequences of characters. <br>
+
+**Access characters**
+```python
+language = "Python"
+
+print(language[0])
+print(language[-1])
+```
+
+output:
+```text
+p
+n
+```
+
+**String slicing**
+```python
+language = "Python"
+
+print(language[0:3])
+```
+
+output:
+```text
+Pyt
+```
+
+General Syntax:
+```text
+string[start:stop:step]
+```
+stop index is not included
+
 
 ---
 
