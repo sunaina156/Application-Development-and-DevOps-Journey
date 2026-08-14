@@ -115,3 +115,73 @@ My name is Sunaina and I am 21 years old.
 
 # Numbers and Operators
 
+Python supports normal mathematical operators:  <br>
++   Addition  <br>
+-    Subtraction  <br>
+*   Multiplication  <br>
+/    Division  <br>
+%  Modulus  <br>
+//   Floor division  <br>
+**  Power  <br>
+
+
+Ex:
+```python
+a = 10
+b = 3
+
+print(a + b) 
+print(a - b)
+print(a * b)
+print(a / b)
+print(a % b)
+```
+
+---
+# Comparison Operators
+
+These are used to compare values
+
+```text
+==   Equal
+!=    Not equal
+>     Greater than
+<     Less than
+>=   Greater than or equal
+<=   Less than or equal
+```
+
+Ex:
+```python
+age = 21
+print(age >= 18)
+```
+
+output:
+```text
+True
+```
+
+---
+
+# Boolean Values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
