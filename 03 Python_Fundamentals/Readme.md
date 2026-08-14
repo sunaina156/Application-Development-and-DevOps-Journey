@@ -27,19 +27,32 @@ short_code = "aB92x"
 print(long_url)
 ```
 
+Python is dynamically typed, so we don't need to specify the data type while declaring a variable.
+
+```Python
+x = 10
+x = "Hello"
+```
+
+The typpe of x can change bcoz the name can refer to a different object.
+
+
 ---
 
 # Python Data Types
 
 | Type | Meaning | Example |
 |----------|----------------|----------------|
-| string | String/text | "Hello"|
+| str | String/text | "Hello"|
 | int | Integer | 21|
-| float | Decimal | 10.5 |
-| bool | True/False | True | 
-| list | Collection | [1, 2, 3] | 
-| dict | key-value data | {"name": "Sunaina"} | 
-
+| float | Decimal number | 10.5 |
+| bool | Boolean value (True/False) | True | 
+| list | ordered, mutable collection | [1, 2, 3] | 
+| tuple | (1, 2, 3) | Ordered, immutable collection | 
+| set | unordered collection of unique values | {1, 2, 3} | 
+| dict | key-value data | {"name": "Sunaina"} |
+| None | Absence of a value | None | 
+ 
 
 Ex:
 ```python
