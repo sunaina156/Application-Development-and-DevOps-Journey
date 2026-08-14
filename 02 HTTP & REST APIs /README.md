@@ -9,7 +9,10 @@
 - Body
 - API Endpoint
 - REST API
-
+- Path Parameters
+- Query Parameters
+- URL vs Endpoint vs API
+- 
 ---
 # ***HTTP***
 
@@ -496,6 +499,67 @@ PATCH    /users/10   <br>
 DELETE  /users/10   <br>
 
 ---
+
+# Path Parameters
+
+A path parameter is part of the URL   <br>
+
+Ex:   <br>
+GET /users/10   <br>
+Here, 10 is user's id   <br>
+
+ex:    <br>
+GET /api/urls/aB92x   <br>
+Here, aB92x is short code   <br>
+
+So,  /api/urls/{short_code} is general pattern   <br>
+
+
+--- 
+
+# Query Parameters
+
+Query parameters come after ?   <br>
+
+ex:    <br>
+GET /api/urls?limit=10   <br>
+Here, limit=10   is a query parameter   <br>
+
+Multiple parameters:   <br>
+GET /api/urls?limit=10&page=2   <br>
+
+Commonly used for:   <br>
+- filtering   <br>
+- searching   <br>
+- pagination   <br>
+- sorting   <br>
+
+---
+
+# URL vs Endpoint vs API
+
+## URL
+
+A complete web address:   <br>
+https://example.com/products   <br>
+
+## Endpoint
+
+A specific API route:   <br>
+GET /api/products   <br>
+
+## API
+
+The collection of endpoints that allows software to communicate with the application.   <br>
+
+For ex:   <br>
+API   <br>
+|- GET /api/products   <br>
+|- POST /api/products   <br>
+|- GET /api/products/{id}   <br>
+|- PATCH /api/products/{id}   <br>
+|- DELETE /api/products/{id}   <br>
+
 
 
 
