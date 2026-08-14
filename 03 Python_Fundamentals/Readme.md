@@ -58,3 +58,60 @@ print(user)
 
 # Checking Data Types
 
+Python provides type()
+
+```python
+name = "Sunaina"
+print(type(name))
+
+age = 21
+print(type(age))
+```
+
+output:
+```text
+<class 'str'>
+<class 'int'>
+```
+
+--- 
+
+# Strings
+
+A string represents text.
+
+```python
+name = "Sunaina"
+url = "https://example/com"
+```
+
+**We can combine strings.**
+
+```python
+name = "Sunaina"
+print("Hello " + name)
+```
+
+output:
+```text
+Hello Sunaina
+```
+
+**A better way is an f-string**
+
+```python
+name = "Sunaina"
+age = 21
+
+print(f"My name is {name} and I am {age} years old.")
+```
+
+output:
+```text
+My name is Sunaina and I am 21 years old.
+```
+
+---
+
+# Numbers and Operators
+
