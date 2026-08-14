@@ -166,6 +166,30 @@ True
 
 # Boolean Values
 
+Boolean has only two values
+```python
+True
+False
+```
+
+Ex:
+```text
+is_logged_in = True
+is_admin = False
+```
+
+These are extremely important for application logic.
+
+Ex:
+```text
+if is_logged_in:
+  print("Welcome")
+```
+
+---
+
+# Conditional Statements
+
 
 
 
