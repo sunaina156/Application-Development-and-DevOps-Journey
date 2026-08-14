@@ -40,3 +40,21 @@ print(long_url)
 | list | Collection | [1, 2, 3] | 
 | dict | key-value data | {"name": "Sunaina"} | 
 
+
+Ex:
+```python
+name = "Sunaina"    # str
+age = 21            # int
+price = 99.5        # float
+is_student = True   # bool
+skills = ["Python", "AWS"]   # list
+user = {"name": "Sunaina", "age": 21}  # dict
+
+print(user)
+
+```
+
+---
+
+# Checking Data Types
+
