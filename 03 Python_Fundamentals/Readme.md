@@ -343,7 +343,45 @@ rather than:
 ---
 # Type Conversion
 
+Type conversion means converting a value from one data type to another.
 
+```python
+age = "21"
+age = int(age)
+# now age is an integer
+```
+
+```text
+int("10")
+float("10.5")
+str(100)
+list("ABC")
+```
+
+---
+
+# Input and Output
+
+## output
+print() displays information
+```text
+print('Hello Python")
+```
+
+## Input
+input() takes input from the user
+```python
+name = input("Enter your name: ")
+print(name)
+```
+
+input() always returns a string <br>
+
+
+```text
+age = int(input("Enter age: "))
+# therefore  int is reqired when an integer is needed
+```
 
 ---
 
@@ -422,8 +460,67 @@ if is_logged_in:
 
 ---
 
-# Conditional Statements
+# Operators
 
+# Arithmetic Operators
+```text
++    Addition
+-    Subtraction
+*    Multiplication
+/    Division
+//   Floor Division
+%    Modulus
+**   Power
+```
+
+Ex:
+```python
+a = 10
+b = 3
+print(a + b)
+print(a % b)
+
+## Comparison Operators
+
+```text
++    Addition
+-    Subtraction
+*    Multiplication
+/    Division
+//   Floor Division
+%    Modulus
+**   Power
+```
+
+Ex:
+```python
+age = 21
+print(age >= 18)
+```
+
+output:
+```text
+True
+```
+
+
+## Logical Operators
+```text
+and
+or
+not
+```
+
+Ex:
+```python
+age = 21
+has_id = True
+
+if age >= 18 and has_id:
+  print("Allowed")
+```
+
+---
 
 
 
