@@ -522,7 +522,98 @@ if age >= 18 and has_id:
 
 ---
 
+# == vs is
 
+
+**=**
+Checks whether two objects have the same value
+
+```python
+a = [1, 2]
+b = [1, 2]
+print(a == b)
+```
+
+output:
+```text
+True
+```
+
+**is**
+Checks whether two variables refers to the same object.
+
+```text
+print(a is b)
+```
+
+```text
+output:
+False
+# bcoz a and v are separate list objects
+```
+
+---
+
+# Conditional Statements
+
+Conditonal statements allow a program to make decisions.
+
+```python
+age = 21
+
+if age >= 18:
+    print("Adult")
+else:
+    print("Minor")
+```
+
+```python
+#Multiple conditions:
+
+marks = 75
+
+if marks >= 90:
+    print("A")
+elif marks >= 60:
+    print("B")
+else:
+    print("C")
+```
+
+---
+
+# Truthy and Falsy Values
+Python evaluates certain values as Fase when used in a condition
+
+```text
+# Common falsy values:
+False
+None
+0
+""
+[]
+{}
+set()
+```
+
+Ex:
+```python
+name = ""
+
+if name:
+    print("Name exists")
+else:
+    print("Name is empty")
+```
+
+output:
+```text
+Name is empty
+```
+
+--- 
+
+# Loops
 
 
 
