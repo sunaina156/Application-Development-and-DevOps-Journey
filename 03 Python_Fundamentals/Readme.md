@@ -204,6 +204,147 @@ string[start:stop:step]
 stop index is not included
 
 
+## Common String Methods
+
+```text
+text = "  Hello Python  "
+
+text.lower()
+text.upper()
+text.strip()
+text.replace("Python", "World")
+text.startswith("Hello")
+text.endswith("Python")
+text.split()
+```
+
+# Lists
+
+A list is an ordered and mutable collection.
+
+```python
+skills = ["Python", "Docker", "Kubernetes"]
+
+# Access elements
+print(skills[0])
+
+# Modify an element
+skills[0] = "Java"
+print(skills)
+
+# Add an element
+skills.append("Terraform")
+print(skills)
+
+# Remove an element
+skills.remove("Java")
+print(skills)
+```
+
+output:
+```text
+Python
+['Java', 'Docker', 'Kubernetes']
+['Java', 'Docker', 'Kubernetes', 'Terraform']
+['Docker', 'Kubernetes', 'Terraform']
+```
+
+
+# Tuples
+
+A tuple is an ordered and immutable collection.
+
+```python
+coordinates = (10, 20)
+
+# Access
+print(coordinates[0])    # Output: 10
+
+# but we cannot modify the tuple
+# coordinates[0] = 30    
+```
+
+Use a tuple when the collection should not be changed.
+
+
+# Sets
+A set is a collection  of unique elements.
+
+```python
+skills = {"Python", "Docker", "Python", "Kubernetes"}
+print(skills)
+
+# duplicate "Python" is removed
+```
+
+Sets are useful when we need:
+- unique values
+- fast membership checking
+- Set operations such as union and intersection
+
+
+# Dictionaries
+
+A dictionary stores data as key-value pairs.
+
+```python
+user = {
+    "name": "Sunaina",
+    "age": 21,
+    "role": "student"
+}
+
+# Access a value
+print(user["name"])
+
+# Modify
+user["age"] = 22
+
+# Add a new key-value pair
+user["city"] = "Guna"
+```
+
+Dictionaries importance:
+Dictionaires are heavily used in backend development bcoz API data  is commonly represented in JSON.
+
+```text
+{
+    "long_url": "https://example.com",
+    "short_code": aB92x
+}
+```
+
+
+# None
+It represents the absence of a value
+
+```text
+user = None
+```
+
+Ex: if database search doesn't find a user:
+```python
+user = find_user(10)
+
+if user is None:
+  print("User not found")
+```
+
+Use:
+```text
+is None
+```
+
+rather than:
+```text
+== None
+```
+
+---
+# Type Conversion
+
+
+
 ---
 
 # Numbers and Operators
