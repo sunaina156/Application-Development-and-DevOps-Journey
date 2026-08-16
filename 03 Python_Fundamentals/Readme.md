@@ -615,6 +615,48 @@ Name is empty
 
 # Loops
 
+Loops are used to execute code repeatedly.
+
+**for loop**
+```python
+skills = ["Python", "Docker", "Kubernetes"]
+
+for skill in skills:
+    print(skill)
+```
+
+**while loop**
+```python
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+```
+
+---
+# range()
+
+range() generates a sequence of numbers
+
+```python
+for i in range(5):
+  print(i)
+```
+
+output:
+```text
+0 
+1
+2
+3
+4
+```
+
+syntax: <br>
+range(start, stop, step)  <br>
+
+Ex:
 
 
 
