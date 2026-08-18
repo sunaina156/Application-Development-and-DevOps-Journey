@@ -202,7 +202,7 @@ intro("Python", "Rishabh")
 <br>
 <br>
 
-### **Default Arguments**:  <br>
+### Default Arguments
 You can assign default values to arguments in a function definition.  <br>
 If a value isn't provided when the function is called, the default value is used.  <br>
 
@@ -217,6 +217,61 @@ greetings()      # No argument passed   <br>
 <br>
 greetings("Madhav")                        # Madhav as argument  <br>
 #Output: Hello, Madhav!
+
+
+```python
+# 2. Default Arguments
+
+def greetings(name = "World"):         # "World" is a default value    
+    print("Hello ", name, "!")
+
+greetings()      # runs without error using default value
+greetings("Rishabh")
+```
+
+<br>
+<br>
+
+### Keyword Arguments (Named Arguments)
+
+When calling a function, you can specify arguments by the parameter name.   <br>
+These are called keyword arguments and can be given in any order. <br>
+
+Ex: function defined using two parameters  <br>
+
+```python
+def divide(a, b):      # a, b are 2 parameters
+    return a / b
+
+result = divide(b=10, a=20)     # with keyword argument
+print(result)     # Output: 2
+
+result = divide(10, 20)    # positional argument
+print(result)     # Output: 0.5
+```
+
+### Arbitrary Arguments
+
+#### Arbitrary Positional Arguments (*args)
+
+If you're unsure how many arguments will be passed, use *args to accept any number of positional arguments.  <br>
+**Purpose:** Allow you to pass a variable number of positional arguments.    <br>
+**Type:** The arguments are stored as a tuple.   <br>
+**Usage:** Use when you want to pass multiple values that are accessed by position.    <br> 
+
+Ex.1:   <br>
+
+```python
+def add_numbers(*args):
+    return sum(args)
+
+# ANy number of arguments
+result = add_numbers(1, 2, 3, 4)
+print(result)
+```
+
+**Note:** Here, *args collects all the passed arguments into a tuple, & sum() function adds them.
+
 
 
 
