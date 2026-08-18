@@ -84,6 +84,7 @@ print(result)                  # Output: 8
 ```
 <br>
 <br>
+
 ```python
 # function with return statement
 def add2num(a, b):
@@ -93,6 +94,7 @@ def add2num(a, b):
 sum2num = add2num(10, 1)
 print(sum2num)
 ```
+
 <br>
 <br>
 
