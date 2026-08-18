@@ -291,6 +291,7 @@ Ex.1:  <br>
 
 ```python
 def print_details(**kwargs):
+    print(type(kwargs))     # output: dictionary
     for key, value in kwargs.items():
         print(f"{key}: {value}")
 
