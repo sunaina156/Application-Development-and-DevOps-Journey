@@ -1,3 +1,29 @@
+## Topics Covered
+- Python Variables
+- Python Data Types
+- Checking Data Types
+- Mutable vs Immutable
+- Strings
+- Lists
+- Tuples
+- Sets
+- Dictionaries
+- None
+- Type Conversion
+- Input and Output
+- Numbers and Operators
+- Comparison Operators
+- Boolean Values
+- Operators (Arithmetic, Logical)
+- Conditional Statements
+- Truthy and Falsy Values
+- Loops
+- range()
+- break and continue
+- List Comprehension
+
+---
+
 # First Python Program
 
 ```python
