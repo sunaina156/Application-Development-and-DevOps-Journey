@@ -703,6 +703,36 @@ for i in range(5):
 
 ---
 
+# List Comprehension
+
+List comprehension provides a concise way to create a list.
+<br>
+Normal approach:
+```python
+numbers = []
+
+for i in range(5):
+    numbers.append(i * 2)
+
+print(numbers)
+```
+
+Using comprehension:
+```python
+numbers = [i * 2 for i in range(5) ]
+
+print(numbers)
+```
+
+With a condition:
+```python
+even_numbers = [i for i in range(10) if i % 2 == 0 ]
+print(even_numbers)
+```
+
+---
+
+
 
 
 
