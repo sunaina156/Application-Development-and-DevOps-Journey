@@ -657,9 +657,51 @@ syntax: <br>
 range(start, stop, step)  <br>
 
 Ex:
+```python
+for i in range(2, 10, 2):
+    print(i)
+```
+
+output:
+```text
+2
+4
+6
+8
+```
 
 
+---
+# break, continue
 
+## break
+
+break stops the loop completely.
+
+```python
+for i  in range(10):
+    if i == 5:
+        break
+    print(i)
+
+# when  i == 5, the loop terminates
+```
+
+## continue
+
+continue skips the current iteration and moves to the next one.
+
+```python
+for i in range(5):
+    if i == 2:
+        continue
+
+    print(i)
+
+# 2 is skipped
+```
+
+---
 
 
 
