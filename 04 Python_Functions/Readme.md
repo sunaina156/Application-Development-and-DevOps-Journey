@@ -266,11 +266,52 @@ def add_numbers(*args):
     return sum(args)
 
 # ANy number of arguments
-result = add_numbers(1, 2, 3, 4)
+result = add_numbers(1, 2, 3, 4)     # variable number of arguments
 print(result)
 ```
 
 **Note:** Here, *args collects all the passed arguments into a tuple, & sum() function adds them.
+
+```python
+def greetings2(*names):
+    for name in names:
+        print(f"Hello, {name}!")
+
+greetings2("Madhav", 'Rishabh', 'Vishakha')
+```
+
+#### Arbitrary Keyword Arguments (**kwargs)
+
+If you want to pass a variable number of keyword arguments, use **kwargs. <br>
+**Purpose:** Allows you to pass a variable number of keyword arguments (arguments with names.)  <br>
+**Type:** The arguments are stored as a dictionary.  <br>
+**Usage:** Use when you want to pass multiple values that are accessed by name.  <br>
+
+Ex.1:  <br>
+
+```python
+def print_details(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_details(name="Madhav", age=26, city="Mumbai")            
+```
+
+```text
+# output:
+name: Madhav
+age: 26
+city: Mumbai
+```
+
+parameter name & their values (arguments)   <br>
+**Note:** Here, **kwargs takes in any number of keyword arguments and prints each key-value 
+
+---
+---
+---
+
+# Function Scope
 
 
 
