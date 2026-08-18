@@ -202,20 +202,20 @@ intro("Python", "Rishabh")
 <br>
 <br>
 
-**Default Arguments**:  <br>
+### **Default Arguments**:  <br>
 You can assign default values to arguments in a function definition.  <br>
 If a value isn't provided when the function is called, the default value is used.  <br>
 
 Ex:   <br>
 function defined using one parameter & default value
 
-def greetings(name = "World"):   # default value   <br>
+def greetings(name = "World"):               # default value   <br>
   print("Hello, " + name + "!")    <br>
 
 greetings()      # No argument passed   <br> 
 #Output: Hello, World!   <br>
 <br>
-greetings("Madhav")        # Madhav as argument  <br>
+greetings("Madhav")                        # Madhav as argument  <br>
 #Output: Hello, Madhav!
 
 
