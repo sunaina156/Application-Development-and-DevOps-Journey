@@ -154,6 +154,71 @@ def myfunction():
 
 # Function Arguments
 
+## Arguments in Functions
+
+Arguments are the values that are passed into a function when it's called. <br>
+A function must be called with the right number of arguments.  <br>
+If a function has 2 parameters, you must provide 2 arguments when calling it.     <br>
+
+Ex:  <br>
+function defined using one parameter (variable)
+
+```python
+def greetings(name):    # name is a parameter
+  print("Hello, " + name + "!")
+
+greetings("Madhav")    # Madhav as argument
+# Output: Hello, Madhav!
+```
+
+---
+
+## Types of Function Arguments
+
+Python supports various types of arguments that can be passed at the time of the function call.
+
+- Required arguments (Single/Multiple arguments)
+- Default argument
+- Keyword arguments (named arguments)
+- Arbitrary arguments (variable-length arguments *args and **kwargs)
+
+```python
+# 1. Required Arguments (single/multiple arguments)
+
+def greetings(name):                  # name is parameter
+    print("Hello ", name, "!")
+
+greetings("Madhav")    # Madhav is argument
+# greetings()                  # required an argument to run code
+
+#----
+
+def intro(course_name, instructor_name):
+    print("Welcome to ", course_name, "course by ", instructor_name)
+
+intro("Python", "Rishabh")
+```
+
+<br>
+<br>
+
+**Default Arguments**:  <br>
+You can assign default values to arguments in a function definition.  <br>
+If a value isn't provided when the function is called, the default value is used.  <br>
+
+Ex:   <br>
+function defined using one parameter & default value
+
+def greetings(name = "World"):   # default value   <br>
+  print("Hello, " + name + "!")    <br>
+
+greetings()      # No argument passed   <br> 
+#Output: Hello, World!   <br>
+<br>
+greetings("Madhav")        # Madhav as argument  <br>
+#Output: Hello, Madhav!
+
+
 
 
 
