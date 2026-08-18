@@ -111,7 +111,52 @@ def celsius_to_fahrenheit(celsius):
 temp_f = celsius_to_fahrenheit(25)
 print("Temperature in Fahrenheit:", temp_f)
 # Output: Temperature in Fahrenheit: 77
+
+print("without return: ", type(temp_f)) 
+
 ```
+
+<br>
+<br>
+
+```python
+
+# Function without a Return value
+
+# function to conver Celsius to Fahrenheit without return statement:
+def celsius_to_fahrenheit(celsius):
+  fahrenheit = (celsius * 9/5) + 32
+  print(fahrenheit)
+
+# Calling this function to return a value
+temp_f2 = celsius_to_fahrenheit(50)
+
+print("without return: ", type(temp_f2)) 
+```
+
+---
+
+## The pass Statement
+
+The pass statement is a placeholder in a function or loop. <br>
+It does nothing and is used when you need to write code that will be added latr or to define an empty function.
+<br>
+Ex: 
+
+```python
+def myfunction():
+  pass    # This does nothing for now
+```
+
+---
+---
+---
+
+# Function Arguments
+
+
+
+
 
 
 
