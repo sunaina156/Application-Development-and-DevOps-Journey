@@ -311,10 +311,149 @@ parameter name & their values (arguments)   <br>
 ---
 ---
 ---
+# Doc string
+
+Doc string
+
+**Documentation of built-in function**
+```python
+print("Hello World!")
+help(print)   # gives documentation of print function
+```
+
+**Documentation of user-defined function**
+```python
+def add(a, b):
+    "This function adds two numbers"
+
+    return a+b
+print(add(2, 3))
+
+help(add)
+
+print(add.__doc__)
+```
+
+---
 
 # Function Scope
 
+**Local & Global Scope**
 
+```python
+# Global scope
+count=10   # Global variable
+
+def demo():
+    # Local scope
+    age = 20
+    print("Age inside function:", age)
+    print("Count inside function:", count)
+
+demo()
+
+print("Print age outside function:", age)   # error
+ 
+```
+
+<br>
+
+**Local Scope**
+A variable created inside a function normally belongs to that function.
+
+```python
+def greet():
+    name = "Sunaina"
+    print(name)
+
+greet()
+
+# name cannot normally be accessed outside greet()
+```
+
+<br>
+
+**Global Scope**
+A variable created outside functions has global/module scope.
+
+```python
+name = "Sunaina"
+
+def greet():
+    print(name)
+greet()
+
+# The function can read the global variable
+```
+
+<br>
+
+**global keyword**
+Used when you want to modify a global variable from inside a function.
+
+```python
+count = 0
+
+def increment():
+    global count
+    count += 1
+increment()
+print(count)
+```
+
+<br>
+
+**nonlocal keyword**
+Used with nested functions when you want to modify a variable belonging to the enclosing function.
+
+```python
+
+def outer():
+    count = 0
+
+    def inner():
+        nonlocal count
+        count += 1
+
+    inner()
+    print(count)
+
+outer()
+```
+
+---
+
+## LEGB Rule
+
+Python seaches for a variable in this order:  <br>
+L -> E -> G -> B
+
+Scope | Meaning
+--------------------------------
+L | Local
+E | Enclosing
+G | Global
+B | Built-in
+
+```python
+x = "global"
+
+def outer():
+    x = "enclosing"
+
+    def inner():
+        x = "local"
+        print(x)
+
+    inner()
+
+outer()
+```
+
+**Enclosing scope** exists when you have a function inside another function. <br>
+The variable belongs to the outer function, while the inner function is trying to access it. <br>
+
+**Built-in scope** contains names that Python provides automatically.
 
 
 
