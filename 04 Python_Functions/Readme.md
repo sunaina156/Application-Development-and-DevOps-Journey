@@ -1,3 +1,22 @@
+## Topics Covered 
+
+- Functions
+  - Types of Functions
+  - Function with & without Parameters  
+  - The return Statement
+  The pass Statement
+- Function Arguments
+  - Required Arguments
+  - Default Arguments
+  - Keyword Arguments
+  - Arbitrary Arguments
+- Function Scope
+  - Doc string
+  - Local scope, Global scope, global keyword, nonlocal keyword
+  - LEGB Rule
+
+ ---
+
 # Functions
 
 A function is a block of code that performs a specific task. You can use it 
