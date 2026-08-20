@@ -319,10 +319,222 @@ else:
 - Only one except block runs - the first one that matches.
 - else only runs if try completed with zero exceptions
 
+---
+
+# THE FINALLY BLOCK
+
+- The block that always runs.
+- **finally** runs whether or not an exception occured
+- Used for cleanup: closing files, releasing resources, logging
+
+```python
+try:
+
+# statements that may raise an 
+exception except:
+
+# handle exception finally:
+
+# THIS ALWAYS RUNS - exception or not
+```
 
 
+**Example 1** <br>
 
+```python
+# No Error
+text = "78"
 
+try:
+    marks = int(text)
+except ValueError:
+    print("Not a number")
+else:
+    print("Marks: ", marks)
+finally:
+    print("Done checking")
+```
 
+```python
+# ERROR Raised
+text = "abc"
 
+try: 
+    marks = int(text)
+except ValueError:
+    print("Not a number")
+else:
+    print("Marks: ", marks)
+finally:
+    print("Done checking")
+```
+
+**finally** runs in BOTH cases - error or no error  <br>
+
+<img width="1066" height="449" alt="image" src="https://github.com/user-attachments/assets/3d283a8b-fbf0-4ca8-97e1-b24fce4979d0" />
+ <br>
+
+<img width="1221" height="587" alt="image" src="https://github.com/user-attachments/assets/1f60156c-e6a0-4363-98c3-94c88449da43" />
+<br>
+
+---
+
+### RAISE - FORCING AN EXCEPTION
+
+**You can force an exception too** <br>
+- So far Python raises exceptions automatically.
+- With raise: you can force an exception to occur
+- Useful when you want to enforce your own rules
+
+```text
+raise ExceptionName("your custom message")
+```
+
+**Example:** <br>
+
+```python
+try:
+    a = int(input("Enter numerator: "))
+    b = int(input("Enter denominator: "))
+    if b == 0:
+        raise ZeroDivisionError(str(a) + "/0 not possible")
+    print(a/b)
+except ZeroDivisionError as e:
+    print("Exception", str(e))
+```
+
+output: <br>
+
+```text
+Enter numerator: 7
+Enter denominator: 0
+Exception 7/0 not possible
+```
+
+- We manually raised the exception before reaching the division.
+- The message "7/0 not possible" is our own, printed via str(e)
+ 
+
+---
+
+### ASSERT STATEMENT
+
+A built-in debugging tool.  <br>
+
+```text
+assert condition [, error_message]
+```
+
+- If the condition is **True** -> nothing happens, program continues
+- If the condition is **False** -> raises AssertionError with the optional message
+<br>
+- Use a assert statement when you know what a value should be, and want to catch it early if it's wrong.
+
+**Example:** <br>
+
+```python
+n = int(input("Enter Numerator: "))
+d = int(input("Enter Denominator: "))
+
+assert d != 0, "Denominator must not be 0"
+
+print("n/d =", int(n/d))
+```
+
+output:
+
+```text
+Enter Numerator: 10
+Enter Denominator: 10
+n/d = 1
+```
+
+```text
+    assert d != 0, "Denominator must not be 0"
+           ^^^^^^
+AssertionError: Denominator must not be 0
+```
+
+<img width="1098" height="409" alt="image" src="https://github.com/user-attachments/assets/687d4b60-3c7b-430c-a334-80d1a46ef583" />
+<br>
+
+**Example 1:** <br>
+
+```python
+def divide(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print("division by zero!")
+    else:
+        print("result is", result)
+    finally:
+        print("executing finally clause")
+
+# divide(2, 1)
+# divide(2, 0)
+# divide("2", "1")
+```
+
+```python
+def divide(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print("division by zero!")
+    else:
+        print("result is", result)
+    finally:
+        print("executing finally clause")
+```
+output:
+
+```text
+# divide(2, 1)
+result is 2.0
+executing finally clause
+```
+
+```text
+# divide(2, 0)
+division by zero!
+executing finally clause
+```
+
+```text
+# divide("2", "1")
+executing finally clause
+Traceback (most recent call last):
+  File "C:\Users\sunaina\Desktop\py\main.py", line 13, in <module>
+    divide("2", "1")
+    ~~~~~~^^^^^^^^^^
+```
+
+**finally** runs in all three cases - even when an unhandled exception crashes the program.
+
+<br>
+<br>
+
+**Example 2:** <br>
+
+```python
+print("Learning Exceptions...")
+
+try:
+    num1 = int(input("Enter the first number:"))
+    num2 = int(input("Enter the second number:"))
+    quotient = (num1 / num2)
+    print("Both numbers were correct")
+
+except ValueError:   # only integers
+    print("Please enter only numbers")
+except ZeroDivisionError:   # not zero
+    print("Number 2 should not be zero")
+else:
+    print("Great job!")
+finally:    # at the end
+    print("JOB OVER... GO GET SOME REST")
+```
+
+<img width="1147" height="362" alt="image" src="https://github.com/user-attachments/assets/96556ebe-bb21-4c11-ab1f-2d80be6d4325" />
 
