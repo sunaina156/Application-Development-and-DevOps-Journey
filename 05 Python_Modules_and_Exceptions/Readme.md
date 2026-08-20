@@ -34,9 +34,9 @@ It allows you to structure your Python projects logically.
 
 **#Structure Example:**   <br>
 my_package/   <br>
-  __init__.py   <br>
-  math_utils.py   <br>
-  string_utils.py   <br>
+&nbsp;&nbsp;  __init__.py   <br>
+&nbsp;&nbsp;  math_utils.py   <br>
+&nbsp;&nbsp;  string_utils.py   <br>
 
 **#Use the package:**   <br>
 Syntax: **from** my_package **import** <package_name>  <br>
