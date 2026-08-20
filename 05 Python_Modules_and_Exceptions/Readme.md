@@ -44,6 +44,8 @@ Example: **from** my_package **import** math__utils, string_utils
 
 ---
 
+Module Example   <br>
+
 mymodule.py
 
 ```python
@@ -76,5 +78,25 @@ print(person1['age'])
 
 #-------------------------
 ```
+
+---
+
+# Libraries in Python
+
+A library is a collection of modules and packages that provide pre-written functionality for your program.  <br>
+Libraries are typically larger and more feature-rich than packages or modules.  <br>
+
+**Why use libraries?**  
+- To avoid writing common functionality from scratch.
+- To leverage powerful tools developed by the community.
+
+
+**Example:**<br>
+Python has many popular libraries, such as:  <br>
+- Pandas: For data manipulation
+- Matplotlib: For plotting and visualization
+
+**#Using a library (Pandas):**
+import pandas as pd
 
 ---
