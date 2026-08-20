@@ -39,7 +39,7 @@ my_package/   <br>
   string_utils.py   <br>
 
 **#Use the package:**   <br>
-Syntax: **from** my_package **import** <package_name>
+Syntax: **from** my_package **import** <package_name>  <br>
 Example: **from** my_package **import** math__utils, string_utils
 
 ---
