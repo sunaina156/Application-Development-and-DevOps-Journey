@@ -100,3 +100,21 @@ Python has many popular libraries, such as:  <br>
 import pandas as pd
 
 ---
+
+# Python PIP
+
+pip stands for "Pip Install Packages". <br>
+It is the package manager for Python that allows you to install, update, and manage Python libraries (packages) from the Python Package Index (PyPI).  <br>
+
+Think of pip as an app store for Python libraries. You use it to search, install, and manage Python tools, just like downloading apps on your phone.  <br>
+
+When you use pip install <package_name>, it:
+- Connects to PyPI (Python Package Index) online.
+- Downloads the specified library or package.
+- Installs it into your Python environment.
+
+To install packages, we use: **pip install <library_name>**  <br>
+Example:  installing pandas to work on dataframe: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 **pip install pandas**
+
+---
