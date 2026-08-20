@@ -44,3 +44,37 @@ Example: **from** my_package **import** math__utils, string_utils
 
 ---
 
+mymodule.py
+
+```python
+# def say_hello(name):
+#     return print(f"Hello, {name}!, kaise ho?")
+
+# def say_bye(name):
+#     return print(f"Bye, {name}!, take care")
+
+#-------
+
+person1 = {'name': 'Keshav', 'age': 23}
+
+#-----------------------
+```
+
+main.py
+
+```python
+# import mymodule
+
+# mymodule.say_hello("Sunaina")
+# mymodule.say_bye('Sunaina')
+
+# -------------------
+
+from mymodule import person1
+
+print(person1['age'])
+
+#-------------------------
+```
+
+---
