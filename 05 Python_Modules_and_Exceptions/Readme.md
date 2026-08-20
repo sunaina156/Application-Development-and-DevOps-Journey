@@ -188,7 +188,9 @@ SYNTAX ERROR - BEFORE RUN
 
 ```text
 print("Hello"  # missing closing bracket
+```
 
+```text
 SyntaxError: unexpected EOF
   while parsing
 ```
@@ -201,8 +203,43 @@ RUN-TIME ERROR - DURING RUNTIME
 
 ```text
 print(10 / 0)
+```
 
+```text
 ZeroDivisionError: division by zero
 ```
+
+---
+
+**So what exactly is an Exception?**  <br>
+An Exception is an anomalous or unexpected event that occurs during runtime and disrupts the normal flow of the program. <br>
+<br>
+- It is not a syntax error
+- It occurs when the program is already runing
+- If unhandled -> the program crashes
+
+"Every syntax error is an exception, but every exception is NOT a syntax error."
+
+<img width="949" height="554" alt="image" src="https://github.com/user-attachments/assets/4966989a-5e42-4c08-87cc-36b1716554e5" />
+
+---
+
+# How does Exception Handling Works ?
+
+1. **TRY**
+&nbsp;&nbsp;&nbsp;&nbsp;Risky code in a try block
+2. RAISE 
+&nbsp;&nbsp;&nbsp;&nbsp; Python raises an exception.
+3. CATCH
+&nbsp;&nbsp;&nbsp;&nbsp; The except block catches & handles it. <br>
+
+![Uploading image.png…]()
+
+
+
+
+
+
+
 
 
