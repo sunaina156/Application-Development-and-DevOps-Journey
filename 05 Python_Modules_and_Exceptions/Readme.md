@@ -294,6 +294,30 @@ Python has a name for every common error. <br>
 
 ## Multiple except - else
 
+<img width="1076" height="610" alt="image" src="https://github.com/user-attachments/assets/da7d4aee-0e6c-4b20-bf88-faef38f5fa3f" />
+<br>
+
+```python
+try:
+    my_file = open("myfile.txt")
+    my_line = my__file.readline()
+    my_int = int(my_line.strip())
+    value = 101 / my_int
+
+except IOError:
+    print("I/O error occured")
+except ValueError:
+    print("Could not convert to an integer.")
+except ZeroDivisionError:
+    print("Division by zero error")
+except:
+    print("Unexpected error")
+else:
+    print("Hurray! No exceptions!")
+```
+
+- Only one except block runs - the first one that matches.
+- else only runs if try completed with zero exceptions
 
 
 
