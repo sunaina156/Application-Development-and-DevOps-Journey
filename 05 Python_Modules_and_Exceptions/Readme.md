@@ -115,6 +115,34 @@ When you use pip install <package_name>, it:
 
 To install packages, we use: **pip install <library_name>**  <br>
 Example:  installing pandas to work on dataframe: <br>
-$nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 **pip install pandas**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 **pip install pandas**
 
 ---
+
+main.py
+
+```python
+# library: collection of modules and packages
+
+# inbuilt library
+import math
+
+A = 16
+print(math.sqrt(A))
+
+# import specific function from library
+from math import factorial
+B = 4
+print(factorial(B))
+
+```
+
+<img width="1103" height="591" alt="image" src="https://github.com/user-attachments/assets/655c9516-90b0-4e1d-90bc-e4d04e3a57b6" />
+
+<img width="1128" height="582" alt="image" src="https://github.com/user-attachments/assets/15106af4-848a-4b75-80e4-5600c07519c4" />
+
+---
+---
+---
+
+
