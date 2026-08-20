@@ -185,6 +185,7 @@ Syntax Errors  <br>
 Caught before the program runs. <br>
 <br>
 SYNTAX ERROR - BEFORE RUN
+
 ```text
 print("Hello"  # missing closing bracket
 
@@ -197,6 +198,7 @@ Exceptions <br>
 Occur while the program is running. <br>
 <br>
 RUN-TIME ERROR - DURING RUNTIME
+
 ```text
 print(10 / 0)
 
