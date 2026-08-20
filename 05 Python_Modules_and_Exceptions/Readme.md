@@ -236,6 +236,63 @@ An Exception is an anomalous or unexpected event that occurs during runtime and 
 
 <img width="896" height="265" alt="image" src="https://github.com/user-attachments/assets/3a9a928d-98b3-4dbd-8a48-9945f19b439d" />
 
+---
+
+# try ... except
+
+### The basic shape
+
+```python
+try:
+  # code that might cause an exception
+except:
+  # what to do when it occurs
+```
+
+**Example 1: Division** <br>
+
+```python
+try:
+    print("result of 10/5 =", (10/5))
+    print("result of 10/0 =", (10/0))
+except:
+    print("Divide by Zero! Denominator", "must not be zero!")
+    
+```
+
+**Example 1: Type Conversion** <br>
+
+```python
+try:
+    x = int("XII")
+except:
+    print("Error converting 'XII' to a number")
+```
+
+---
+
+## Built-in Exceptions <br>
+
+Python has a name for every common error. <br>
+
+<img width="908" height="661" alt="image" src="https://github.com/user-attachments/assets/2f9e37a4-9fbc-421b-bdb0-4b9fa497808a" />
+<br>
+
+<img width="1120" height="379" alt="image" src="https://github.com/user-attachments/assets/47280f35-a242-46a5-9e2b-dba6516ef5a4" />
+<br>
+
+<img width="938" height="226" alt="image" src="https://github.com/user-attachments/assets/75ae05a8-2806-4f29-8275-57dbe9b30cea" />
+
+<img width="608" height="561" alt="image" src="https://github.com/user-attachments/assets/8ad6de1f-3a3c-4e3e-aa24-e945e0c4ae2e" />
+<br>
+
+<img width="615" height="215" alt="image" src="https://github.com/user-attachments/assets/6a1d532b-2d42-4461-9ae2-830bd8e035a4" />
+
+<br>
+
+---
+
+## Multiple except - else
 
 
 
