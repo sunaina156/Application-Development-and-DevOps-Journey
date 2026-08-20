@@ -145,4 +145,62 @@ print(factorial(B))
 ---
 ---
 
+# Exception Handling
+
+## Why Exception Handling ?
+- Exceptions are unexpected events that disrupt your program's normal flow.
+- They occur during runtime (e.g., dividing by zero, missing files, type errors).
+
+## Why this is a problem in the real world?
+- An ATM that crashes when you enter the wrong PIN.
+- A hospital app that stops when a file is missing.
+- An exam portal that breaks when the network drops.
+<br>
+- Every program must handle unexpected situations gracefully.
+
+## What if the program can recover on its own?
+
+```python
+try:
+  marks = int(input("Enter marks: "))
+  percentage = (marks / total) * 100
+  print(percentage)
+except:
+print("Please enter a valid number!")
+```
+
+```text
+Enter marks: abc
+Please enter a valid number!
+```
+
+No crash. No red error. This is Exception Handling.
+
+---
+## Types of Errors 
+
+There are two types of program errors.
+- COMPILE-TIME
+Syntax Errors  <br>
+Caught before the program runs. <br>
+<br>
+SYNTAX ERROR - BEFORE RUN
+```text
+print("Hello"  # missing closing bracket
+
+SyntaxError: unexpected EOF
+  while parsing
+```
+
+- RUN-TIME
+Exceptions <br>
+Occur while the program is running. <br>
+<br>
+RUN-TIME ERROR - DURING RUNTIME
+```text
+print(10 / 0)
+
+ZeroDivisionError: division by zero
+```
+
 
