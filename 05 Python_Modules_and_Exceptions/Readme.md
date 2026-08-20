@@ -226,14 +226,16 @@ An Exception is an anomalous or unexpected event that occurs during runtime and 
 
 # How does Exception Handling Works ?
 
-1. **TRY**
+1. **TRY** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;Risky code in a try block
-2. RAISE 
+2. **RAISE**  <br>
 &nbsp;&nbsp;&nbsp;&nbsp; Python raises an exception.
-3. CATCH
+3. **CATCH** <br>
 &nbsp;&nbsp;&nbsp;&nbsp; The except block catches & handles it. <br>
 
-![Uploading image.png…]()
+
+<img width="896" height="265" alt="image" src="https://github.com/user-attachments/assets/3a9a928d-98b3-4dbd-8a48-9945f19b439d" />
+
 
 
 
