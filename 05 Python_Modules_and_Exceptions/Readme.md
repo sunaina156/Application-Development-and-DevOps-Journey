@@ -1,3 +1,22 @@
+## Topics Covered
+
+- Modules in Python
+  - Package in Python
+  - Libraries in Python
+  - Python PIP
+- Exception Handling
+  - Types of Errors
+  - Exception Handling
+  - Built-in Exceptions
+  - try ... except 
+  -  Multiple except - else
+  - finally block
+  - raise 
+  - assert statement
+  
+
+---
+
 # Modules in Python
 
 A module is a single Python file (.py) containing Python code. <br>
