@@ -115,6 +115,6 @@ When you use pip install <package_name>, it:
 
 To install packages, we use: **pip install <library_name>**  <br>
 Example:  installing pandas to work on dataframe: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 **pip install pandas**
+$nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 **pip install pandas**
 
 ---
