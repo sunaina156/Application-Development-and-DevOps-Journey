@@ -61,16 +61,17 @@ print(f'{student_2[0]} is in class {student_2[1]}')
 <br>
 
 **Why OOPs?**
-- Models Real-World Problems:
+- Models Real-World Problems:   <br>
 &nbsp;&nbsp; Mimics real-world entities for easier understanding. <br>
-- Code Reusability:
+- Code Reusability:  <br>
 &nbsp;&nbsp; Encourages reusable, modular, and organized code.
-- Easier Maintenance:
+- Easier Maintenance:  <br>
 &nbsp;&nbsp; OOP organizes code into small, manageable parts (classes and objects). Changes in one part don't impact others, making it easier to maintain. <br>
-- Encapsulation:
+- Encapsulation:  <br>
 &nbsp;&nbsp; Encapsulation protects data integrity and privacy by bundling data and methods. <br>
-- Flexibility:
+- Flexibility:  <br>
 &nbsp;&nbsp; OOP makes it easier to add new features without affecting existing code. <br>
+
 
 
 
