@@ -72,6 +72,8 @@ print(f'{student_2[0]} is in class {student_2[1]}')
 - Flexibility:  <br>
 &nbsp;&nbsp; OOP makes it easier to add new features without affecting existing code. <br>
 
+<br>
+
 
 
 
