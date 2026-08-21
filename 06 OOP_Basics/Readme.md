@@ -74,6 +74,113 @@ print(f'{student_2[0]} is in class {student_2[1]}')
 
 <br>
 
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+
+    def student_details(self):      # method
+        print(f"{self.name} is in class {self.grade}")
+
+# object - instance of class
+student1 = Student('Madhav', 11)
+# print(student1.name, student1.grade)
+
+student2 = Student('Vishakha', 12)
+# print(student2.name, student2.grade)
+
+
+student1.student_details()
+student2.student_details()
+```
+
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name,grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+
+
+    def student_details(self):      # method
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%")
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+# print(student1.name, student1.grade)
+
+student2 = Student('Vishakha', 12, 99)
+# print(student2.name, student2.grade)
+
+
+student1.student_details()
+student2.student_details()
+
+print(student1.__dict__)
+
+```
+
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name,grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+
+
+    def student_details(self):      # method
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%")
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+# print(student1.name, student1.grade)
+
+student2 = Student('Vishakha', 12, 99)
+# print(student2.name, student2.grade)
+
+
+# student1.student_details()
+# student2.student_details()
+
+# print(student1.__dict__)
+
+#--------
+
+# modify object property
+
+print(student1.percentage)
+student1.percentage = 98   # modify
+print(student1.percentage)
+
+#-------------
+
+# delete object property
+print(student1.__dict__)
+del student1.percentage
+print(student1.__dict__)
+
+#---------------
+
+# delete object
+del student1
+print(student1)
+```
 
 
 
