@@ -182,5 +182,155 @@ del student1
 print(student1)
 ```
 
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade, percentage, team): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+        self.team = team
+
+
+    def student_details(self):      # method
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%, is in team {self.team}")
+
+team1 = 'A'
+team2 = 'B'
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96, team1)
+# print(student1.name, student1.grade)
+
+student2 = Student('Vishakha', 12, 99, team2)
+# print(student2.name, student2.grade)
+
+# print(student1.team)
+# print(student2.team)
+
+student1.student_details()
+student2.student_details()
+```
+
+---
+
+## Features of OOPs
+
+1. Abstraction
+2. Encapsulation
+3. Inheritance
+4. Polymorphism
+   <br>
+
+### Abstraction
+
+Hiding unnecessary details from users through class, methods <br>
+
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+
+    def student_details(self):      # method - abstraction
+        print(f"{self.name} is in class {self.grade} with {self.percentage+2}%")         # hidden from users
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+student2 = Student('Vishakha', 12, 97)
+
+student1.student_details()
+student2.student_details()
+```
+
+### Encapsulation
+
+Restrict access to certain attributes or methods to protect data and enforce controlled access. <br>
+
+```python
+# Using OOPs - Creating student records
+
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.__percentage = percentage    # double unscore limits access
+
+    def get_percentage(self):
+        return self.__percentage
+
+    def student_details(self):      # method 
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%")     
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+student2 = Student('Vishakha', 12, 97)
+
+# print(student1.__percentage)   #error without method to access this private
+# print(student1.percentage)     #error
+
+print(student1.get_percentage())
+print(student2.get_percentage())
+```
+
+### Inheritance
+
+Allows one class (child) to reuse the properties and methods of another class (parent). <br>
+
+```python
+# Using OOPs - Creating student records
+
+# Parent class
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+
+    def student_details(self):      # method 
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%")        
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+student2 = Student('Vishakha', 12, 97)
+
+
+# child class
+class GraduateStudent(Student):   # Graduatestudent child class inherit properties and methods from Student Parent class
+    def __init__(self, name, grade, percentage, stream):     # old parameters from parent class and new parameters in child class
+        super().__init__(name, grade, percentage)    # call parent class initializer
+
+        self.stream = stream   # new attribute in child class
+
+    def student_details(self):
+        super().student_details() # method inheritance from parent class
+        print(f'Stream is {self.stream}')
+ 
+# object
+Grad_Student1 = GraduateStudent('Keshav', 12, 96, 'PCM')
+print(Grad_Student1.stream)
+print(student1.percentage)
+
+Grad_Student1.student_details()
+```
+
+### Polymorphism
+
 
 
