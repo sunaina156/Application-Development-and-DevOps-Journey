@@ -1,4 +1,17 @@
+## Topics Covered
 
+- OOPs
+  - Class
+  - Object
+  - Attributes
+  - Methods
+- Features of OOPs
+  - Abstraction
+  - Encapsulation
+  - Inheritance
+  - Polymorphism
+
+    
 ---
 
 # OOPs in Python
