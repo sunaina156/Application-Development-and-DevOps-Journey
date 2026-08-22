@@ -47,4 +47,100 @@ A database provides tools to perform these operations efficiently and reliably.
 
 ---
 
+# Database vs File
+
+**File-based storage**  <br>
+Python Application
+    ⬇
+urls.json
+
+**Database-based storage** <br>
+Python Application
+    ⬇
+Database
+    ⬇
+urls table
+
+---
+
+# Types of Databases
+
+```text
+                    Databases
+                       |
+              +--------+--------+
+              |                 |
+           SQL              NoSQL
+        Relational       Non-relational
+```
+
+**Relational / SQL databases** <br>
+- PostgreSQL
+- MySQL
+- MariaDB
+- Oracle Database
+- Microsoft SQL Server
+
+**NoSQL databases** <br>
+Different NoSQL databases use different models
+- MongoDB  ->  Document
+- Redis  ->  key-value
+- Cassandra  ->  Wide-column
+- Neo4j  ->  Graph
+
+---
+
+# SQL
+SQL = Structured Query Language  <br>
+SQL is a language used to communicate with relational databases. <br>
+<br>
+Ex: <br>
+```text
+SELECT * FROM users'
+```
+
+Use SQL to: 
+- create data structures
+- Insert data
+- Read data
+- Update data
+- Delete data
+- Ceate indexes
+- Create relationships
+- Control transactions
+
+---
+
+# Relational Database
+A relational database stores structed data in tables and allows relationships between those tables.
+
+```text
+users
+| id | name    | email                                             |
+| -: | ------- | ------------------------------------------------- |
+|  1 | Sunaina | [sunaina@example.com](mailto:sunaina@example.com) |
+|  2 | Rahul   | [rahul@example.com](mailto:rahul@example.com)     |
+
+```
+
+
+```text
+urls
+| id | user_id | short_code | original_url                               |
+| -: | ------: | ---------- | ------------------------------------------ |
+|  1 |       1 | aB92x7     | [https://github.com](https://github.com)   |
+|  2 |       1 | Xy81pQ     | [https://google.com](https://google.com)   |
+|  3 |       2 | K91Lm2     | [https://youtube.com](https://youtube.com) |
+
+```
+
+The database understand that
+```text
+urls.user_id
+     ↓
+users.id
+```
+creates a relationship
+
+---
 
