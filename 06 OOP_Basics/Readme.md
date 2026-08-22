@@ -332,5 +332,46 @@ Grad_Student1.student_details()
 
 ### Polymorphism
 
+Allows methods in different classes to have same name but different behaviour depending on objects. <br>
+
+```python
+# Using OOPs - Creating student records
+
+# Parent class
+# class - blueprint or template
+# __init__ method - constructor value initialize  - this is fix
+# self parameter - reference or connection build btw class and object - it is also fix
+class Student:     # student class
+    def __init__(self, name, grade, percentage): # method   
+        self.name = name     # attribute
+        self.grade = grade   # attribute
+        self.percentage = percentage
+
+    def student_details(self):      # method 
+        print(f"{self.name} is in class {self.grade} with {self.percentage}%")        
+
+# object - instance of class
+student1 = Student('Madhav', 11, 96)
+student2 = Student('Vishakha', 12, 97)
 
 
+# child class
+class GraduateStudent(Student):  
+    def __init__(self, name, grade, percentage, stream):   
+        super().__init__(name, grade, percentage)   
+
+        self.stream = stream  
+
+    def student_details(self):   # method
+        # print(f'{self.name} is in class {self.grade}, with {self.percentage}% and from stream {self.stream}')
+        print('same method with different output')
+        
+# object - Student class
+student1 = Student('Madhav', 11, 96)
+
+# object - GraduateStudent class
+Grad_Student1 = GraduateStudent('Keshav', 12, 96, 'PCM')
+
+student1.student_details()
+Grad_Student1.student_details()
+```
