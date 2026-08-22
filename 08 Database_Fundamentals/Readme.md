@@ -144,3 +144,37 @@ creates a relationship
 
 ---
 
+# Database -> Table -> Row -> Column
+
+Suppose: <br>
+
+```text
+users
+| id | name    | email                                             | age |
+| -: | ------- | ------------------------------------------------- | --: |
+|  1 | Sunaina | [sunaina@example.com](mailto:sunaina@example.com) |  21 |
+|  2 | Rahul   | [rahul@example.com](mailto:rahul@example.com)     |  22 |
+```
+
+**Database** <br>
+the overall database might be ```text url_shortener ```  <br>
+
+**Table**<br>
+users<br>
+
+**Column**<br>
+id<br>
+name<br>
+email<br>
+age<br>
+
+**Row**<br>
+1 | Sunaina | sunaina@example.com | 21<br>
+
+A row represents one record/entity<br>
+A column represents a particular attribute/entity<br>
+
+---
+
+# Schema
+
