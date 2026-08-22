@@ -1,8 +1,9 @@
-import random
+```python
+import random  
 import string
 
 # Dictionary used to store short code and original URL
-url_storage = {}
+url_storage = {} 
 
 def generate_short_code():
     characters = string.ascii_letters + string.digits
@@ -70,3 +71,4 @@ while True:
 
      else:
           print("Invalid choice! Please select 1, 2, or 3.")
+```
