@@ -775,11 +775,13 @@ id | name | email
 |1 | Sunaina | s@exmaple.com
 
 orders
+
+```text
 id | customer_id | product
-------------------------------
 1 | 1 | Laptop
 2 | 1 | Mouse
 3 | 1 | Keyboard
+```
 
 Now the customer information is stored once.  <br>
 
