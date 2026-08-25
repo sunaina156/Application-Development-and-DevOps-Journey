@@ -760,11 +760,11 @@ Imagine:  <br>
 **Bad Design**  <br>
 orders
 
-order_id | customer_name | customer_email | product
-----------------------------------------------------
-1        | Sunaina       | s@example.com  | Laptop
-2        | Sunaina       | s@example.com  | Mouse
-3        | Sunaina       | s@example.com  | Keyboard
+|order_id | customer_name | customer_email | product
+|----------------------------------------------------
+|1        | Sunaina       | s@example.com  | Laptop
+|2        | Sunaina       | s@example.com  | Mouse
+|3        | Sunaina       | s@example.com  | Keyboard
 
 Customer information is repeated.  <br>
 Instead:  <br>
@@ -772,7 +772,7 @@ Instead:  <br>
 customers  <br>
 id | name | email
 --------------------
-1 | Sunaina | s@exmaple.com
+|1 | Sunaina | s@exmaple.com
 
 orders
 id | customer_id | product
