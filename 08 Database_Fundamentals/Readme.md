@@ -178,3 +178,204 @@ A column represents a particular attribute/entity<br>
 
 # Schema
 
+Schema = logical representation of database  <br>
+A database schema describes the structure of your database.<br>
+
+Ex:<br>
+```text
+users
+├── id
+├── name
+├── email
+└── created_at
+
+urls
+├── id
+├── user_id
+├── short_code
+├── original_url
+└── created_at
+```
+
+The schema defines things such as:
+- Tables
+- Columns
+- Data types
+- Constraints
+- Relationships
+- Indexes
+
+Schema = blueprint / structure of the database<br>
+
+---
+
+# Data Types
+Columns have data types.   <br>
+
+Ex:
+```text
+CREATE TABLE users (
+  id INTEGER,
+  name VARCHAR(100),
+  email VARCHAR(255),
+  age INTEGER
+);
+```
+
+Common SQL data types include:   <br>
+INTEGER, BIGINT, DECIMAL, VARCHAR, TEXT, BOOLEAN, DATE, TIMESTAMP   <br>
+
+Choosing appropriate data types matters for correctness and storage efficiency.   <br>
+
+---
+
+# Primary Key
+
+# Primary Key
+
+A primary key uniquely identifies each row in a table.   <br>
+
+Ex:   <br>
+id | name 
+------------------
+1 | Sunaina
+2 | Rahul 
+3 | Aman
+   <br>
+Here, **id** is a primary key.   <br>
+
+Ex:   <br>
+```text
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(100)
+);
+```
+
+We can't have id as 1 for two bcoz then the database couldn't use id to uniquely identify a row.   <br>
+
+# Why Do We Need Primary Keys?
+
+```text
+users
+--------------------------------
+id | name | email
+1  | A    | a@example.com
+2  | B    | b@example.com
+3  | C    | c@example.com
+```
+
+To update user B   <br>
+
+```text
+UPDATE users
+SET name = 'Rahul'
+WHERE id = 2;
+```
+
+The primary key gives each record a stable identity.   <br>
+
+---
+
+# Natural Key vs Surrogate Key
+
+There are two common approaches.  <br>
+
+**Natural Key**
+A value that already has real-world meaning.  <br>
+ex:  <br>
+```text
+email
+ISBN
+phone number
+```
+
+**Surrogate Key**
+A generated identifier with no business meaning.
+  <br>
+ex:  <br>
+```text
+1
+2
+3
+4
+```
+
+# Foreign Key
+A foreign key creates a relationship between tables.
+  <br>
+Suppose:  <br>
+
+users  <br>
+| id | name    |
+| -: | ------- |
+|  1 | Sunaina |
+|  2 | Rahul   |
+
+urls  <br>
+| id | user_id | short_code |
+| -: | ------: | ---------- |
+|  1 |       1 | aB92x7     |
+|  2 |       1 | Xy81pQ     |
+|  3 |       2 | K91Lm2     |
+
+Here,  <br> 
+urls.user_id -> users.id  <br>
+urls.user_id is a foreign key referencing users.id
+  <br>
+
+SQL:  <br>
+```text
+CREATE TABLE urls (
+  id INTEGER PRIMARY KEY,
+  user_id INTEGER,
+  short_code VARCHAR(10),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)
+```
+
+# Why Foregin Keys Matter
+
+Suppose user 999 doesn't exist.
+  <br>
+Without proper constraints, you might accidentally insert:
+  <br>
+urls  <br>
+id | user_id | short_code
+1  | 999     | aB92x7
+
+Now your URL belongs to a nonexistent user.
+  <br>
+A foreign key can prevent this kind of invalid relationship.
+  <br>
+This is called referential integrity.
+  <br>
+
+---
+
+CRUD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
