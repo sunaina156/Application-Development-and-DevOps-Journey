@@ -604,6 +604,188 @@ WHERE phone_number = NULL;
 
 # Constraints
 
+Constraints are rules enforced by the database.  <br>
+
+constraints:  <br>
+```text
+PRIMARY KEY
+FOREIGN KEY
+NOT NULL
+UNIQUE
+DEFAULT
+CHECK
+```
+
+**NOT NULL**   <br>
+The column must have a value  <br>
+```text
+name VARCHAR(100) NOT NULL
+```
+
+**UNIQUE**  <br>
+Values cannot be duplicate  <br>
+```text
+email VARCHAR(255) UNIQUE
+```
+
+For URL Shortener:
+```text
+short_code VARCHAR(10) UNIQUE
+```
+
+**DEFAULT**
+Provides value automatically.  <br>
+```text
+clicks INTEGER DEFAULT 0
+```
+
+When you insert:  <br>
+```text
+INSERT INTO urls(short_code, original_url)
+VALUES ('aB92x7', 'https://github.com');
+```
+the database can automatically set:  <br>
+```text
+clicks = 0
+```
+
+---
+
+# CHECK
+Enforces a condition  <br>
+```text
+clicks INTEGER CHECK (clicks >= 0)
+```
+Now negative clicks are not allowed.  <br>
+
+---
+
+#Relationships Between Tables
+
+There are 3 major relationships types.  <br>
+
+**One-to-One**  <br>
+Once record relates to one record.  <br>
+```text
+Person
+  │
+  │
+  └── Passport
+```
+One person has one passport <br>
+
+**One-to-Many** <br>
+Once record relates to many records.
+```text
+User
+ |- URL
+ |- URL
+ |- URL
+```
+One user can create many shortened URLs  <br>
+Use in URL shortener  <br>
+
+**Many-to-Many**  <br>
+Many records relate to many records  <br>
+Ex:  <br>
+```text
+Students <-> Courses
+```
+Once student can take many courses  <br>
+One course can have many students.  <br>
+  <br>
+Usually a third/junction table is used:  <br>
+```text
+students
+courses
+student_courses
+``` 
+
+---
+
+# JOINS
+A JOIN allows you to retrieve related data from multiple tables.
+  <br>
+users:  
+id | name
+1  | Sunaina
+2  | Rahul
+  <br>
+urls:
+id | user_id | short_code
+1  | 1           | aB92x7
+2  | 1           | Xy81pQ
+3  | 2           | K91Lm2
+  <br>
+You can join them:  <br>
+```text
+SELECT users.name, urls.short_code
+FROM users
+JOIN urls
+ON users.id = urls.user_id;
+```
+
+Result:  <br>
+Sunaina | aB92x7
+Sunaina | Xy81pQ
+Rahul     | K91Lm2
+
+JOIN connect related records from different tables.  <br>
+
+--- 
+
+# Types of JOINs
+
+**INNER JOIN**  <br>
+Returns matching records from both tables.  <br>
+```text
+A ∩ B
+```
+
+**LEFT JOIN**  <br>
+Returns all records from the left tables plus matching records from the right.  <br>
+
+**RIGHT JOIN**  <br>
+THe opposite direction.  <br>
+
+**FULL OUTER JOIN**   <br>
+Returns matching and non-matching records from both sides where supported.  <br>
+
+--- 
+
+# Normalization
+Normalization is the process of organizing relational data to reduce unnecessary duplication and improve consistency.  <br>
+
+Imagine:  <br>
+**Bad Design**  <br>
+orders
+
+order_id | customer_name | customer_email | product
+----------------------------------------------------
+1        | Sunaina       | s@example.com  | Laptop
+2        | Sunaina       | s@example.com  | Mouse
+3        | Sunaina       | s@example.com  | Keyboard
+
+Customer information is repeated.  <br>
+Instead:  <br>
+
+customers  <br>
+id | name | email
+1 | Sunaina | s@exmaple.com
+
+orders
+id | customer_id | product
+1 | 1 | Laptop
+2 | 1 | Mouse
+3 | 1 | Keyboard
+
+Now the customer information is stored once.  <br>
+
+---
+
+# Why Normalization?
+
+
 
 
 
