@@ -301,6 +301,8 @@ ex:  <br>
 4
 ```
 
+---
+
 # Foreign Key
 A foreign key creates a relationship between tables.
   <br>
@@ -334,6 +336,8 @@ CREATE TABLE urls (
 )
 ```
 
+---
+
 # Why Foregin Keys Matter
 
 Suppose user 999 doesn't exist.
@@ -353,9 +357,120 @@ This is called referential integrity.
 
 ---
 
-CRUD
+# CRUD
 
+```text
+C -> Create
+R -> Read
+U -> Update
+D -> Delete
+```
 
+**Create** <br>
+Add data: <br>
+```text
+INSERT into users (name)
+VALUES ('Sunaina');
+```
+
+**Read**  <br>
+Retrieve data: <br>
+```text
+SELECT * FROM users;
+```
+
+**Update** <br>
+Modify data:
+```text
+UPDATE users
+SET name = 'Sunaina Lodha'
+WHERE id = 1;
+```
+
+**Delete** <br>
+Remove data: <br>
+```text
+DELETE FROM users
+WHERE id = 1;
+```
+
+---
+
+# INSERT 
+INSERT adds records. <br>
+
+```text
+INSERT INTO urls
+(short_code, original_url, clicks)
+VALUES
+('aB92x7', 'https://github.com', 0);
+```
+
+Multiple records:<br>
+```text
+INSERT INTO urls
+(short_code, original_url, clicks)
+VALUES
+('aB92x7', 'https://github.com', 0),
+('Xy81pQ', 'https://google.com', 0);
+```
+
+---
+
+# SELECT
+SELECT retrieves data.<br>
+
+All columns:<br>
+```text
+SELECT *
+FROM urls;
+```
+
+Specific columns:<br>
+```text
+SELECT short_code, original_url
+FROM urls;
+```
+
+This is better when you don't actually need every column
+
+---
+
+# WHERE
+WHERE filters records. <br>
+
+```text
+SELECT *
+FROM urls
+WHERE short_code = 'aB92x7';
+```
+
+Another: <br>
+```text
+SELECT *
+FROM urls
+WHERE clicks > 10;
+```
+
+Multiple conditions: <br>
+```text
+SELECT *
+FROM urls
+WHERE clicks > 10
+AND original_url LIKE 'https%';
+```
+
+Common operators:  <br>
+```text
+=   !=  >   <  <=  >=
+```
+
+Logical operators: <br>
+```text
+AND   OR   NOT
+```
+
+---
 
 
 
