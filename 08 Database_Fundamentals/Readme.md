@@ -472,6 +472,140 @@ AND   OR   NOT
 
 ---
 
+# LIKE
+LIKE performs pattern matching.  <br>
+
+```text
+SELECT *
+FROM users
+WHERE name LIKE 'Sun%';
+```
+
+% means zero or more characters.  <br>
+
+Ex:  <br>
+
+```text
+SELECT *
+FROM users
+WHERE email LIKE '%gmail.com';
+```
+
+---
+
+# ORDER BY
+
+Sort results.  <br>
+
+```text
+SELECT *
+FROM urls 
+ORDER BY clicks DESC;
+```
+
+DESC:  <br>
+```text
+10
+8
+5
+2
+```
+
+ASC:  <br>
+```text
+2
+5
+8
+10
+```
+
+---
+
+# LIMIT
+
+Limits the number of results.  <br>
+
+```text
+SELECT *
+FROM urls
+ORDER BY clicks DESC
+LIMIT 10;
+```
+
+This is useful when you have millions of records but only want the first few.  <br>
+
+---
+
+# UPDATE
+Modify existing data.   <br>
+
+```text
+UPDATE urls
+SET clicks = clicks + 1
+WHERE short_code = 'aB92x7';
+```
+WHERE is important   <br>
+
+```text
+UPDATE urls
+SET clicks = clicks + 1;
+```
+This will update it everywhere bcoz WHERE not mentioned.   <br>
+Always understand which records your query affects.   <br>
+
+---
+
+# DELETE
+Delete records.   <br>
+
+```text
+DELETE FROM urls
+WHERE short_code = 'aB92x7';
+```
+
+Be careful with WHERE   <br>
+
+```text
+DELETE FROM urls;
+```
+deletes all rows from the table.   <br>
+
+---
+
+# NULL
+NULL means the value is missing/unknown/not provided.   <br>
+   <br>
+It is not the same as:   <br>
+```text
+0
+""
+False
+```
+
+Ex:   <br>
+```text
+phone_number = NULL
+```
+means no phone number value is stored.   <br>
+
+To check for NULL:   <br>
+```text
+SELECT *
+FROM users
+WHERE phone_number IS NULL;
+```
+
+Not:   <br>
+```text
+WHERE phone_number = NULL;
+```
+
+---
+
+# Constraints
+
+
+
 
 
 
