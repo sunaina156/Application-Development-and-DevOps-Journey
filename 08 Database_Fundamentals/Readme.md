@@ -789,6 +789,225 @@ Now the customer information is stored once.  <br>
 
 # Why Normalization?
 
+It helps reduce problems such as:
+
+- Update anomaly
+you change an email in one row but forget another
+- Insert anomaly
+You cannot add certain information without unrelated information
+- Delete anomaly
+Deleting one record accidentally removes information you still need.
+
+Normalization helps organize the data to avoid these problems.
+
+---
+
+# 1NF, 2NF, 3NF
+
+## 1NF - First Normal Form
+Data should have atomic values rather than repeating groups.
+<br>
+
+Bad:
+```text
+skills = "Python, Docker, AWS"
+```
+<br>
+Better in a relational design:
+```text
+user_skills
+user_id | skill
+1           | Python
+1           | Docker
+1           | AWS
+```
+
+## 2NF - Second Normal Form
+The table should already be in 1NF, and non-key attributes should depend on the whole primary key. <br>
+
+## 3NF - Third Normal Form
+The table should be in 2NF and non-key attributes should not depend on other non-key attributes.
+<br>
+The simplified idea: <br>
+```text
+Non-key data
+      ↓
+Should depend on
+      ↓
+The key
+```
+
+---
+
+# Indexes
+
+Imagine:
+```text
+urls table
+10,000,000 rows
+```
+<br>
+You frequently execute:
+```text
+SELECT *
+FROM urls
+WHERE short_code = 'aB92x7';
+```
+Without an appropriate index, the database may need to examine many rows. <br>
+<br>
+An index provides a separate data structure that helps the database locate records more efficiently. <br>
+
+Conceptually: <br>
+```text
+Table
+10 million rows
+       ↓
+       ↓
+Index on short_code
+       ↓
+Locate matching row
+```
+
+<br>
+Create an index: <br>
+```text
+CREATE INDEX idx_urls_short_code
+ON urls(short_code);
+```
+
+# Why Not Index Everything ?
+
+Indexes improve certain reads, but they have costs. <br>
+When you: <br>
+```text
+INSERT
+UPDATE
+DELETE
+```
+
+the database may also need to maintain indexes. <br>
+Indexes also consume storage. <br>
+Therefore, Index columns based on actual query patterns rather than blindly indexing every column. <br>
+For URL Shortener, short_code is a strong candidate bcoz lookup by short code is a core operation. <br>
+
+---
+
+# Composite Index
+
+You can create an index using multiple columns. <br>
+```text
+CREATE INDEX idx_urls_user_created
+ON urls(user_id, created_at);
+```
+
+The order of column matters. <br>
+
+---
+
+# Transactions
+
+Suppose a banking application transfers: 
+₹100
+from Account A to Account B
+You need:
+```text
+A: -₹100
+B: +₹100
+```
+
+What if first operation succeeds but second fails?
+you dont wantthe money to disappear.
+A **transaction** groups operations into a logical unit.
+
+<br>
+Conceptually:
+```text
+BEGIN
+   ↓
+Operation 1
+   ↓
+Operation 2
+   ↓
+COMMIT
+```
+
+If something fails: 
+```text
+BEGIN
+   ↓
+Operation 1
+   ↓
+Operation 2 ❌
+   ↓
+ROLLBACK
+```
+
+
+---
+
+# Commit
+COMMIT permanently applies the transaction's changes. <br>
+Conceptually:
+```text
+Transaction
+     ↓
+COMMIT
+     ↓
+Changes accepted
+```
+
+---
+
+# ROLLBACK
+ROLLBACK cancels changes made within a transaction that has not been comitted. <br>
+```text
+Transaction
+     ↓
+Something fails
+     ↓
+ROLLBACK
+     ↓
+Undo transaction changes
+```
+
+---
+
+# ACID
+Transactions are commonly described using ACID properties. <br>
+
+```text
+A -> Atomicity
+C -> Consistency
+I -> Isolation
+D -> Durability
+```
+
+## Atomicity
+A transaction is treated as one unit. <br>
+Either: Everything succeeds <br>
+Or: Everything is rolled back <br>
+Not half-successful <br>
+
+## Consistency
+A transaction should take the database from one valid state to another valid state while respecting defined rules and constraints.  <br>
+Ex: <br>
+clicks >= 0 <br>
+should remain valid. <br>
+
+## Isolation
+when multiple transactions happen at the same time, one transaction should not incorrectly interfere with another. <br>
+Think:
+Transaction A <-> Transaction B <br>
+The database provides mechanisms to control how concurrent transactions interact. <br>
+
+## Durability
+Once a transaction has been successfully committed, its changes should survive failures such as a database/server restart, subject to the database's durability mechanisms. <br>
+
+---
+
+ # Concurrency
+
+
 
 
 
