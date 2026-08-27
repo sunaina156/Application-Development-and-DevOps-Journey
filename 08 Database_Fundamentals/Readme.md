@@ -173,7 +173,9 @@ email<br>
 age<br>
 
 **Row**<br>
+```text
 1 | Sunaina | sunaina@example.com | 21<br>
+```
 
 A row represents one record/entity<br>
 A column represents a particular attribute/entity<br>
@@ -235,16 +237,17 @@ Choosing appropriate data types matters for correctness and storage efficiency. 
 
 # Primary Key
 
-# Primary Key
-
 A primary key uniquely identifies each row in a table.   <br>
 
 Ex:   <br>
+```text
 id | name 
 ------------------
 1 | Sunaina
 2 | Rahul 
 3 | Aman
+```
+
    <br>
 Here, **id** is a primary key.   <br>
 
@@ -313,17 +316,21 @@ A foreign key creates a relationship between tables.
 Suppose:  <br>
 
 users  <br>
+```text
 | id | name    |
 | -: | ------- |
 |  1 | Sunaina |
 |  2 | Rahul   |
+```
 
 urls  <br>
+```text
 | id | user_id | short_code |
 | -: | ------: | ---------- |
 |  1 |       1 | aB92x7     |
 |  2 |       1 | Xy81pQ     |
 |  3 |       2 | K91Lm2     |
+```
 
 Here,  <br> 
 urls.user_id -> users.id  <br>
@@ -349,8 +356,10 @@ Suppose user 999 doesn't exist.
 Without proper constraints, you might accidentally insert:
   <br>
 urls  <br>
+```text
 id | user_id | short_code
 1  | 999     | aB92x7
+```
 
 Now your URL belongs to a nonexistent user.
   <br>
@@ -710,16 +719,21 @@ student_courses
 # JOINS
 A JOIN allows you to retrieve related data from multiple tables.
   <br>
-users:  
+users: 
+```text
 id | name
 1  | Sunaina
 2  | Rahul
+```
+
   <br>
 urls:
+```text
 id | user_id | short_code
 1  | 1           | aB92x7
 2  | 1           | Xy81pQ
 3  | 2           | K91Lm2
+```
   <br>
 You can join them:  <br>
 ```text
@@ -730,9 +744,11 @@ ON users.id = urls.user_id;
 ```
 
 Result:  <br>
+```text
 Sunaina | aB92x7
 Sunaina | Xy81pQ
-Rahul     | K91Lm2
+Rahul   | K91Lm2
+```
 
 JOIN connect related records from different tables.  <br>
 
@@ -764,19 +780,23 @@ Imagine:  <br>
 **Bad Design**  <br>
 orders
 
+```text
 |order_id | customer_name | customer_email | product
 |----------------------------------------------------
 |1        | Sunaina       | s@example.com  | Laptop
 |2        | Sunaina       | s@example.com  | Mouse
 |3        | Sunaina       | s@example.com  | Keyboard
+```
 
 Customer information is repeated.  <br>
 Instead:  <br>
 
 customers  <br>
+```text
 id | name | email
 --------------------
 |1 | Sunaina | s@exmaple.com
+```
 
 orders
 
