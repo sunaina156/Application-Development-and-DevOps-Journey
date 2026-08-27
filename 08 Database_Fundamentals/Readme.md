@@ -50,16 +50,20 @@ A database provides tools to perform these operations efficiently and reliably.
 # Database vs File
 
 **File-based storage**  <br>
+```text
 Python Application
     ⬇
 urls.json
+```
 
 **Database-based storage** <br>
+```text
 Python Application
     ⬇
 Database
     ⬇
 urls table
+```
 
 ---
 
