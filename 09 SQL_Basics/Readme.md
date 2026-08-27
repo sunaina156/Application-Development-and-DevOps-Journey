@@ -117,8 +117,10 @@ Ex: <br>
 SELECT name
 FROM users;
 ```
+
  <br>
-SqL statements usually ends with: <br>
+SQL statements usually ends with: <br>
+
 ```text
 ;
 ```
