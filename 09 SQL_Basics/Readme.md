@@ -13,6 +13,7 @@ id | name    | email
 You can use SQL to ask database:<br>
 Give me all users.
 <br>
+
 ```text
 SELECT * FROM users;
 ```
