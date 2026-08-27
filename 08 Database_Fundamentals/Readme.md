@@ -1,3 +1,62 @@
+## Topics Covered
+
+- Database
+- Why we need Databases ?
+- Database vs File
+- Types of Databases
+- SQL
+- Relational Database
+- Database -> Table -> Row -> Column
+- Schema
+- Data Types
+- Primary Key
+  - Why Do We Need Primary Keys?
+- Natural Key vs Surrogate Key
+- Foreign Key
+- Why Foreign Keys Matter?
+- CRUD
+-  INSERT
+- SELECT
+- WHERE
+- LIKE
+- ORDER BY
+- LIMIT
+- UPDATE
+- DELETE
+- NULL
+- Constraints
+- CHECK
+- Relationships Between Tables
+- JOINS
+- Types of JOINs
+- Normalization
+- Why Normalization?
+- 1NF, 2NF, 3NF
+- Indexes
+  - Why Not Index Everything?
+  - Composite Index
+- Transactions
+- Commit
+- RollBack
+- ACID
+- Concurrency
+- SQL vs NoSQL
+- When Should You Use SQL?
+- When might SQL be Useful?
+- Database Server vs Database
+- PostgreSQL
+- URL Shortener Database Design
+- URL Table
+Why short_code should be Indexed?
+- Database Security Basics
+- SQL Injection
+- Database Conection
+- ORM
+- Database Migration
+- Database Backup
+
+---
+
 # Database
 
 Organized collection of data that allows applicatons to store, retrieve, modify, and manage information efficiently. <br>
@@ -1031,7 +1090,7 @@ Once a transaction has been successfully committed, its changes should survive f
 
  # Concurrency
 
-Imagine:
+Imagine: <br>
 ```text
 User A--|
              |---> Database
@@ -1071,7 +1130,7 @@ Useful when we need:
 ## NoSQL
 NoSQL doesn't mean "No SQL" in a simple absolute sense, it generally refers to non-relational database models.  <br>
 
-Ex, MongoDB store documents:
+Ex, MongoDB store documents: <br>
 ```text
 {
   "short_code": "aB92x7",
@@ -1080,7 +1139,7 @@ Ex, MongoDB store documents:
 }
 ```
   <br>
-Redis uses key-value structures:
+Redis uses key-value structures: <br>
 ```text
 aB92x7 -> https://github.com
 ```
@@ -1098,7 +1157,7 @@ Relationships
 Transactions
 ```
   <br>
-Ex:
+Ex: <br>
 ```text
 Customer
    ↓
@@ -1116,7 +1175,7 @@ NoSQL can be useful for workloads requiring things such as:
 - Very high-throughput key-value access
 - Distributed data models
 - Specialized workloads
-
+ <br>
 ```text
 MongoDB -> document database
 Redis -> key-value / in-memory data store
@@ -1130,7 +1189,7 @@ Don't choose a database bcoz it is popular. Choose based on the application's re
 # Database Server vs Database
 
 A database management system (DBMS) is a software that manages databases.  <br>
-Ex:
+Ex: <br>
 ```text
 PostgreSQL
 MySQL
@@ -1155,7 +1214,7 @@ PostgreSQL is a powerful open-source relational database system.
 <br>
 You don't need to memorize its entire ecosystem.
 
-Focus on:
+Focus on: <br>
 ```text
 SQL
 Tables
@@ -1173,7 +1232,7 @@ These concepts transfer to other relational databases too.
 # URL Shortener Database Design
 Eventually, your URL Shortener could have: <br>
  <br>
-users
+users <br>
 ```text
 id
 username
@@ -1182,7 +1241,7 @@ created_at
 ```
  <br>
 urls
-```text
+```text <br>
 id
 user_id
 short_code
@@ -1191,7 +1250,7 @@ clicks
 created_at
 ```
  <br>
-Relationship:
+Relationship: <br>
 ```text
 users
    |
@@ -1207,7 +1266,7 @@ One user can have many URLs
 
 # URL Table
 
-A possible design:
+A possible design: <br>
 ```text
 CREATE TABLE urls (
   id BIGSERIAL PRIMARY KEY,
@@ -1220,7 +1279,7 @@ CREATE TABLE urls (
 ```
 
 <br>
-Important concepts are:
+Important concepts are: <br>
 ```text
 id
   -> Primary Key
@@ -1245,7 +1304,7 @@ created_at
 
 # Why short_code Should Be UNIQUE?
 
-Suppose:
+Suppose: <br>
 ```text
 aB92x7  -> google.com
 ```
@@ -1262,7 +1321,7 @@ This is better than relying only on Python code to check uniqueness. <br>
 
 # Why short_code Should Be Indexed
 
-Your main operation is:
+Your main operation is: <br>
 ```text
 Short URL
     ↓
@@ -1295,7 +1354,7 @@ DATABASE_PASSWORD = "mypassword123" <br>
 Use environment/configuration mechanisms.
  <br>
 - **Don't expose your database publicly unnecessarily**
-Prefer:
+Prefer: <br>
 ```text
 Application
      ↓
@@ -1320,7 +1379,7 @@ An attacker may provide specially crafted input that changes the meaning of the 
 This is called SQL injection. <br>
 The safer approch is to use parameterized queries / prepared statements provided by your database library or ORM. <br>
  <br>
-Conceptually:
+Conceptually: <br>
 ```text
 User input
      ↓
@@ -1329,7 +1388,7 @@ Parameterized query
 Database
 ```
 <br>
-not:
+not: <br>
 ```text
 User input
      ↓
@@ -1343,7 +1402,7 @@ SQL
 # Database Connection
 Your application needs a way to communicate with the database. <br>
 <br>
-Conceptually:
+Conceptually: <br>
 ```text
 Python Application
        ↓
@@ -1412,7 +1471,7 @@ Version 2
 
 Production databases contain valuable data.
 
-You need mechanisms for:
+You need mechanisms for: <br>
 ```text
 Backup
 Restore
@@ -1420,7 +1479,7 @@ Recovery
 ```
 
 
-For example:
+For example: <br>
 ```text
 Production Database
        ↓
