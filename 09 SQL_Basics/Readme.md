@@ -107,12 +107,14 @@ Each horizontal record -> row <br>
 
 # SQL Syntax
 A basic SQL statement looks like: <br>
+
 ```text
 SELECT column
 FROM table;
 ```
  <br>
 Ex: <br>
+
 ```text
 SELECT name
 FROM users;
