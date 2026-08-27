@@ -1007,6 +1007,148 @@ Once a transaction has been successfully committed, its changes should survive f
 
  # Concurrency
 
+Imagine:
+```text
+User A--|
+             |---> Database
+User B--|
+```
+
+Both users may access the database at the same time.  <br>
+A production database needs to handle concurrent operations safely.  <br>
+  <br>
+This leads to concepts such as: Transactions, Locks, Isolation Levels, Race conditions, Concurrency control.  <br>
+
+---
+
+# SQL vs NoSQL
+
+## SQL/Relational
+Ex:  <br>
+- PostgreSQL
+- MySQL
+Data is typically structured around tables and relationships.  <br>
+
+  <br>
+Ex:  <br>
+```text
+users
+urls
+clicks
+```
+  <br>
+Useful when we need:
+- Strongly structured data
+- Relationships
+- Complex queries
+- Transactions
+- Referential integrity
+
+## NoSQL
+NoSQL doesn't mean "No SQL" in a simple absolute sense, it generally refers to non-relational database models.  <br>
+
+Ex, MongoDB store documents:
+```text
+{
+  "short_code": "aB92x7",
+  "original_url": "https://github.com",
+  "clicks": 5
+}
+```
+  <br>
+Redis uses key-value structures:
+```text
+aB92x7 -> https://github.com
+```
+
+---
+
+# When Should You Use SQL?
+SQL databases are often a good choice when your application has:  <br>
+```text
+Users
+Orders
+Payments
+Products
+Relationships
+Transactions
+```
+  <br>
+Ex:
+```text
+Customer
+   ↓
+Orders
+   ↓
+Products
+```
+Relational databases handle this kind of structured relationship very well.
+
+---
+
+# When might NoSQL be Useful?
+NoSQL can be useful for workloads requiring things such as:
+- Flexible document structures
+- Very high-throughput key-value access
+- Distributed data models
+- Specialized workloads
+
+```text
+MongoDB -> document database
+Redis -> key-value / in-memory data store
+DynamoDB -> managed NoSQL database
+```
+<br>
+Don't choose a database bcoz it is popular. Choose based on the application's requirements.
+
+---
+
+# Database Server vs Database
+
+A database management system (DBMS) is a software that manages databases.  <br>
+Ex:
+```text
+PostgreSQL
+MySQL
+```
+  <br>
+A database is the actual logical collection of data managed by that system.  <br>
+Conceptually:  <br>
+```text
+PostgreSQL
+   ↓
+Database
+   ↓
+Tables
+   ↓
+Rows
+```
+
+---
+
+# PostgreSQL
+PostgreSQL is a powerful open-source relational database system.
+<br>
+You don't need to memorize its entire ecosystem.
+
+Focus on:
+```text
+SQL
+Tables
+Keys
+Relationships
+Constraints
+Indexes
+Transactions
+```
+<br>
+These concepts transfer to other relational databases too.
+
+---
+
+# URL Shortener Database Design
+
+
 
 
 
