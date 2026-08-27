@@ -1147,10 +1147,267 @@ These concepts transfer to other relational databases too.
 ---
 
 # URL Shortener Database Design
+Eventually, your URL Shortener could have: <br>
+ <br>
+users
+```text
+id
+username
+email
+created_at
+```
+ <br>
+urls
+```text
+id
+user_id
+short_code
+original_url
+clicks
+created_at
+```
+ <br>
+Relationship:
+```text
+users
+   |
+   | 1
+   |
+   | many
+   ↓
+ urls 
+```
+One user can have many URLs
+
+---
+
+# URL Table
+
+A possible design:
+```text
+CREATE TABLE urls (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT,
+  short_code VARCHAR(10) NOT NULL UNIQUE,
+  original_url TEXT NOT NULL,
+  clicks INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+<br>
+Important concepts are:
+```text
+id
+  -> Primary Key
+
+user_id
+  -> Relationship
+
+short_code
+  -> Unique identifier used for lookup
+
+original_url
+  -> Original URL
+
+clicks
+  -> Number of accesses
+
+created_at
+  -> Creation timestamp
+```
+
+---
+
+# Why short_code Should Be UNIQUE?
+
+Suppose:
+```text
+aB92x7  -> google.com
+```
+already exists <br>
+You don't want: <br>
+aB92x7 -> github.com at the same time. <br>
+ <br>
+Therefore, <br>
+short_code VARCHAR(10) UNIQUE <br>
+The database itself enforces the rule. <br>
+This is better than relying only on Python code to check uniqueness. <br>
+
+---
+
+# Why short_code Should Be Indexed
+
+Your main operation is:
+```text
+Short URL
+    ↓
+aB92x7
+    ↓
+Find original URL
+```
+
+The database query might be: <br>
+```text
+SELECT original_url
+FROM urls
+WHERE short_code = 'aB92x7';
+```
+
+This is a frequent lookup. <br>
+
+Therefore short_code is an important candidate for an index. <br>
+
+Interestingly, depending on the database, a UNIQUE constraint may itself create a unique index internally. The exact implementation is database-specific, but the important design idea is that uniqueness and efficient lookup are both relevant here. <br>
+
+---
+
+# Database Security Basics
 
 
+- **Never hard-code passwords**
+bad: <br>
+DATABASE_PASSWORD = "mypassword123" <br>
+Use environment/configuration mechanisms.
+ <br>
+- **Don't expose your database publicly unnecessarily**
+Prefer:
+```text
+Application
+     ↓
+Private Network
+     ↓
+Database
+```
+rather than exposing the database directly to the internet. <br>
+- **Use least privilege**
+Your application should not necessarily connect using a database superuser. <br>
+Give it only the permissions it needs.<br>
+
+---
+
+# SQL Injection
+
+Suppose you build SQL using raw string concatenation:  <br>
+```text
+query = "SELECT * FROM users WHERE name = ' " + username + " ' "
+```
+An attacker may provide specially crafted input that changes the meaning of the query. <br>
+This is called SQL injection. <br>
+The safer approch is to use parameterized queries / prepared statements provided by your database library or ORM. <br>
+ <br>
+Conceptually:
+```text
+User input
+     ↓
+Parameterized query
+     ↓
+Database
+```
+<br>
+not:
+```text
+User input
+     ↓
+String concatenation
+     ↓
+SQL
+```
+
+---
+
+# Database Connection
+Your application needs a way to communicate with the database. <br>
+<br>
+Conceptually:
+```text
+Python Application
+       ↓
+Database Driver / Library
+       ↓
+Database Server
+```
+
+For example, eventually:
+<br>
+```text
+FastAPI
+   ↓
+SQLAlchemy / driver
+   ↓
+PostgreSQL
+```
+
+---
+
+# ORM
+
+ORM = Object-Relational Mapping <br>
+It allows application code to work with the database records using programming-language objects/models rather than writing every SQL statement manually.  <br>
+ <br>
+Conceptually: <br>
+```text
+Python Object
+      ↕
+ORM
+      ↕
+Database Table
+```
+
+Examples include SQLAlchemy and Django ORM. 
+
+---
+
+# Database Migration
+
+A migration is a controlled way of changing the database schema over time.  <br>
+For ex: <br>
+```text
+urls
+├── id
+├── short_code
+└── original_url
+```
+<br>
+Later you need: <br>
+```text
+clicks
+```
+
+<br>
+A migration can modify the database: <br>
+```text
+Version 1
+   ↓
+Migration
+   ↓
+Version 2
+```
+
+# Database Backup
+
+Production databases contain valuable data.
+
+You need mechanisms for:
+```text
+Backup
+Restore
+Recovery
+```
 
 
+For example:
+```text
+Production Database
+       ↓
+Backup
+       ↓
+Object Storage
+```
+
+This becomes a major DevOps responsibility in real environments.
+
+---
 
 
 
