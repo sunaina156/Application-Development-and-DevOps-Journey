@@ -133,4 +133,47 @@ The semicolon indicates the end of a SQL statement.
 
 # SQL Keywords
 
+SQL has keywords such as:  <br>
+
+```text
+SELECT
+FROM
+WHERE
+INSERT
+UPDATE
+DELETE
+CREATE
+DROP
+ORDER BY
+GROUP BY
+```
+
+Ex: <br>
+
+```text
+SELECT name
+FROM users
+WHERE id = 1;
+```
+
+SQL keywords are generally written in uppercase for readability. <br>
+
+ <br>
+This: <br>
+SELECT name FROM users; <br>
+and: <br>
+select name from users; <br>
+are generally equivalent in PostgreSQL. <br>
+ <br>
+But using uppercase keywords makes SQL easier to read: <br>
+```text
+SELECT name
+FROM users
+WHERE id = 1;
+```
+
+---
+
+# Creating a Database
+
 
