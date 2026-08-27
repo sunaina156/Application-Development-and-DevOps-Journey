@@ -11,13 +11,15 @@ id | name    | email
 ```
 <br>
 You can use SQL to ask database:<br>
-Give me all users.<br>
+Give me all users.
+<br>
 ```text
 SELECT * FROM users;
 ```
 
 Or:<br>
 Give me Sunaina's email.<br>
+
 ```text
 SELECT email
 FROM users
@@ -85,7 +87,7 @@ Database
 
 A table contains: rows and columns. <br>
 
-Ex:
+Ex: <br>
 ```text
 users
 
