@@ -389,32 +389,126 @@ SQL provides comparison operators. <br>
 <=
 ```
 
-Examples:
+Examples: <br>
 
-Equal
+**Equal** <br>
+```text
 SELECT *
 FROM users
 WHERE age = 21;
-Not equal
+```
+
+**Not equal** <br>
+```text
 SELECT *
 FROM users
 WHERE age != 21;
+```
 
-<> is also commonly used for "not equal":
-
+<> is also commonly used for "not equal": <br>
+```text
 WHERE age <> 21;
-Greater than
+```
+<br>
+**Greater than** <br>
+```text
 SELECT *
 FROM users
 WHERE age > 20;
-Less than
+```
+<br>
+
+**Less than** <br>
+```text
 SELECT *
 FROM users
 WHERE age < 25;
-Greater than or equal
+```
+<br>
+**Greater than or equal** <br>
+```text
 WHERE age >= 21;
-Less than or equal
+```
+
+<br>
+**Less than or equal** <br>
+```text
 WHERE age <= 21;
+```
+
+---
+
+# AND
+
+AND means all conditions must be true. <br>
+```text
+SELECT *
+FROM users
+WHERE age >= 18
+AND is_active = TRUE;
+```
+
+Both conditions must match.
+
+---
+
+# OR
+
+OR means at least one condition must be true. <br>
+```text
+SELECT *
+FROM users
+WHERE age = 20
+OR age = 21;
+```
+
+---
+
+# NOT
+
+NOT reverses a condition. <br>
+
+```text
+SELECT *
+FROM users
+WHERE NOT is_active = TRUE;
+```
+You may also commonly write: <br>
+WHERE is_active = FALSE;
+
+---
+
+# Combining AND and OR
+
+This is where SQL can become tricky.
+<br><br>
+Consider: <br>
+
+```text
+SELECT *
+FROM users
+WHERE age = 20
+OR age = 21
+AND is_active = TRUE;
+```
+You should not blindly assume the expression is evaluated left-to-right. <br>
+
+Use parentheses when you want the logic to be explicit: <br>
+```text
+SELECT *
+FROM users
+WHERE (age = 20 OR age = 21)
+AND is_active = TRUE;
+```
+This means: <br>
+
+(age is 20 OR age is 21)<br>
+        AND <br>
+     active <br>
+
+Good SQL uses parentheses when they make logical intent clearer. <br>
+
+---
 
 
 
