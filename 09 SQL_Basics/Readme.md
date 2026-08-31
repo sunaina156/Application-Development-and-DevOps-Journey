@@ -510,9 +510,100 @@ Good SQL uses parentheses when they make logical intent clearer. <br>
 
 ---
 
+# IN
 
+IN is useful when checking against multiple values. <br>
 
+Instead of: <br>
 
+WHERE age = 20 <br>
+OR age = 21 <br>
+OR age = 22 <br>
+<br><br>
+write: <br>
+
+WHERE age IN (20, 21, 22); <br>
+<br>
+For your URL Shortener: <br>
+```text
+SELECT *
+FROM urls
+WHERE short_code IN ('abc123', 'xyz789');
+```
+
+---
+
+# NOT IN
+
+Opposite of IN. <br>
+```text
+SELECT *
+FROM users
+WHERE age NOT IN (18, 19, 20);
+```
+This returns users whose age is not one of those values. <br>
+
+⚠️ NULL makes NOT IN behavior surprising in SQL's three-valued logic.
+
+---
+
+# BETWEEN
+
+BETWEEN checks whether a value falls within a range. <br>
+```text
+SELECT *
+FROM users
+WHERE age BETWEEN 18 AND 25;
+```
+
+Conceptually: <br>
+
+18 ≤ age ≤ 25 <br> <br>
+
+The boundaries are included. <br>
+
+So: <br>
+
+18 → included <br>
+25 → included
+
+---
+
+# NOT BETWEEN
+```text
+SELECT *
+FROM users
+WHERE age NOT BETWEEN 18 AND 25;
+```
+
+---
+
+# LIKE
+
+LIKE is used for pattern matching. <br>
+
+Suppose: <br>
+```text
+Sunaina
+Sunil
+Rahul
+Aman
+```
+Find names beginning with S: <br>
+```text
+SELECT *
+FROM users
+WHERE name LIKE 'S%';
+```
+Result: <br>
+```text
+Sunaina
+Sunil
+```
+
+---
+
+# % Wildcard
 
 
 
