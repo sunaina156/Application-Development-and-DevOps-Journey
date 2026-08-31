@@ -176,4 +176,259 @@ WHERE id = 1;
 
 # Creating a Database
 
+In PostgreSQL: <br>
+```text
+CREATE DATABASE url_shortener;
+```
+
+You would then connect to that database before creating application tables inside it.
+
+# CREATE TABLE
+```text
+CREATE TABLE users (
+  id INTEGER,
+  name VARCHAR(100),
+  email VARCHAR(255)
+);
+```
+
+# SQL Data Types
+Every column generally has a data type. <br>
+Common data types include:
+- INTEGER <br>
+Whole numbers:<br>
+```text
+age INTEGER
+```
+- BIGINT
+Gor larger integer values:<br>
+```text
+id BIGINT
+```
+- VARCHAR
+Variable length text with a maximum length<br>
+```text
+name VARCHAR(100)
+```
+- TEXT
+Text without specifying a fixed maximum length<br>
+```text
+description TEXT
+```
+- BOOLEAN
+True/False:
+```text
+is_active BOOLEAN
+```
+Values:<br>
+```text
+TRUE
+FALSE
+```
+- DECIMAL/NUMERIC
+Useful for exact numeric values:<br>
+```text
+price DECIMAL(10, 2)
+```
+Ex:<br>
+```text
+999.99
+```
+For financial applications exact numeric types are generally preferred over floating-point types for monetary amounts.
+- DATE
+```text
+birth_date DATE
+```
+ex:<br>
+2004-08-15
+- TIMESTAMP
+Stores date and time:<br>
+```text
+created_at TIMESTAMP
+```
+
+---
+
+# Creating a Better Users Table
+
+```text
+CREATE TABLE users (
+    id INTEGER,
+    name VARCHAR(100),
+    email VARCHAR(255),
+    age INTEGER,
+    is_active BOOLEAN,
+    created_at TIMESTAMP
+);
+```
+
+---
+
+# INSERT
+INSERT adds data to a table. <br>
+
+```text
+INSERT INTO users
+(name, email, age)
+VALUES
+('Sunaina', 'sunaina@gmail.com', 21);
+```
+Now the table contains a row.
+
+---
+
+# Insert Multiple Rows
+
+You can insert multiple records:
+<br>
+
+```text
+INSERT INTO users
+(name, email, age)
+VALUES
+('Sunaina', 'sunaina@gmail.com', 21),
+('Rahul', 'rahul@gmail.com', 22),
+('Aman', 'aman@gmail.com', 20);
+```
+
+Result:
+<br>
+```text
+id | name    | email              | age
+---+---------+--------------------+----
+1  | Sunaina | sunaina@gmail.com  | 21
+2  | Rahul   | rahul@gmail.com    | 22
+3  | Aman    | aman@gmail.com     | 20
+```
+
+---
+
+# INSERT Without Specifying Columns
+
+You may see: <br>
+
+```text
+INSERT INTO users
+VALUES (1, 'Sunaina', 'sunaina@gmail.com', 21);
+```
+
+But this approach is generally less explicit and more fragile because it depends on the exact column order.
+<br>
+Prefer:
+<br>
+```text
+INSERT INTO users
+(name, email, age)
+VALUES
+('Sunaina', 'sunaina@gmail.com', 21);
+```
+This makes your query clearer and safer when the schema evolves.
+
+---
+
+# SELECT
+
+SELECT retrieves data. <br>
+```text
+SELECT *
+FROM users;
+```
+
+* means:
+<br>
+All columns.
+
+---
+
+# Selecting Specific Columns
+
+Instead of: <br>
+```text
+SELECT *
+FROM users;
+```
+you can write: <br>
+```text
+SELECT name, email
+FROM users;
+```
+
+Result: <br>
+```text
+name    | email
+--------+-------------------
+Sunaina | sunaina@gmail.com
+Rahul   | rahul@gmail.com
+```
+In real applications, selecting only the columns you need is often preferable
+
+---
+
+# WHERE
+
+WHERE filters rows. <br>
+```text
+SELECT *
+FROM users
+WHERE age = 21;
+```
+Only users whose age is 21 are returned.
+
+---
+
+# Comparison Operators
+
+SQL provides comparison operators. <br>
+```text
+=
+<>
+!=
+>
+<
+>=
+<=
+```
+
+Examples:
+
+Equal
+SELECT *
+FROM users
+WHERE age = 21;
+Not equal
+SELECT *
+FROM users
+WHERE age != 21;
+
+<> is also commonly used for "not equal":
+
+WHERE age <> 21;
+Greater than
+SELECT *
+FROM users
+WHERE age > 20;
+Less than
+SELECT *
+FROM users
+WHERE age < 25;
+Greater than or equal
+WHERE age >= 21;
+Less than or equal
+WHERE age <= 21;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
