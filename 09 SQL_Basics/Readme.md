@@ -856,7 +856,469 @@ Take top 5
 
 ---
 
+# OFFSET
 
+OFFSET skips rows. <br>
+```text
+SELECT *
+FROM users
+ORDER BY id
+LIMIT 10 OFFSET 10;
+```
+
+Conceptually: <br>
+```text
+Rows 1–10
+   ↓
+skip
+
+Rows 11–20
+   ↓
+return
+```
+
+This is commonly used for basic pagination.
+
+---
+
+# Aliases
+
+Aliases give temporary names to columns or tables. <br>
+
+Column alias <br>
+```text
+SELECT
+    name AS username
+FROM users;
+```
+
+Result column: <br>
+
+username <br>
+
+instead of: <br>
+
+name <br>
+
+---
+
+# Table Alias
+
+Instead of: <br>
+```text
+SELECT users.name
+FROM users;
+```
+
+you can write: <br>
+```text
+SELECT u.name
+FROM users AS u;
+```
+
+Now: <br>
+
+u → users <br>
+
+This becomes extremely useful when using joins.
+
+---
+
+# Arithmetic in SQL
+
+SQL can perform calculations. <br>
+
+Suppose: <br>
+```text
+price
+-----
+100
+200
+300
+```
+
+You can write: <br>
+```text
+SELECT price * 2
+FROM products;
+```
+
+Or: <br>
+
+```text
+SELECT price, price * 1.18 AS price_with_tax
+FROM products;
+```
+
+---
+
+# Aggregate Functions
+
+Aggregate functions perform calculations across multiple rows. <br>
+
+Important ones: <br>
+
+```text
+COUNT()
+SUM()
+AVG()
+MIN()
+MAX()
+```
+
+## COUNT()
+
+Count rows: <br>
+
+```text
+SELECT COUNT(*)
+FROM users;
+```
+
+Suppose there are 100 users: <br>
+
+100 <br>
+
+## COUNT(column)
+
+You can also write: <br>
+
+```text
+SELECT COUNT(email)
+FROM users;
+```
+
+Important distinction: <br>
+
+COUNT(column) generally counts non-NULL values in that column. <br>
+
+Whereas: <br>
+
+COUNT(*) <br>
+
+counts rows.<br>
+
+Example: <br>
+
+```text
+id | email
+---+----------------
+1  | a@gmail.com
+2  | NULL
+3  | c@gmail.com
+```
+
+Then: <br>
+
+COUNT(*)
+<br>
+→ 3
+<br><br>
+while: <br>
+
+COUNT(email) <br>
+
+→ 2 <br>
+
+---
+
+## SUM()
+
+Suppose: <br>
+
+```text
+sales
+-----
+100
+200
+300
+```
+
+Query: <br>
+```text
+SELECT SUM(sales)
+FROM orders;
+```
+
+Result:
+<br>
+600
+
+## AVG()
+
+```text
+SELECT AVG(age)
+FROM users;
+```
+
+Returns the average age.
+
+## MIN()
+
+```text
+SELECT MIN(age)
+FROM users;
+```
+
+Returns the smallest age.
+
+
+## MAX()
+
+```text
+SELECT MAX(age)
+FROM users;
+```
+
+Returns the largest age.
+
+
+---
+
+# GROUP BY
+
+GROUP BY groups rows that have the same values. <br>
+
+Suppose: <br>
+
+users <br>
+
+```text
+name    | city
+--------+--------
+A       | Delhi
+B       | Delhi
+C       | Bhopal
+D       | Bhopal
+E       | Indore
+```
+
+Query: <br>
+
+```text
+SELECT city, COUNT(*)
+FROM users
+GROUP BY city;
+```
+
+Result: <br>
+
+```text
+city    | count
+--------+------
+Delhi   | 2
+Bhopal  | 2
+Indore  | 1
+```
+
+The database creates groups: <br>
+
+Delhi <br>
+ ├── A <br>
+ └── B <br>
+
+Bhopal <br>
+ ├── C <br>
+ └── D <br>
+
+Indore <br>
+ └── E <br>
+
+Then COUNT() is calculated for each group.<br>
+
+---
+
+# GROUP BY + SUM
+
+Suppose: <br>
+
+orders <br>
+
+```text
+customer | amount
+---------+-------
+A        | 100
+A        | 200
+B        | 300
+B        | 100
+```
+
+Query: <br>
+```text
+SELECT customer, SUM(amount)
+FROM orders
+GROUP BY customer;
+```
+
+Result: <br>
+
+```text
+customer | sum
+---------+----
+A        | 300
+B        | 400
+```
+
+---
+
+# GROUP BY + AVG
+
+```text
+SELECT city, AVG(age)
+FROM users
+GROUP BY city;
+```
+
+This gives average age per city.
+
+---
+
+# HAVING
+
+HAVING filters groups. <br>
+
+Suppose: <br>
+
+Find cities having more than 5 users. <br>
+
+```text
+SELECT city, COUNT(*)
+FROM users
+GROUP BY city
+HAVING COUNT(*) > 5;
+```
+
+This is different from WHERE.
+
+---
+
+# WHERE vs HAVING
+
+
+**WHERE**
+
+Filters rows before grouping. <br>
+
+```text
+SELECT city, COUNT(*)
+FROM users
+WHERE age >= 18
+GROUP BY city;
+```
+
+Meaning: <br>
+
+```text
+Take users
+   ↓
+Keep users age >= 18
+   ↓
+Group by city
+   ↓
+Count
+```
+
+**HAVING**
+
+Filters groups after grouping. <br>
+
+```text
+SELECT city, COUNT(*)
+FROM users
+GROUP BY city
+HAVING COUNT(*) > 5;
+```
+
+Meaning: <br>
+```text
+Take users
+   ↓
+Group by city
+   ↓
+Count users
+   ↓
+Keep groups with count > 5
+```
+
+Remember: <br>
+
+WHERE → filters rows <br>
+HAVING → filters groups
+
+---
+
+# Basic JOIN
+
+Suppose you have: <br>
+
+users <br>
+```text
+id | name
+---+--------
+1  | Sunaina
+2  | Rahul
+3  | Aman
+```
+
+urls <br>
+```text
+id | user_id | short_code
+---+---------+-----------
+1  | 1       | abc123
+2  | 1       | xyz789
+3  | 2       | pqr456
+```
+
+You want: <br>
+```text
+name | short_code
+-----+-----------
+Sunaina | abc123
+Sunaina | xyz789
+Rahul   | pqr456
+```
+
+Use: <br>
+```text
+SELECT u.name, url.short_code
+FROM users AS u
+JOIN urls AS url
+ON u.id = url.user_id;
+```
+
+---
+
+# Understanding the JOIN
+
+This part:
+
+FROM users AS u
+
+means:
+
+u = users
+
+This part:
+
+JOIN urls AS url
+
+adds the urls table.
+
+And:
+
+ON u.id = url.user_id
+
+tells the database:
+
+Match a user's id with the URL's user_id.
+
+Conceptually:
+
+users.id
+    │
+    │ matches
+    ↓
+urls.user_id
 
 
 
