@@ -687,25 +687,176 @@ SUNAINA <br>
 
 ---
 
-NULL
+# NULL
 
 NULL represents an absent/unknown value.
-
-For example:
-
+<br>
+For example: <br>
+```text
 id | name    | phone
 ---+---------+----------
 1  | Sunaina | 9876543210
 2  | Rahul   | NULL
+```
+Rahul doesn't have a phone value stored. <br>
 
-Rahul doesn't have a phone value stored.
+Important: <br>
 
-Important:
+NULL is not: <br>
+0 <br>
+"" <br>
+FALSE <br>
 
-NULL is not:
-0
-""
-FALSE
+---
+
+# IS NULL
+
+To find missing values: <br>
+```text
+SELECT *
+FROM users
+WHERE phone IS NULL;
+```
+
+---
+
+# IS NOT NULL
+```text
+SELECT *
+FROM users
+WHERE phone IS NOT NULL;
+```
+
+---
+
+# Why = NULL Doesn't Work
+
+This is wrong: <br>
+
+WHERE phone = NULL; <br> <br>
+
+Use: <br>
+
+WHERE phone IS NULL; <br> <br>
+
+Why? <br>
+
+Because NULL represents an unknown/missing value, and SQL uses three-valued logic: <br>
+
+TRUE <br>
+FALSE <br>
+UNKNOWN <br>
+
+Comparisons involving NULL generally produce UNKNOWN, rather than ordinary TRUE or FALSE. <br>
+
+---
+
+# DISTINCT
+
+DISTINCT removes duplicate values from the result. <br>
+
+Suppose: <br>
+
+users <br>
+```text
+city
+------
+Delhi
+Delhi
+Bhopal
+Indore
+Bhopal
+```
+
+Query: <br>
+```text
+SELECT DISTINCT city
+FROM users;
+```
+
+Result:
+<br>
+
+```text
+Delhi
+Bhopal
+Indore
+```
+
+---
+
+# DISTINCT on Multiple Columns
+
+You can write:  <br>
+```text
+SELECT DISTINCT city, age
+FROM users;
+```
+
+Here, uniqueness is determined by the combination of city and age.
+
+---
+
+# ORDER BY
+
+ORDER BY sorts results. <br>
+```text
+SELECT *
+FROM users
+ORDER BY age;
+```
+
+Default is generally ascending order: <br>
+
+20 <br>
+21 <br>
+22 <br>
+25 <br>
+
+---
+
+# Multiple Columns in ORDER BY
+
+You can sort using multiple columns: <br>
+```text
+SELECT *
+FROM users
+ORDER BY age DESC, name ASC;
+```
+
+Meaning: <br>
+
+Sort by age descending. <br>
+If two users have the same age, sort those users by name ascending. <br>
+
+---
+
+# LIMIT + ORDER BY
+
+These are commonly used together. <br>
+<br>
+For example: <br>
+
+Find the 5 users with the highest age. <br>
+```text
+SELECT *
+FROM users
+ORDER BY age DESC
+LIMIT 5;
+```
+
+The order matters conceptually: <br>
+```text
+All users
+   ↓
+Sort by age
+   ↓
+Take top 5
+```
+
+---
+
+
 
 
 
