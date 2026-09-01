@@ -1290,38 +1290,299 @@ ON u.id = url.user_id;
 
 # Understanding the JOIN
 
-This part:
-
+This part: <br>
+```text
 FROM users AS u
+```
+means: <br>
 
-means:
+u = users <br>
 
-u = users
-
-This part:
-
+This part: <br>
+```text
 JOIN urls AS url
-
-adds the urls table.
-
+```
+adds the urls table. <br>
+<br>
 And:
-
+<br>
+```text
 ON u.id = url.user_id
+```
 
-tells the database:
+tells the database: <br>
 
-Match a user's id with the URL's user_id.
+Match a user's id with the URL's user_id. <br>
 
-Conceptually:
-
+Conceptually: <br>
+```text
 users.id
     │
     │ matches
     ↓
 urls.user_id
+```
 
+---
 
+# INNER JOIN
 
+When you write: <br>
+
+JOIN <br>
+
+you generally mean: <br>
+
+INNER JOIN <br>
+
+It returns matching records. <br>
+
+If a user has no URL: <br>
+
+Aman <br>
+
+Aman won't appear in an inner join result because there is no matching URL row. <br>
+
+---
+
+# LEFT JOIN
+
+A LEFT JOIN keeps all rows from the left table. <br>
+```text
+SELECT u.name, url.short_code
+FROM users AS u
+LEFT JOIN urls AS url
+ON u.id = url.user_id;
+```
+
+If Aman has no URLs: <br>
+```text
+name    | short_code
+--------+-----------
+Sunaina | abc123
+Sunaina | xyz789
+Rahul   | pqr456
+Aman    | NULL
+```
+This is very important when working with real application data.
+
+---
+
+# SQL Query Execution Order
+
+You normally write: <br>
+```text
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+```
+
+But conceptually, SQL processes the query in a different logical order. <br>
+
+A simplified model is: <br>
+
+```text
+FROM
+ ↓
+JOIN
+ ↓
+WHERE
+ ↓
+GROUP BY
+ ↓
+HAVING
+ ↓
+SELECT
+ ↓
+DISTINCT
+ ↓
+ORDER BY
+ ↓
+LIMIT
+```
+
+This explains many SQL questions. <br>
+
+For example, why can't you generally use an aggregate result in WHERE? <br>
+
+Because: <br>
+
+```text
+WHERE
+ ↓
+happens before
+ ↓
+GROUP BY / aggregation
+```
+
+while HAVING happens afterward.
+
+---
+
+# A Complete SQL Query
+
+Let's combine what you've learned. <br>
+
+Suppose: <br>
+
+users <br>
+
+contains: <br>
+```text
+id
+name
+age
+city
+```
+
+Query: <br>
+
+```text
+SELECT
+    city,
+    COUNT(*) AS total_users,
+    AVG(age) AS average_age
+FROM users
+WHERE age >= 18
+GROUP BY city
+HAVING COUNT(*) >= 2
+ORDER BY total_users DESC
+LIMIT 5;
+```
+
+Read it as: <br>
+
+Take users who are at least 18, group them by city, calculate the number of users and average age for each city, keep only cities having at least two users, sort by user count from highest to lowest, and return the top five. <br>
+
+---
+
+# SQL and Your URL Shortener
+
+URL Shortener have: <br>
+```text
+users
+```
+
+<br>
+
+```text
+id
+name
+email
+```
+
+<br>
+
+and: <br>
+
+```text
+urls
+```
+
+<br>
+
+```text
+id
+user_id
+short_code
+original_code
+clicks
+```
+
+---
+
+**FInd a URL**
+When someone enters: <br>
+abc123 <br>
+your application needs to find: <br>
+```text
+SELECT original_url
+FROM urls 
+WHERE short_code = 'abc123';
+```
+
+<br>
+
+**Increase clicks** <br>
+```text
+UPDATE urls
+SET clicks = clicks + 1
+WHERE short_code = 'abc123';
+```
+
+<br>
+
+**Find popular URLs** <br>
+
+```text
+SELECT short_code, original_url, clicks
+FROM urls
+ORDER BY clicks DESC
+LIMIT 10;
+```
+
+<br>
+
+**Count URLs** <br>
+```text
+SELECT COUNT(*)
+FROM urls;
+```
+
+<br>
+
+**Find URLs of one user** <br>
+```text
+SELECT *
+FROM urls
+WHERE user_id = 1;
+```
+
+<br>
+
+**Find usernames with their URLs** <br>
+```text
+SELECT
+  u.name,
+  url.short_code,
+  url.original_url
+FROM users AS u
+JOIN urls AS url
+ON u.id = url.user_id;
+```
+
+---
+
+# SQL Comments
+
+Single-line comment: <br>
+```text
+_ _ Get all users
+SELECT *
+FROM users;
+```
+
+<br>
+
+Multi-line comment: <br>
+```text
+/*
+  Get active users
+  who are above 18
+*/
+SELECT *
+FROM users
+WHERE age > 18
+AND is_active = TRUE;
+```
+
+Comments are useful when maintaining SQL.
+
+---
 
 
 
