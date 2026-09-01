@@ -605,11 +605,107 @@ Sunil
 
 # % Wildcard
 
+% represents zero or more characters. <br>
+<br>
+```text
+LIKE 'S%' 
+```
+means: <br>
+Starts with S
 
+<br><br>
+```text
+LIKE '%a'
+```
+means: <br>
 
+Ends with a   <br><br>
 
+```text
+LIKE '%ain%'
+```
+means: <br>
 
+Contains "ain"
 
+---
+
+# _ Wildcard
+
+_ represents exactly one character. <br>
+
+Example: <br>
+```text
+WHERE name LIKE 'A_an';
+```
+Could match: <br>
+
+Alan  <br>
+Aman  <br>
+
+because _ represents one character.
+
+---
+
+# LIKE vs =
+
+These are different. <br>
+
+WHERE name = 'Sunaina'; <br>
+
+checks for an exact value. <br><br>
+
+Whereas: <br>
+
+WHERE name LIKE 'Sun%';
+<br>
+checks for a pattern.
+
+---
+
+# Case Sensitivity in PostgreSQL
+
+In PostgreSQL, LIKE is case-sensitive. <br>
+
+You can use: <br>
+```text
+ILIKE
+```
+for case-insensitive pattern matching. <br>
+
+Example: <br>
+```text
+SELECT *
+FROM users
+WHERE name ILIKE 'sun%';
+```
+This can match names such as: <br>
+
+Sunaina <br>
+sunaina <br>
+SUNAINA <br>
+
+---
+
+NULL
+
+NULL represents an absent/unknown value.
+
+For example:
+
+id | name    | phone
+---+---------+----------
+1  | Sunaina | 9876543210
+2  | Rahul   | NULL
+
+Rahul doesn't have a phone value stored.
+
+Important:
+
+NULL is not:
+0
+""
+FALSE
 
 
 
