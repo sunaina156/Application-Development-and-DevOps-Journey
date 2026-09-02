@@ -686,15 +686,17 @@ This is how real application filtering starts to look.
 
 # Filtering + ORDER BY
 
-You can combine filtering and sorting:
-
+You can combine filtering and sorting: <br>
+```text
 SELECT *
 FROM products
 WHERE price < 50000
 ORDER BY price DESC;
+```
 
-Logical idea:
-
+<br>
+Logical idea: <br>
+```text
 All products
     ↓
 price < 50000
@@ -702,96 +704,149 @@ price < 50000
 Sort remaining products
     ↓
 Highest price first
+```
 
+---
+ 
 # Filtering + LIMIT
+
+```text
 SELECT *
 FROM products
 WHERE category = 'Electronics'
 ORDER BY price DESC
 LIMIT 5;
+```
 
-Meaning:
+ <br>
+Meaning: <br>
 
 Find electronics, sort by highest price, return the top 5.
 
+---
+
 # Filtering + DISTINCT
+
+```text
 SELECT DISTINCT city
 FROM users
 WHERE age >= 18;
+```
 
-Meaning:
+ <br>
+Meaning: <br>
 
 Find unique cities among users aged 18 or older.
 
+---
+
 # Filtering Your URL Shortener
 
-Now connect Day 10 to the application you'll eventually build.
+Suppose: <br>
 
-Suppose:
-
+```text
 urls
 
 id | short_code | original_url | clicks | user_id
-Find a particular short URL
+```
+
+ <br>
+ 
+Find a particular short URL:  <br>
+```text
 SELECT *
 FROM urls
 WHERE short_code = 'abc123';
-Find popular URLs
+```
+
+ <br>
+Find popular URLs <br>
+```text
 SELECT *
 FROM urls
 WHERE clicks > 100;
-Find URLs with no clicks
+```
+
+ <br>
+Find URLs with no clicks  <br>
+```text
 SELECT *
 FROM urls
 WHERE clicks = 0;
-Find highly popular URLs
+```
+
+ <br>
+ 
+Find highly popular URLs <br>
+```text
 SELECT *
 FROM urls
 WHERE clicks >= 1000
 ORDER BY clicks DESC;
-Find URLs belonging to specific users
+```
+
+ <br>
+ 
+Find URLs belonging to specific users <br>
+```text
 SELECT *
 FROM urls
 WHERE user_id IN (1, 3, 5);
-Search URLs containing a word
+```
+
+ <br>
+Search URLs containing a word <br>
+```text
 SELECT *
 FROM urls
 WHERE original_url LIKE '%github%';
+```
+
+---
+
 
 # Combining Conditions for URL Shortener
 
-Suppose you want:
+Suppose you want:  <br>
 
-URLs belonging to user 1 that have received more than 100 clicks.
-
+URLs belonging to user 1 that have received more than 100 clicks. <br>
+```text
 SELECT *
 FROM urls
 WHERE user_id = 1
 AND clicks > 100;
+```
+ 
+ <br>
+Another: <br>
 
-Another:
-
-URLs belonging to user 1 or 2 that have more than 500 clicks.
-
+URLs belonging to user 1 or 2 that have more than 500 clicks. <br>
+```text
 SELECT *
 FROM urls
 WHERE user_id IN (1, 2)
 AND clicks > 500;
+```
+
+---
 
 # A More Difficult Query
 
-Suppose the requirement is:
+Suppose the requirement is: <br>
 
-Find URLs that belong to user 1 or user 2, have more than 100 clicks, and whose original URL contains "github".
-
+Find URLs that belong to user 1 or user 2, have more than 100 clicks, and whose original URL contains "github".  <br>
+```text
 SELECT *
 FROM urls
 WHERE user_id IN (1, 2)
 AND clicks > 100
 AND original_url LIKE '%github%';
+```
 
-Break it down:
-
+ <br>
+ 
+Break it down: <br>
+```text
 user_id IN (1,2)
        ↓
      AND
@@ -801,47 +856,23 @@ clicks > 100
      AND
        ↓
 URL contains github
+```
 
-This is the kind of query you should become comfortable reading.
-
-# Filtering and Logical Thinking
-
-Don't memorize SQL syntax only.
-
-Translate requirements into logical conditions.
-
-Requirement:
-
-Find active users from Delhi who are at least 18.
-
-Think:
-
-active
-AND
-Delhi
-AND
-age >= 18
-
-Then:
-
-SELECT *
-FROM users
-WHERE is_active = TRUE
-AND city = 'Delhi'
-AND age >= 18;
-
-This habit will make SQL much easier.
+---
 
 # A Useful Mental Model
 
-Whenever you see:
-
+Whenever you see:  <br>
+```text
 SELECT ...
 FROM ...
 WHERE ...
+```
 
-think:
-
+ <br>
+ 
+think: <br>
+```text
 FROM
  ↓
 Choose the table
@@ -853,97 +884,26 @@ Filter the rows
 SELECT
  ↓
 Choose what to display
+```
 
-For example:
-
+For example: <br>
+```text
 SELECT name, email
 FROM users
 WHERE age >= 18;
+```
 
-Think:
-
+ <br>
+Think: <br>
+```text
 users
  ↓
 keep age >= 18
  ↓
 show name + email
+```
 
-# Common Filtering Mistakes
-Mistake 1
+ <br>
 
-Using = with NULL:
-
-WHERE email = NULL;
-
-❌ Wrong.
-
-Use:
-
-WHERE email IS NULL;
-Mistake 2
-
-Forgetting quotes around strings:
-
-WHERE city = Delhi;
-
-❌ Wrong.
-
-Use:
-
-WHERE city = 'Delhi';
-Mistake 3
-
-Using quotes unnecessarily around numbers:
-
-WHERE age = '21';
-
-Prefer:
-
-WHERE age = 21;
-Mistake 4
-
-Incorrect AND/OR logic:
-
-WHERE city = 'Delhi'
-OR city = 'Bhopal'
-AND age >= 18;
-
-If you mean both cities and age ≥ 18:
-
-WHERE (city = 'Delhi' OR city = 'Bhopal')
-AND age >= 18;
-Mistake 5
-
-Using LIKE for exact matching
-
-If you need exactly:
-
-Sunaina
-
-use:
-
-WHERE name = 'Sunaina';
-
-rather than:
-
-WHERE name LIKE '%Sunaina%';
-
-unless pattern matching is actually what you want.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ ---
+ 
