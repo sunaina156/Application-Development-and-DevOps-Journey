@@ -177,45 +177,314 @@ It references: users.id <br>
 
 # Primary Key vs Foreign Key
 
-Primary Key | 	Foreign Key
-----------------------------------------------------------------
+```text
+Primary Key               | 	Foreign Key
+--------------------------|--------------------------------------
 Uniquely identifies a row	| Connects to a row in another table
-Must be unique	 | Doesn't necessarily need to be unique
-Cannot be NULL	| Can potentially be NULL, depending on constraints
+Must be unique	          | Doesn't necessarily need to be unique
+Cannot be NULL	          | Can potentially be NULL, depending on constraints
 Defined in its own table	| References another table
-Example: users.id	| Example: urls.user_id
+Example: users.id	        | Example: urls.user_id
+```
 
-Important:
+Important: <br>
 
-users.id
+users.id <br>
 
-might contain:
+might contain: <br>
+```text
+1 
+2 
+3 
+ ```
+ <br>
+while: <br>
 
+urls.user_id  <br>
+
+can contain:  <br>
+```text
 1
+1
+1
+2
 2
 3
+```
 
-while:
+That's completely valid. <br>
 
-urls.user_id
+Why? <br>
 
-can contain:
+Because many URLs can belong to the same user. <br>
 
-1
-1
-1
-2
-2
-3
+And that brings us to relationship types. <br>
 
-That's completely valid.
+---
 
-Why?
+# Types of Database Relationships
 
-Because many URLs can belong to the same user.
+There are three major relationship types: <br>
 
-And that brings us to relationship types.
+1. One-to-One
+2. 2. One-to-Many
+3. Many-to-Many
 
+## One-to-One Relationship
+
+A one-to-one (1:1) relationship means: <br>
+
+One record in Table A is associated with one record in Table B. <br>
+
+And vice versa. <br>
+
+Example:  <br>
+```text
+Person → Passport
+```
+One person has one passport.  <br>
+
+```text
+Person
+------
+id
+name
+```
+
+ <br>
+ ```text
+Passport
+--------
+id
+passport_number
+person_id
+```
+
+Conceptually: <br>
+```text
+Person 1 ─────── 1 Passport
+```
+
+ <br>
+Another example:
+ <br>
+ ```text
+User → UserProfile
+```
+A user may have exactly one profile.
+ <br>
+ 
+## One-to-Many Relationship
+
+This is one of the most common relationships in real applications. <br>
+
+A one-to-many relationship means: <br>
+
+One record in Table A can be associated with many records in Table B. <br>
+
+But each record in B belongs to one record in A. <br>
+
+Example:  <br>
+```text
+User → URLs
+```
+ <br>
+One user can create many URLs. <br>
+```text
+User 1
+  |
+  ├── URL 1
+  ├── URL 2
+  ├── URL 3
+  └── URL 4
+```
+
+ <br>
+ 
+Database:  <br>
+
+```text
+users
+----------------
+id | name
+----------------
+1  | Sunaina
+2  | Rahul
+```
+
+ <br>
+ ```text
+urls
+--------------------------------
+id | short_code | user_id
+--------------------------------
+1  | abc123     | 1
+2  | xyz789     | 1
+3  | pqr456     | 2
+4  | mno111     | 1
+```
+
+Here:  <br>
+```text
+Sunaina
+   |
+   ├── abc123
+   ├── xyz789
+   └── mno111
+
+Rahul
+   |
+   └── pqr456
+```
+
+So: <br>
+
+```text
+users 1 ─────────── * urls
+```
+
+The * means many.  <br>
+
+Where is the foreign key?
+ <br>
+The foreign key goes on the many side. <br>
+```text
+users
+  |
+  | 1
+  |
+  ↓
+urls
+  *
+```
+
+Therefore: <br>
+
+urls.user_id <br>
+
+references: <br>
+
+users.id <br>
+
+This is a rule worth remembering: <br>
+
+In a one-to-many relationship, the foreign key is normally stored in the "many" table. <br>
+
+## Many-to-Many Relationship
+
+A many-to-many relationship means: <br>
+
+Many records in Table A can be associated with many records in Table B. <br>
+
+Example: <br>
+```text
+Students ↔ Courses
+```
+
+ <br>
+A student can take multiple courses. <br>
+
+A course can have multiple students. <br>
+
+```text
+Student A ── Course 1
+     |    └─ Course 2
+     |
+Student B ── Course 1
+          └─ Course 3
+```
+ <br>
+So: <br>
+```text
+Students * ───────── * Courses
+```
+ <br>
+But relational databases generally don't represent this by directly putting multiple IDs in one column. <br>
+
+Instead, we create a third table.
+ <br>
+ 
+---
+
+# Junction Table
+
+A junction table (also called an associative or bridge table) converts a many-to-many relationship into two one-to-many relationships. <br>
+
+Example: <br>
+```text
+students
+---------
+id
+name
+
+courses
+---------
+id
+name
+```
+ <br>
+Then: <br>
+
+```text
+student_courses
+---------------
+student_id
+course_id
+```
+
+ <br>
+ 
+Example:
+
+students
+----------------
+id | name
+----------------
+1  | Sunaina
+2  | Rahul
+courses
+----------------
+id | name
+----------------
+1  | Python
+2  | AWS
+3  | Kubernetes
+student_courses
+-----------------------
+student_id | course_id
+-----------------------
+1          | 1
+1          | 2
+2          | 1
+2          | 3
+
+Meaning:
+
+Sunaina → Python
+Sunaina → AWS
+
+Rahul → Python
+Rahul → Kubernetes
+
+The relationship becomes:
+
+students
+   1
+   |
+   |
+   *
+student_courses
+   *
+   |
+   |
+   1
+courses
+
+This is a very important database design pattern.
+
+---
+
+# 
 
 
 
