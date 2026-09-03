@@ -434,14 +434,16 @@ course_id
 
  <br>
  
-Example:
+Example: <br>
 
+```text
 students
 ----------------
 id | name
 ----------------
 1  | Sunaina
 2  | Rahul
+
 courses
 ----------------
 id | name
@@ -449,6 +451,7 @@ id | name
 1  | Python
 2  | AWS
 3  | Kubernetes
+
 student_courses
 -----------------------
 student_id | course_id
@@ -457,17 +460,19 @@ student_id | course_id
 1          | 2
 2          | 1
 2          | 3
+```
 
-Meaning:
-
+Meaning: <br>
+```text
 Sunaina → Python
 Sunaina → AWS
 
 Rahul → Python
 Rahul → Kubernetes
+```
 
-The relationship becomes:
-
+The relationship becomes: <br>
+```text
 students
    1
    |
@@ -479,12 +484,287 @@ student_courses
    |
    1
 courses
+```
 
-This is a very important database design pattern.
+---
+
+# URL Shortener Example
+
+Let's apply relationships to the project you're going to build. <br>
+
+We could have:  <br>
+```text
+users
+urls
+clicks
+```
+
+Users  <br>
+```text
+users
+---------------------
+id
+name
+email
+created_at
+```
+
+ <br>
+ 
+URLs  <br>
+```text
+urls
+---------------------
+id
+short_code
+original_url
+user_id
+created_at
+```
+
+Relationship: <br>
+```text
+users 1 ───────── * urls
+```
+Meaning: <br>
+
+One user can create many shortened URLs. <br>
+
+---
+
+# URL → Clicks
+
+Suppose we also track every click. <br>
+```text
+clicks
+---------------------
+id
+url_id
+ip_address
+clicked_at
+```
+
+Relationship:
+ <br>
+ ```text
+urls 1 ───────── * clicks
+```
+One shortened URL can have many clicks. <br>
+
+So our overall design becomes: <br>
+```text
+users
+   |
+   | 1
+   |
+   | *
+  urls
+   |
+   | 1
+   |
+   | *
+ clicks
+```
+
+This is already a realistic relational database design.
+
+---
+
+# Foreign Key Constraints
+
+We can enforce relationships using foreign keys. <br>
+```text
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(255)
+);
+```
+
+ <br>
+Then:
+ <br>
+
+ ```text
+CREATE TABLE urls (
+    id SERIAL PRIMARY KEY,
+    short_code VARCHAR(10) UNIQUE,
+    original_url TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(id)
+);
+```
+
+Now PostgreSQL knows: <br>
+
+urls.user_id → users.id  <br>
+
+---
+
+# Referential Integrity
+
+Referential integrity means the relationships between tables remain valid. <br>
+
+Suppose: <br>
+```text
+users
+
+id
+---
+1
+2
+```
+
+And: <br>
+
+```text
+urls
+
+user_id
+-------
+1
+2
+```
+
+If we try: <br>
+```text
+INSERT INTO urls (..., user_id)
+VALUES (..., 99);
+```
+ <br>
+but user 99 doesn't exist, the database should reject it.
+ <br>
+Why? <br>
+
+Because: <br>
+
+user_id = 99 <br>
+
+would point to a nonexistent user. <br>
+
+The foreign key prevents this. <br>
+
+That's one major reason relationships are enforced at the database level.
+
+---
+
+# What Happens When a Parent Is Deleted?
+
+Suppose: <br>
+```text
+users
+  ↓
+urls
+```
+
+User 1 has three URLs. <br>
+
+What should happen if user 1 is deleted? <br>
+
+There are different strategies. <br>
+
+**RESTRICT**  <br>
+
+Don't allow deletion if related records exist. <br>
+
+**ON DELETE RESTRICT**
+ <br>
+Meaning: <br>
+```text
+Delete User
+     ↓
+Related URLs exist
+     ↓
+Don't allow deletion 
+```
+
+---
+
+# CASCADE
+
+With: <br>
+
+ON DELETE CASCADE <br>
+
+deleting the parent automatically deletes related records. <br>
+```text
+Delete User
+     ↓
+Delete their URLs
+```
+
+ <br>
+Example: <br>
+```text
+FOREIGN KEY (user_id)
+REFERENCES users(id)
+ON DELETE CASCADE
+```
+
+Be careful with cascading deletes.
+ <br>
+A single deletion can remove many related records.
+ <br>
+ 
+---
+
+# SET NULL
+
+Another option: <br>
+
+ON DELETE SET NULL <br>
+
+If the parent is deleted, the foreign key becomes NULL. <br>
+
+Example: <br>
+```text
+User
+  ↓
+URL
+```
+
+ <br>
+ 
+Delete the user: <br>
+```text
+user_id
+   ↓
+NULL
+```
+
+But the column must allow NULL. <br>
+
+So this would conflict: <br>
+
+user_id INTEGER NOT NULL <br>
+
+because NULL would not be allowed. <br>
+
+---
+
+# ON DELETE Options
+
+The major ones you should know: <br>
+
+```text
+Option	| Meaning
+-----------------------------------------------------
+CASCADE	     | Delete related rows
+RESTRICT	   | Prevent parent deletion
+SET NULL	   | Set foreign key to NULL
+SET DEFAULT	 | Set foreign key to its default
+NO ACTION	   | PostgreSQL's default behavior; checks referential integrity
+```
+For interviews, definitely understand: <br>
+CASCADE vs RESTRICT vs SET NULL <br>
 
 ---
 
 # 
+
+
 
 
 
