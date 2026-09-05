@@ -306,5 +306,17 @@ This is why transactions are essential for operations that must remain consisten
 
 ---
 
-# 
+# ACID
+
+A reliable database transaction follows the ACID properties: <br>
+
+```text
+A → Atomicity
+C → Consistency
+I → Isolation
+D → Durability
+```
+
+---
+
 
