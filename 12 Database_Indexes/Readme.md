@@ -368,6 +368,7 @@ PostgreSQL will show the execution plan it expects to use. <br>
 ## EXPLAIN ANALYZE
 
 Even more useful: <br>
+
 ```text
 EXPLAIN ANALYZE
 SELECT *
@@ -376,6 +377,7 @@ WHERE email = 'sunaina@gmail.com';
 ```
 
 <br>
+
 ```text
 EXPLAIN shows the planned execution. 
 
@@ -391,4 +393,192 @@ That tells you PostgreSQL used the index. <br>
 
 ---
 
+# Before and After Index
+
+Suppose: <br>
+```text
+SELECT *
+FROM urls
+WHERE short_code = 'abc123';
+```
+
+Without index: <br>
+```text
+Query
+ ↓
+Sequential scan
+ ↓
+Many rows examined
+```
+
+<br>
+
+Create: <br>
+```text
+CREATE INDEX idx_urls_short_code
+ON urls(short_code);
+```
+
+<br>
+
+Then PostgreSQL may use:
+<br>
+
+```text
+Query
+ ↓
+Index
+ ↓
+Find abc123
+ ↓
+Retrieve URL
+```
+
+This is particularly relevant to your URL shortener.
+<br>
+
+---
+
+# URL Shortener Example
+
+Your URL shortener will eventually have something like: <br>
+
+```text
+urls
+--------------------------------
+id
+short_code
+original_url
+user_id
+created_at
+```
+
+<br>
+When somebody visits: <br>
+
+https://example.com/abc123 <br>
+
+your backend needs to find: <br>
+```text
+SELECT original_url
+FROM urls
+WHERE short_code = 'abc123';
+```
+
+This query will potentially execute very frequently. <br>
+
+Therefore: <br>
+
+```text
+CREATE INDEX idx_urls_short_code
+ON urls(short_code);
+```
+
+ <br>
+is a very reasonable design. <br>
+ <br> <br>
+In fact, if short_code must be unique, you can use a UNIQUE constraint, which also creates a unique index in PostgreSQL. <br>
+
+For example: <br>
+```text
+CREATE TABLE urls (
+    id SERIAL PRIMARY KEY,
+    short_code VARCHAR(20) UNIQUE,
+    original_url TEXT NOT NULL
+);
+```
+ <br>
+The UNIQUE constraint is enforcing uniqueness, while the underlying unique index also supports efficient lookup. <br>
+
+---
+
+# Primary Keys and Indexes
+
+When you define: <br>
+```text
+id INTEGER PRIMARY KEY
+```
+ <br>
+PostgreSQL automatically creates a unique index to enforce the primary key. <br>
+
+So you generally don't need to manually create another index on the primary key. <br>
+
+
+Conceptually:  <br>
+```text
+PRIMARY KEY
+     ↓
+Unique index
+```
+
+---
+
+# UNIQUE Constraints and Indexes
+
+Consider: <br>
+```text
+email VARCHAR(255) UNIQUE
+```
+PostgreSQL creates a unique index to enforce the uniqueness requirement. <br>
+
+Therefore: <br>
+
+```text
+UNIQUE
+  ↓
+No duplicate values
+  +
+Unique index
+```
+ <br>
+Don't create another normal index on exactly the same column unless you have a specific reason.
+
+---
+
+# Indexing Foreign Keys
+
+Consider our URL shortener: <br>
+```text
+users
+   1
+   |
+   *
+urls
+```
+
+ <br>
+The urls table has: <br>
+```text
+user_id
+```
+ <br>
+which is a foreign key. <br>
+
+A useful index can be: <br>
+```text
+CREATE INDEX idx_urls_user_id
+ON urls(user_id);
+```
+
+ <br>
+Why? <br>
+
+Because we may frequently ask: <br>
+```text
+SELECT *
+FROM urls
+WHERE user_id = 1;
+```
+ <br>
+This means: <br>
+
+Find all URLs created by user 1. <br>
+
+An index on user_id can make such queries much more efficient, especially when the urls table becomes large. <br>
+
+Important: PostgreSQL does not automatically create an index on the referencing side of a foreign key merely because you declared the foreign key. <br>
+
+---
+
+# 
 
