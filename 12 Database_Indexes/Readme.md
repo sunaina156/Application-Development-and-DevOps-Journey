@@ -578,7 +578,604 @@ An index on user_id can make such queries much more efficient, especially when t
 
 Important: PostgreSQL does not automatically create an index on the referencing side of a foreign key merely because you declared the foreign key. <br>
 
+
 ---
 
-# 
+# Single-Column Index
+
+An index can be created on one column: <br>
+```text
+CREATE INDEX idx_users_name
+ON users(name);
+```
+
+This is a: <br>
+
+Single-column index. <br>
+
+---
+
+# Composite Index
+
+You can also create an index on multiple columns. <br>
+
+```text
+CREATE INDEX idx_users_city_age
+ON users(city, age);
+```
+
+This is called a: <br>
+
+Composite index <br>
+
+or: <br>
+
+Multi-column index. <br>
+
+It can help queries that filter or sort using those columns in useful ways.
+<br>
+
+---
+
+# The Order of Columns Matters
+
+Suppose: <br>
+```text
+CREATE INDEX idx_users_city_age
+ON users(city, age);
+```
+
+The index is ordered conceptually by: <br>
+
+```text
+city
+  ↓
+age
+```
+So a query like: <br>
+
+```text
+SELECT *
+FROM users
+WHERE city = 'Bhopal'
+AND age = 21;
+```
+
+can potentially benefit strongly. <br>
+
+A query using: <br>
+
+```text
+WHERE city = 'Bhopal'
+```
+
+can also potentially benefit. <br>
+
+But a query using only: <br>
+
+```text
+WHERE age = 21;
+```
+
+may not benefit nearly as much from this particular index. <br>
+
+This is related to the leftmost-prefix principle for B-tree composite indexes. <br>
+
+---
+
+# Example of Composite Index
+
+Suppose you frequently run: <br>
+
+```text
+SELECT *
+FROM urls
+WHERE user_id = 10
+AND created_at >= '2026-09-01';
+```
+
+You might consider: <br>
+
+```text
+CREATE INDEX idx_urls_user_created
+ON urls(user_id, created_at);
+```
+
+Now the database has an index organized around: <br>
+
+```text
+user_id
+    ↓
+created_at
+```
+
+This can be useful for queries that commonly use that access pattern. <br>
+
+But don't blindly create composite indexes. Their usefulness depends on your actual queries and data distribution. <br>
+
+---
+
+# Index + ORDER BY
+
+Indexes can also help with sorting in appropriate situations. <br>
+
+Suppose: <br>
+```text
+SELECT *
+FROM users
+ORDER BY created_at DESC;
+```
+
+You might create: <br>
+
+```text
+CREATE INDEX idx_users_created_at
+ON users(created_at);
+```
+
+Depending on the query and planner, PostgreSQL may use the index to help produce the required ordering. <br>
+
+This becomes especially useful when combined with: <br>
+
+```text
+LIMIT
+```
+
+For example: <br>
+
+```text
+SELECT *
+FROM users
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+---
+
+# Unique Index
+
+You can explicitly create a unique index: <br>
+
+```text
+CREATE UNIQUE INDEX idx_users_email
+ON users(email);
+```
+
+Now duplicate emails aren't allowed. <br>
+
+For example: <br>
+
+```text
+sunaina@gmail.com
+rahul@gmail.com
+```
+
+are valid. <br>
+
+But: <br>
+
+```text
+sunaina@gmail.com
+sunaina@gmail.com
+```
+
+would violate the unique index. <br>
+
+However, when the business rule is uniqueness, prefer expressing that rule as a UNIQUE constraint when appropriate: <br>
+
+```text
+email VARCHAR(255) UNIQUE
+```
+
+rather than thinking of a unique index only as a performance feature. <br>
+
+---
+
+# Partial Index
+
+PostgreSQL has a powerful feature called a partial index. <br>
+
+It indexes only rows satisfying a condition. <br>
+
+Example: <br>
+
+```text
+CREATE INDEX idx_active_users
+ON users(email)
+WHERE is_active = TRUE;
+```
+
+Instead of indexing every user, it indexes only active users. <br>
+
+Then: <br>
+
+```text
+SELECT *
+FROM users
+WHERE is_active = TRUE
+AND email = 'sunaina@gmail.com';
+```
+
+can potentially benefit from the partial index. <br>
+
+Partial indexes can be very useful when the condition matches common query patterns  <br>
+
+---
+
+# Index on Expressions
+
+PostgreSQL can also index an expression. <br>
+
+Example: <br>
+
+```text
+CREATE INDEX idx_users_lower_email
+ON users(LOWER(email));
+```
+
+Then: <br>
+
+```text
+SELECT *
+FROM users
+WHERE LOWER(email) = 'sunaina@gmail.com';
+```
+
+can potentially use that expression index. <br>
+
+This is useful when applications need case-insensitive searches. <br>
+
+---
+
+# What Columns Should You Index?
+
+Good candidates often include columns frequently used in: <br>
+
+```text
+WHERE
+JOIN
+ORDER BY
+```
+
+and sometimes: <br>
+
+```text
+GROUP BY
+```
+
+depending on the query. <br>
+
+Common examples: <br>
+
+```text
+users.email
+users.username
+urls.short_code
+urls.user_id
+clicks.url_id
+clicks.clicked_at
+```
+
+But whether an index is beneficial depends on: <br>
+
+```text
+table size
+query frequency
+selectivity
+data distribution
+write frequency
+query shape
+```
+
+---
+
+# Selectivity
+
+Selectivity describes how effectively a condition narrows down rows. <br>
+
+Suppose: <br>
+
+1,000,000 users  <br>
+
+and: <br>
+
+gender = 'Male' <br>
+
+returns: <br>
+
+500,000 rows <br>
+
+That's not very selective. <br>
+
+But:  <br>
+
+email = 'sunaina@gmail.com' <br>
+
+might return: <br>
+
+1 row <br>
+
+That's highly selective <br>.
+
+Indexes are often particularly valuable for selective lookups. <br>
+
+---
+
+# Why Indexes Can Slow Down Writes
+
+Suppose you have: <br>
+
+```text
+Table
++
+5 indexes
+```
+
+When inserting a row: <br>
+
+```text
+INSERT
+  ↓
+Update table
+  ↓
+Update index 1
+  ↓
+Update index 2
+  ↓
+Update index 3
+  ↓
+Update index 4
+  ↓
+Update index 5
+```
+
+Therefore: <br>
+
+More indexes can mean more write overhead. <br>
+
+This is why database design is always a trade-off between: <br>
+
+```text
+Read performance
+        vs
+Write performance
+        vs
+Storage
+```
+
+---
+
+# Too Many Indexes
+
+Creating: <br>
+```text
+index on name
+index on email
+index on age
+index on city
+index on phone
+index on country
+index on created_at
+...
+```
+
+just because you can is bad practice. <br>
+
+Some indexes may:  <br>
+
+```text
+never be used
+consume storage
+slow down writes
+increase maintenance overhead
+```
+
+Good database design asks: <br>
+
+Which queries actually need to be fast? <br>
+
+Then indexes are designed around those queries. <br>
+
+---
+
+# Index Doesn't Always Mean Faster
+
+This is an important interview point.
+ <br>
+Suppose a table has: <br>
+
+100 rows <br>
+
+Using an index might not provide meaningful benefit. <br>
+
+Or suppose: <br>
+
+```text
+SELECT *
+FROM users;
+```
+
+You are requesting every row. <br>
+
+An index doesn't magically make retrieving the entire table faster. <br>
+
+The query planner may choose a sequential scan. <br>
+
+So: <br>
+ <br>
+An index is a tool for efficient access, not a guarantee of faster execution. <br>
+
+---
+
+# How to Delete an Index
+
+Use: <br>
+
+```text
+DROP INDEX index_name;
+```
+
+Example: <br>
+
+```text
+DROP INDEX idx_users_email; 
+```
+
+Be careful when dropping indexes in production because queries may become slower. <br>
+
+---
+
+# Indexes and Disk Space
+
+Indexes consume storage. <br>
+
+Conceptually: <br>
+
+```text
+Database
+├── Tables
+│
+└── Indexes
+```
+
+A large table with several large indexes can consume substantial disk space. <br>
+
+Therefore, database administrators and developers need to consider index size as part of database capacity planning. <br>
+
+---
+
+# Indexes in Your URL Shortener
+
+Let's design some realistic indexes. <br>
+
+**users** <br>
+
+```text
+users
+-------------------
+id
+email
+name
+created_at
+```
+
+Potential: <br>
+
+```text
+CREATE UNIQUE INDEX idx_users_email
+ON users(email);
+```
+
+<br>
+But if email is declared UNIQUE, PostgreSQL already creates the supporting unique index.
+<br>
+<br>
+
+**urls** <br>
+
+```text
+urls
+-------------------
+id
+short_code
+original_url
+user_id
+created_at
+```
+
+Potential: <br>
+
+```text
+CREATE UNIQUE INDEX idx_urls_short_code
+ON urls(short_code);
+```
+
+Again, if short_code is declared UNIQUE, you don't need a separate duplicate index.
+<br>
+And: <br>
+
+```text
+CREATE INDEX idx_urls_user_id
+ON urls(user_id);
+```
+
+<br> <br>
+**clicks** <br>
+
+```text
+clicks
+-------------------
+id
+url_id
+clicked_at
+ip_address
+```
+
+Potential: <br>
+
+```text
+CREATE INDEX idx_clicks_url_id
+ON clicks(url_id);
+```
+
+And if analytics frequently query clicks by URL and time:
+<br>
+
+```text
+CREATE INDEX idx_clicks_url_time
+ON clicks(url_id, clicked_at);
+```
+
+The exact index design should ultimately be based on your actual query patterns.
+
+---
+
+# A Practical Example
+
+Imagine your URL shortener receives: <br>
+
+10 million URL redirects <br>
+
+per day. <br>
+
+Every redirect needs: <br>
+
+```text
+SELECT original_url
+FROM urls
+WHERE short_code = 'aB92xK';
+```
+
+If short_code is indexed: <br>
+
+```text
+Request
+   ↓
+short_code index
+   ↓
+Find URL
+   ↓
+Return original_url
+```
+
+This is exactly the kind of high-frequency lookup where indexing can be important.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
