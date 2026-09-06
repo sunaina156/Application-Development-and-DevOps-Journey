@@ -653,16 +653,20 @@ The new matching row is a phantom from Transaction A's perspective. <br>
 
 # PostgreSQL's Default Isolation Level
 
-PostgreSQL's default transaction isolation level is: <br>
+PostgreSQL's default transaction isolation level is: <br> 
 
+```text
 READ COMMITTED
+```
 
-Under READ COMMITTED, each statement generally sees a snapshot of data committed before that statement began.
+ <br>
+Under READ COMMITTED, each statement generally sees a snapshot of data committed before that statement began. <br>
 
-This means a later statement within the same transaction can see newly committed changes from other transactions.
+This means a later statement within the same transaction can see newly committed changes from other transactions. <br>
 
-Example:
+Example: <br>
 
+```text
 BEGIN
 
 Statement 1 → sees committed state A
@@ -670,11 +674,259 @@ Statement 1 → sees committed state A
 Other transaction commits change
 
 Statement 2 → can see the newly committed state
+```
 
-This is why READ COMMITTED does not guarantee repeatable reads across the entire transaction.
+ <br>
+This is why READ COMMITTED does not guarantee repeatable reads across the entire transaction. <br> <br>
 
 
+# REPEATABLE READ
 
+At: <br>
+```text
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+```
+
+
+the transaction works with a consistent snapshot for its reads. <br>
+
+This gives stronger repeatability than READ COMMITTED. <br>
+
+PostgreSQL's implementation provides strong snapshot isolation behavior and can raise serialization failures in certain concurrent-update situations. <br>
+
+# SERIALIZABLE
+
+The strongest standard isolation level is: <br>
+
+```text
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+```
+
+The goal is: <br>
+
+The concurrent execution should produce a result equivalent to some serial execution of the transactions. <br>
+
+Conceptually: <br>
+
+```text
+Transaction A
+    ↓
+Transaction B
+```
+
+should behave as though they were executed in some safe serial order. <br>
+
+However, a transaction may fail with a serialization error under concurrency. <br>
+
+Therefore applications using SERIALIZABLE often need retry logic. <br>
+
+
+# Starting a Transaction With an Isolation Level
+
+Example: <br>
+
+```text
+BEGIN;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+-- operations
+
+COMMIT;
+
+```
+
+<br>
+Or you can specify the level when beginning: <br>
+
+```text
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+```
+
+---
+
+# SAVEPOINT
+
+Transactions can also have intermediate rollback points. <br>
+
+Example: <br>
+
+```text
+BEGIN;
+
+INSERT INTO users(name)
+VALUES ('Sunaina');
+
+SAVEPOINT user_created;
+
+INSERT INTO urls(short_code)
+VALUES ('abc123');
+
+ROLLBACK TO SAVEPOINT user_created;
+
+COMMIT;
+```
+
+ <br>
+Here, the entire transaction isn't necessarily rolled back. <br>
+
+Instead: <br>
+
+```text
+BEGIN
+ ↓
+Operation 1
+ ↓
+SAVEPOINT
+ ↓
+Operation 2
+ ↓
+ROLLBACK TO SAVEPOINT
+ ↓
+Operation 1 remains
+ ↓
+COMMIT
+```
+
+A SAVEPOINT is useful when you want partial rollback inside a larger transaction.
+ <br>
+
+---
+
+ # Transaction Example — E-Commerce
+
+Imagine an order system. <br>
+
+When a customer purchases a product: <br>
+
+1. Create order
+2. Add order item
+3. Reduce inventory
+4. Record payment/order status
+
+ <br>
+These operations may need careful transactional handling. <br>
+
+Conceptually: <br>
+
+```text
+BEGIN;
+
+INSERT INTO orders (...);
+
+INSERT INTO order_items (...);
+
+UPDATE products
+SET stock = stock - 1
+WHERE id = 10
+  AND stock > 0;
+
+-- additional checks/operations
+
+COMMIT;
+```
+
+If a critical operation fails: <br>
+
+```text
+ROLLBACK;
+```
+
+ <br>
+The application shouldn't leave the database in a partially completed state.
+ <br>
+
+---
+
+# Transaction Boundaries
+
+You need to decide: <br>
+
+Which operations should belong to the same transaction? <br>
+
+Too small: <br>
+
+```text
+Transaction 1 → operation A
+Transaction 2 → operation B
+```
+
+Maybe A and B should have been atomic. <br>
+
+Too large: <br>
+
+```text
+One giant transaction
+     ↓
+1000 operations
+     ↓
+Long lock/contention
+```
+
+That can also be problematic. <br>
+
+Good application design chooses sensible transaction boundaries. <br>
+
+---
+
+# Long-Running Transactions
+
+A transaction that stays open for a long time can cause problems. <br>
+
+For example: <br>
+
+```text
+BEGIN
+   ↓
+Application waits 10 minutes
+   ↓
+COMMIT
+```
+
+ <br>
+Long transactions can: <br>
+
+hold resources <br>
+increase contention <br>
+interfere with vacuum/cleanup behavior in PostgreSQL <br>
+increase the amount of work needed for recovery <br>
+
+Therefore: <br>
+
+Keep transactions as short as practical. <br>
+
+---
+
+Transaction: <br>
+```text
+                TRANSACTION
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+       SUCCESS                FAILURE
+          │                     │
+       COMMIT                ROLLBACK
+          │                     │
+       Permanent            Undo uncommitted
+        result                changes
+```
+
+<br>
+Transaction: <br>
+
+```text
+A → Atomicity
+    All or Nothing
+
+C → Consistency
+    Valid State → Valid State
+
+I → Isolation
+    Safe Concurrent Execution
+
+D → Durability
+    Committed Data Survives Recovery
+```
 
 
 
