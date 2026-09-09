@@ -101,6 +101,8 @@ You don't necessarily have to manually create a server just to start using Postg
 
 ---
 
+# Database Create, Connect to Database, Verify Database
+
 Open CMD <br>
 <br>
 Connect to default server i.e postgres with username as postgres <br>
@@ -132,7 +134,10 @@ Connect to url_shortener database  <br>
 SELECT current_database();
 ```
 
- <br> <br>
+---
+
+# Create the Tables
+
 
  
 
