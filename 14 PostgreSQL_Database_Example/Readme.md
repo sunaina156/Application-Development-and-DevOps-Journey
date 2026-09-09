@@ -138,6 +138,60 @@ SELECT current_database();
 
 # Create the Tables
 
+Now our database url_database is empty. <br>
 
- 
+We need 3 tables: <br>
 
+```text
+users
+  │
+  │ 1:N
+  ↓
+urls
+  │
+  │ 1:N
+  ↓
+clicks
+ ```
+
+ <br>
+
+ ## Create users
+
+```text
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+<br>
+
+## Create urls
+
+```text
+CREATE TABLE urls (
+    id BIGSERIAL PRIMARY KEY,
+    short_code VARCHAR(20) NOT NULL UNIQUE,
+    original_url TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(id)
+);
+```
+
+<br>
+
+**Clear Screen in psql** <br>
+To clear the visible screen in psql  <br>
+```text
+\! cl
+```
+
+<br>
+
+## Create clicks
