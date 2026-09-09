@@ -271,10 +271,122 @@ Check: <br>
 SELECT * FROM users;
 ```
 
+---
+
+# Understand the Difference From Your Current Python Code
+
+Currently you have: <br>
+
+url_storage = {} <br>
+<br><br>
+When you do:<br>
+
+url_storage["abc123"] = "https://github.com" <br>
+
+the data exists only inside your Python program. <br><br>
+
+If you stop the program: <br>
+
+```text
+Python program stopped
+       ↓
+dictionary destroyed
+       ↓
+data lost
+```
+
+ <br>
+That's the major problem.
+ <br> <br>
+
+With PostgreSQL: <br>
+```text
+INSERT INTO urls (...)
+```
+
+ <br>
+the data is stored in the database. <br>
+
+You can stop Python and start it again: <br>
+```text
+Python stops
+     ↓
+PostgreSQL still has data
+     ↓
+Python starts again
+     ↓
+Data still exists
+```
+
+That's what you are building now.
+
+---
+---
+
+# Install PostgreSQL Python Driver
+
+Your Python application needs a library to communicate with PostgreSQL. <br>
+
+Since you're using a virtual environment, activate it first. <br>
 
 
+```text
+C:\Users\sunaina\Desktop\Python_URL_Shortener>cd Python_URL_Shortener
 
+C:\Users\sunaina\Desktop\Python_URL_Shortener\Python_URL_Shortener>dir
 
+C:\Users\sunaina\Desktop\Python_URL_Shortener\Python_URL_Shortener>venv\Scripts\activate
+
+(venv) C:\Users\sunaina\Desktop\Python_URL_Shortener\Python_URL_Shortener>
+```
+
+<br>
+
+psycopg2-binary is a Python package that allows your Python program to connect to and communicate with PostgreSQL. <br>
+
+```text
+pip install psycopg2-binary
+```
+
+Check: <br>
+pip show command is used to check information about an installed Python package <br>
+
+```text
+pip show psycopg2-binary
+```
+
+---
+
+# Add It to requirements.txt
+
+Run: <br>
+
+```text
+pip freeze > requirements.txt 
+```
+
+You should now have the PostgreSQL dependency in your requirements file. <br>
+
+pip freeze means: <br>
+ 
+Show me everything installed in this Python environment <br>
+
+**OR** <br>
+
+```text
+psycopg2-binary
+python-dotenv
+```
+
+ <br>
+ 
+Then someone can install them with:  <br>
+
+pip install -r requirements.txt <br>
+
+---
+
+# 
 
 
 
