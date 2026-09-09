@@ -239,6 +239,22 @@ CREATE TABLE clicks (
 
 # Add Indexes
 
+```text
+CREATE INDEX idx_urls_user_id
+ON urls(user_id);
+```
+
+<br>
+
+```text
+CREATE INDEX idx_clicks_url_id
+ON clicks(url_id);
+```
+
+---
+
+# Insert Some Users Manually
+Before connecting Python, let's test the database manually. <br>
 
 
 
