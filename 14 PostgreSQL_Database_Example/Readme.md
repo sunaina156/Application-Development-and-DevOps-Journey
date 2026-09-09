@@ -195,3 +195,67 @@ To clear the visible screen in psql  <br>
 <br>
 
 ## Create clicks
+
+```text
+CREATE TABLE clicks (
+    id BIGSERIAL PRIMARY KEY,
+    url_id BIGINT NOT NULL,
+    ip_address INET,
+    clicked_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (url_id)
+        REFERENCES urls(id)
+        ON DELETE CASCADE
+);
+```
+
+## To check List of all Tables
+
+```text
+\dt
+```
+
+## To inspect each table
+
+```text
+\d users
+```
+
+<br>
+
+
+```text
+\d urls
+```
+
+<br>
+
+
+```text
+\d clicks
+```
+
+---
+
+# Add Indexes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
