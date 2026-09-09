@@ -374,7 +374,7 @@ Show me everything installed in this Python environment <br>
 **OR** <br>
 
 ```text
-psycopg2-binary
+psycopg2-binary==2.9.12
 python-dotenv
 ```
 
