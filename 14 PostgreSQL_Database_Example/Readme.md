@@ -256,6 +256,21 @@ ON clicks(url_id);
 # Insert Some Users Manually
 Before connecting Python, let's test the database manually. <br>
 
+```text
+INSERT INTO users (name, email)
+VALUES
+    ('Sunaina', 'sunaina@example.com'),
+    ('Rahul', 'rahul@example.com'),
+    ('Aman', 'aman@example.com');
+```
+
+<br>
+Check: <br>
+
+```text
+SELECT * FROM users;
+```
+
 
 
 
