@@ -548,8 +548,100 @@ original URL
 
 # Your Application Can Now Work With PostgreSQL
 
+Your menu can remain almost the same. <br>
 
+But change: <br>
+```text
+short_code = store_url(original_url)
+```
 
+<br>
+
+to: <br>
+
+```text
+short_code = store_url(original_url, 1)
+```
+
+<br>
+For now, user 1 means Sunaina.
+<br>
+
+So your flow becomes: <br>
+
+```text
+1. Shorten URL
+       ↓
+Enter URL
+       ↓
+Generate short code
+       ↓
+INSERT into urls
+       ↓
+PostgreSQL
+       ↓
+Return short code
+```
+
+<br> And:
+
+```text
+2. Retrieve Original URL
+       ↓
+Enter short code
+       ↓
+SELECT from urls
+       ↓
+PostgreSQL
+       ↓
+Original URL
+```
+
+## Test It
+
+Start your application: <br>
+
+```text
+python main.py
+```
+
+ <br>
+Choose: <br>
+
+```text
+1. Shorten URL
+```
+
+ <br>
+Enter: <br>
+
+```text
+https://github.com
+```
+
+ <br>
+You might get: <br>
+
+Short Code: LJRm4h <br>
+
+Now go to PostgreSQL: <br>
+
+```text
+SELECT * FROM urls;
+```
+
+ <br>
+You should see something like: <br>
+
+ ```text
+ id | short_code |    original_url     | user_id
+----+------------+---------------------+---------
+  1 | LJRm4h     | https://github.com  |    1
+```
+
+ <br>
+
+## Test Retrieval
 
 
 
