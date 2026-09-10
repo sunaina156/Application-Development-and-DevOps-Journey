@@ -468,9 +468,85 @@ return short code
 <br> <br>
 For now, let's assume user 1 is creating the URL. <br>
 
+**main.py** <br>
 
+```text
+def store_url(original_url, user_id):
 
+    connection = get_connection()
+    cursor = connection.cursor()
 
+    short_code = generate_short_code()
+
+    cursor.execute(
+        """
+        INSERT INTO urls (short_code, original_url, user_id)
+        VALUES (%s, %s, %s)
+        RETURNING short_code;
+        """,
+        (short_code, original_url, user_id)
+    )
+
+    short_code = cursor.fetchone()[0]
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return short_code
+```
+
+# Modify get_original_url()
+
+Now PostgreSQL should find the URL. <br>
+
+**main.py** <br>
+```text
+def get_original_url(short_code):
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT original_url
+        FROM urls
+        WHERE short_code = %s;
+        """,
+        (short_code,)
+    )
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if result:
+        return result[0]
+    else:
+        return "Short code not found!"
+```
+
+<br>
+
+Now your lookup is: <br>
+
+```text
+short code
+    ↓
+Python
+    ↓
+PostgreSQL
+    ↓
+urls table
+    ↓
+original URL
+```
+
+---
+
+# Your Application Can Now Work With PostgreSQL
 
 
 
