@@ -695,6 +695,58 @@ WHERE short_code = 'LJRm4h';
 
 # Add Click Tracking
 
+Now we use your third table: <br>
 
+```text
+clicks
+```
+
+ <br>
+When somebody retrieves a URL, we can record a click. <br>
+
+For example: <br>
+
+```text
+User requests:
+abc123
+ 
+PostgreSQL:
+urls
+ ↓
+find URL
+ 
+Then:
+clicks
+ ↓
+insert click record
+```
+
+<br>
+<br>
+
+You can create: <br>
+
+```text
+def record_click(url_id):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO clicks (url_id)
+        VALUES (%s);
+        """,
+        (url_id,)
+    )
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+```
+
+<br>
+
+But to do this properly, your lookup should return the URL's id as well. <br>
 
 
