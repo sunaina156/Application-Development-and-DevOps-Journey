@@ -627,6 +627,22 @@ Short Code: LJRm4h <br>
 Now go to PostgreSQL: <br>
 
 ```text
+> psql -U postgress
+> \c url_shortener
+```
+
+<br>
+You are now connected to database "url_shortener" as user "postgres".
+<br>
+
+Check the tables: <br>
+```text
+\dt
+```
+
+<br>
+
+```text
 SELECT * FROM urls;
 ```
 
@@ -643,6 +659,41 @@ You should see something like: <br>
 
 ## Test Retrieval
 
+
+Run your Python application again. <br>
+
+Choose: <br>
+
+```text
+2. Retrieve Original URL
+```
+
+<br>
+Enter: <br>
+
+```text
+LJRm4h
+```
+
+<br>
+You should get: <br>
+
+```text
+Original URL: https://github.com
+```
+
+<br>
+Then verify directly in PostgreSQL: <br>
+
+```text
+SELECT original_url
+FROM urls
+WHERE short_code = 'LJRm4h';
+```
+
+---
+
+# Add Click Tracking
 
 
 
