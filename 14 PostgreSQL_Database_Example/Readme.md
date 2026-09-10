@@ -388,10 +388,85 @@ pip install -r requirements.txt <br>
 
 # Create Database Connection
 
+Now our Python application needs to connect to PostgreSQL Database. <br>
+
+In **main.py** add, <br>
+```text
+import psycopg2
+
+def get_connection():
+     return psycopg2.connect(
+          host="localhost",
+          database="url_shortener",
+          user="postgres",
+          password="postgres123@!#",
+          port = "5432"
+     )
 
 
+```
 
+<br>
 
+## Test the Python → PostgreSQL Connection
+
+Before changing your whole application, test the connection. <br>
+
+Temporarily add: <br>
+
+```text
+connection = get_connection()
+
+print("Connected to PostgreSQL successfully!")
+
+connection.close()
+```
+
+<br>
+
+Run: <br>
+```text
+python main.py
+```
+
+If everything is correct: <br>
+```text
+Connected to PostgreSQL successfully!
+```
+<br>
+If this works, your Python application can communicate with PostgreSQL. <br>
+
+---
+
+# Now Remove the Dictionary
+
+Now from main.py <br>
+remove <br>
+```text
+url_storage = {}
+```
+<br>
+Because PostgreSQL is going to store your URLs. <br> <br>
+
+## Modify store_url()
+
+we dont want: <br>
+```text
+url_storage[short_code] = original_url
+```
+anymore. <br>
+
+Instead, we want: <br>
+```text
+generate short code
+       ↓
+INSERT into PostgreSQL
+       ↓
+return short code
+```
+
+<br> <br>
+For now, let's assume user 1 is creating the URL. <br>
 
 
 
