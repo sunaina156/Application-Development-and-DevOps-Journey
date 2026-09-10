@@ -583,7 +583,7 @@ PostgreSQL
 Return short code
 ```
 
-<br> And:
+<br> And: 
 
 ```text
 2. Retrieve Original URL
