@@ -747,6 +747,97 @@ def record_click(url_id):
 
 <br>
 
-But to do this properly, your lookup should return the URL's id as well. <br>
+# Check Clicks
 
+After using your URL a few times: <br>
+
+```text
+SELECT * FROM clicks;
+```
+
+ <br>
+You might see: <br>
+
+```text
+ id | url_id | ip_address |          clicked_at
+----+--------+------------+------------------------------
+  1 |      1 |            | 2026-09-09 10:30:12
+  2 |      1 |            | 2026-09-09 10:31:45
+  3 |      1 |            | 2026-09-09 10:35:22
+```
+
+ <br>
+Then: <br>
+
+```text
+SELECT
+    url_id,
+    COUNT(*) AS total_clicks
+FROM clicks
+GROUP BY url_id;
+```
+
+ <br>
+Result: <br>
+
+```text
+ url_id | total_clicks
+--------+-------------
+      1 |      3
+```
+
+---
+
+# Practice JOIN
+
+Run: <br>
+
+```text
+SELECT
+    u.name,
+    url.short_code,
+    url.original_url
+FROM users u
+JOIN urls url
+    ON u.id = url.user_id;
+```
+
+<br> <br>
+
+
+Run: <br>
+
+```text
+SELECT
+    u.name,
+    url.short_code,
+    url.original_url,
+    c.clicked_at
+FROM users u
+JOIN urls url
+    ON u.id = url.user_id
+JOIN clicks c
+    ON url.id = c.url_id;
+```
+
+**LEFT JOIN** : <br>
+
+```text
+SELECT
+    url.short_code,
+    COUNT(c.id) AS total_clicks
+FROM urls url
+LEFT JOIN clicks c
+    ON url.id = c.url_id
+GROUP BY url.id, url.short_code;
+```
+
+**EXPLAIN ANALYZE** <br>
+
+```text
+EXPLAIN ANALYZE
+SELECT original_url
+FROM urls
+WHERE short_code = 'abc123';
+```
 
