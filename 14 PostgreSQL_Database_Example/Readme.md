@@ -841,3 +841,86 @@ FROM urls
 WHERE short_code = 'abc123';
 ```
 
+<br>
+
+**TRANSACTIONS** <br>
+
+Run this manually: <br>
+
+```text
+BEGIN;
+
+INSERT INTO users (name, email)
+VALUES ('Test User', 'test@example.com');
+
+SELECT * FROM users;
+
+ROLLBACK;
+```
+
+<br>
+Then: <br>
+
+```text
+SELECT * FROM users;
+```
+
+Test User should not exist. <br>
+
+Now try:<br>
+
+```text
+BEGIN;
+
+INSERT INTO users (name, email)
+VALUES ('Test User', 'test@example.com');
+
+COMMIT;
+```
+
+<br>
+Then: <br>
+
+```text
+SELECT * FROM users;
+```
+
+<br>
+Now the user should exist. <br>
+
+---
+
+# Test Constraints
+
+**Test UNIQUE** <br>
+
+Try: <br>
+
+```text
+INSERT INTO users (name, email)
+VALUES ('Another User', 'sunaina@example.com');
+```
+
+ <br>
+It should fail because: <br>
+
+email VARCHAR(255) UNIQUE <br>
+Test Foreign Key <br>
+ <br>
+ 
+Try: <br>
+
+```text
+INSERT INTO urls (short_code, original_url, user_id)
+VALUES (
+    'test123',
+    'https://example.com',
+    9999
+);
+```
+
+ <br>
+It should fail because user 9999 doesn't exist. <br>
+
+---
+
