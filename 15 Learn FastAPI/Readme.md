@@ -416,7 +416,102 @@ Your Python code
 
 ---
 
+# What about WSGI?
 
+WSGI is the older/common Python web-server interface. <br>
+
+ASGI was designed to support modern asynchronous capabilities and protocols beyond traditional synchronous HTTP handling. <br>
+
+Framework examples: <br>
+
+```text
+Flask → traditionally WSGI
+FastAPI → ASGI
+```
+
+ <br>
+
+```text
+FastAPI
+   ↓
+ASGI application
+
+Uvicorn
+   ↓
+ASGI server
+
+```
+
+ <br>
+ 
+---
+---
+
+
+# Install FastAPI
+
+Create your project: Application_Development/ <br>
+Open it in VS Code. <br>
+
+Create virtual environment: <br>
+
+python -m venv venv <br>
+ <br>
+Activate: <br>
+
+.\venv\Scripts\Activate.ps1 <br> <br>
+
+Install: <br>
+
+```text
+pip install fastapi uvicorn
+```
+
+ <br>
+Verify: <br>
+
+pip list <br>
+
+---
+
+# Why use a virtual environment?
+
+Suppose project A needs: <br>
+
+FastAPI version X <br> <br>
+
+and project B needs: <br>
+
+FastAPI version Y <br>
+
+Installing everything globally can create conflicts. <br>
+
+A virtual environment isolates dependencies. <br>
+
+```text
+Computer
+│
+├── Project A
+│    └── venv
+│
+├── Project B
+│    └── venv
+│
+└── Project C
+     └── venv
+```
+
+Your project dependencies stay isolated. <br>
+
+This is why you have already been using: <br>
+
+venv/ <br>
+
+with your Python projects. <br>
+
+---
+
+#  
 
 
 
