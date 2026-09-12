@@ -769,6 +769,33 @@ FastAPI produces a response. <br>
 
 # Add another route
 
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Helo, FastAPI!"}
+
+@app.get("/about")
+def about():
+    return {
+        "application": "URL Shortener",
+        "version": "1.0"
+    }
+
+```
+
+<br> <br>
+
+GET / calls home() <br>
+and <br>
+GET /about calls about() <br>
+
+---
+
+# Route matching
 
 
 
