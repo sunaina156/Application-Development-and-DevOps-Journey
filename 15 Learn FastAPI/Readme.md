@@ -254,7 +254,117 @@ is now accepting HTTP connections. <br>
 ---
 ---
 
+# So what exactly is FastAPI?
 
+FastAPI is a Python web framework for building APIs. <br>
+
+It provides mechanisms for: <br>
+
+- defining routes
+- receiving HTTP requests
+- handling requests
+- returning responses
+- validation
+- serialization
+- error handling
+- API documentation
+- asynchronous programming
+
+---
+
+# Python vs FastAPI
+
+
+Python: Programming language <br>
+
+FastAPI: Framework built using Python <br>
+
+You can write: <br>
+
+print("Hello") <br>
+
+without FastAPI. <br> <br>
+
+But to create an HTTP API easily, FastAPI provides the necessary framework.
+ <br>
+Think: <br>
+
+```text
+Python
+   ↓
+Language
+
+FastAPI
+   ↓
+Framework using Python
+```
+
+---
+
+# What is a framework?
+
+A framework provides a structure and tools for building applications. <br>
+
+Without a web framework, you'd have to deal with many low-level web concerns yourself. <br>
+
+With FastAPI: <br>
+
+```text
+@app.get("/")
+def home():
+    return {"message": "Hello"}
+```
+
+ <br>
+FastAPI handles much of the HTTP-related plumbing around your function. <br>
+
+The framework essentially says: <br>
+
+You define what should happen when a request arrives; I'll handle much of the web machinery around it. <br>
+
+---
+
+# FastAPI is not the server
+
+FastAPI and Uvicorn are not the same thing.  <br>
+
+FastAPI defines your web application. <br>
+Uvicorn runs that application using an ASGI server. <br>
+
+Simplified: <br>
+
+```text
+Client
+  ↓
+Uvicorn
+  ↓
+FastAPI
+  ↓
+Your function
+```
+
+---
+
+# What is Uvicorn?
+
+Uvicorn is an ASGI web server implementation. <br>
+
+Its job is to run your FastAPI application and communicate with clients over HTTP. <br>
+
+When you run: <br>
+
+```text
+uvicorn main:app
+```
+
+ <br>
+Uvicorn essentially says: <br>
+
+Find the app application inside main.py and serve it. <br>
+
+---
+
+# Understanding main:app
 
 
 
