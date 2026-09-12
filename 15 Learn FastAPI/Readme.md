@@ -511,7 +511,49 @@ with your Python projects. <br>
 
 ---
 
-#  
+#  Create your first FastAPI application
+
+main.py <br><br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Helo, FastAPI!"}
+```
+
+ <br>
+
+**from fastapi import FastAPI** <br>
+we import FastAPI class. <br>
+Without importing it, Python doesn't know what FastAPI means.  <br> <br>
+
+**app = FastAPI()** <br>
+This creates your FastAPI application object.  <br>
+Think of **app** as the central object representing our web application. <br> <br>
+
+**@app.get("/")** <br>
+The @ syntax is a Python decorator. <br>
+At a general Python level, a decorator modifies or registers behaviour around a function. <br>
+In FastAPI, decorators are used to register path operations. <br>
+ <br>
+ex: <br>
+
+```text
+@app.get("/")
+def home():
+  ...
+```
+
+ <br>
+means Register home() as the function that handles GET requests for / <br>
+
+---
+
+
 
 
 
