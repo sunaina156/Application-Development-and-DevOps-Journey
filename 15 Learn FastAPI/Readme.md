@@ -366,6 +366,55 @@ Find the app application inside main.py and serve it. <br>
 
 # Understanding main:app
 
+command: <br>
+
+```text
+uvicorn main:app
+```
+
+<br>
+contains main:app <br>
+main means main.py <br>
+app means app = FastAPI() <br>
+So main:app means import the app object from main.py <br>
+
+---
+
+# What is ASGI?
+
+ASGI = Asynchronous Server Gateway Interface <br>
+
+understand the architecture: <br>
+
+```text
+HTTP Client
+     ↓
+ASGI Server
+     ↓
+ASGI Application
+```
+
+Uvicorn is an ASGI server. <br>
+FastAPI provides an ASGI-compatible application. <br>
+
+
+Conceptually: <br>
+
+```text
+Browser
+   ↓
+HTTP
+   ↓
+Uvicorn
+   ↓
+FastAPI
+   ↓
+Your Python code
+```
+
+<br>
+
+---
 
 
 
