@@ -797,7 +797,83 @@ GET /about calls about() <br>
 
 # Route matching
 
+Suppose someone requests: <br>
 
+**GET /about** <br>
+FastAPI checks its registered routes. <br>
+It finds **@app.get("/about")** <br>
+Then it executes **about()** <br> <br>
 
+But if the client requests **GET /something** <br>
+FastAPI won't find a matching route. <br>
+Usually the cient receives: <br>
 
+```text
+404 NOT Found
+```
+
+---
+
+# # What is 404?
+
+HTTP status codes communicate result of a request. <br>
+
+Ex: <br>
+
+```text
+200 → Success
+201 → Created
+400 → Bad Request
+401 → Unauthorized
+403 → Forbidden
+404 → Not Found
+500 → Internal Server Error
+```
+
+---
+
+# FastAPI automatic documentation
+
+Go to: <br>
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+ <br>
+You'll see your API. <br>
+This is Swagger UI. <br>
+
+ <br>
+It automatically displays your available endpoints. <br>
+
+Ex: <br>
+
+```text
+GET /
+GET /about
+```
+
+ <br>
+You can interact with them directly. <br>
+This is extremly useful when developing APIs. <br>
+
+---
+
+# Where did /docs come from?
+
+You didn't write: <br>
+
+```text
+@app.get("/docs")
+```
+
+ <br>
+FastAPI provides it automatically. <br>
+FastAPI automatically generates API documentation based on the application's API definitions. <br>
+It uses the OpenAPI specification. <br>
+
+---
+
+# What is OpenAPI?
 
