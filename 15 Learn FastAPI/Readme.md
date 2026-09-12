@@ -553,10 +553,221 @@ means Register home() as the function that handles GET requests for / <br>
 
 ---
 
+# What is a path operation?
+FastAPI documentation commonly calls: <br>
 
+```text
+@app.get("/")
+```
 
+ <br>
+a path operation decorator. <br> <br>
 
+The combination: <br>
 
+```text
+HTTP method + path
+```
+
+ <br>
+defines the operation. <br> <br>
+
+Ex: <br>
+
+```text
+GET /
+```
+
+ <br>
+or: <br>
+
+```text
+GET /users
+```
+
+---
+
+# Route vs endpoint
+
+A **route/path** is the URL path: <br>
+
+```text
+/users
+```
+
+ <br> <br>
+An **endpoint** usually refers to the accessible API operation: <br>
+
+```text
+GET /users
+```
+
+ <br> <br>
+The HTTP method matters. <br>
+
+These are different operations: <br>
+
+```text
+GET /users
+POST /users
+```
+
+ <br>
+even though they have the same path. <br>
+
+---
+
+# The function
+
+```text
+def home():
+```
+
+<br>
+This is a normal Python function. <br>
+FastAPI will call it when a matching request arrives. <br>
+The function is your application for that endpoint. <br>
+
+---
+
+# The response
+
+```text
+return {"message": "Hello, FastAPI"}
+```
+
+ <br>
+You're returning a Python dictionary. <br>
+FastAPI converts it into an HTTP response containing JSON. <br>
+ <br>
+ 
+Conceptually: <br>
+
+```text
+Python dict
+     ↓
+FastAPI serialization
+     ↓
+JSON
+     ↓
+HTTP response
+```
+
+---
+
+# Run the application
+
+Run: <br>
+
+```text
+uvicorn main:app --reload
+```
+
+ <br>
+You should see something similar to: <br>
+
+```text
+Uvicorn running on http://127.0.0.1:8000
+```
+
+ <br>
+Now your application is running. <br>
+
+---
+
+# # Understand --reload
+
+You ran: <br>
+
+```text
+uvicorn main:app --reload
+```
+
+ <br>
+--reload means: <br>
+Watch your source files and restart/reload the application when code changes during development. <br>
+ <br>
+Ex: <br>
+
+```text
+You modify main.py
+        ↓
+Uvicorn notices
+        ↓
+Application reloads
+```
+
+ <br>
+This is convenient during development. <br>
+Don't think of --reload as something you normally want in production. <br>
+
+---
+
+# Your first request
+
+Open: <br>
+
+```text
+http://127.0.0.1:8000/
+```
+
+ <br> <br>
+Your browser sends approximately: <br>
+GET / <br> <br>
+
+FastAPI sees: <br>
+@app.get("/") <br> <br>
+
+and calls: <br>
+home() <br> <br>
+
+The function returns: <br>
+{"message": "Hello, FastAPI!"} <br> <br>
+
+FastAPI produces a response. <br>
+
+---
+
+# The complete request lifecycle
+
+```text
+                CLIENT
+          Browser / Mobile App
+                    │
+                    │ HTTP Request
+                    │
+                    ▼
+             ┌─────────────┐
+             │   Uvicorn   │
+             └──────┬──────┘
+                    │
+                    ▼
+             ┌─────────────┐
+             │   FastAPI   │
+             └──────┬──────┘
+                    │
+              Match route
+                    │
+                    ▼
+             ┌─────────────┐
+             │ Python      │
+             │ function    │
+             └──────┬──────┘
+                    │
+                    ▼
+                 Result
+                    │
+                    ▼
+             FastAPI creates
+             HTTP response
+                    │
+                    ▼
+                  Client
+```
+
+---
+
+# Add another route
 
 
 
