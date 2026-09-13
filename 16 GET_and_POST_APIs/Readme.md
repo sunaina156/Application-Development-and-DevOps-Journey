@@ -133,5 +133,198 @@ POST doesn't have that guarantee <br>
 
 # HTTP Request
 
+Every API interaction starts with a request. <br>
+
+A simplified HTTP request looks like: <br>
+
+```text
+POST /users HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com"
+}
+```
+
+# ## Request method
+
+```text
+POST
+```
+
+<br>
+This tells the server what type of operation the client is requesting.
+
+## Request path
+
+```text
+/users
+```
+
+<br>
+This identifies the requested resource/path. <br>
+
+## Request headers
+
+Ex: <br>
+
+```text
+Content-Type: application/json
+```
+
+Headers provide additional information about the request.  <br>
+
+Ex: <br>
+
+```text
+Content-Type
+Authorization
+Accept
+User-Agent
+```
+
+## Request body
+
+The request body contains data sent to the server.  <br>
+
+Ex:  <br>
+
+```text
+{
+  "name": "Sunaina",
+  "email": "sunaina@example.com"
+}
+```
+
+
+---
+
+# Important: GET can technically have a body, but...
+
+HTTP does not generally prohibit a body on every GET implementation, but using a request body with GET is not the normal API design pattern and has poor interoperability.  <br>
+
+For our applications: <br>
+
+```text
+GET
+ ↓
+retrieve data
+
+POST
+ ↓
+send/create data in request body
+```
+
+## HTTP Response
+
+The server sends a response back. <br>
+
+Simplified: <br>
+
+```text
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Sunaina"
+}
+```
+
+
+## Response status code
+
+201 Created - tells the client what happened. <br>
+
+Common examples: <br>
+
+```text
+200 OK
+201 Created
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+405 Method Not Allowed
+500 Internal Server Error
+```
+
+## Response headers
+
+Example: <br>
+
+```text
+Content-Type: application/json
+```
+
+This tells the client what kind of data is being returned. <br>
+
+## Response body
+
+Example: <br>
+
+```text
+{
+    "id": 1,
+    "name": "Sunaina"
+}
+```
+
+ <br>
+This contains the actual response data.  <br>
+
+## The complete request/response
+
+For POST: <br>
+
+```text
+CLIENT
+   │
+   │ POST /users
+   │
+   │ JSON body
+   ▼
+FASTAPI
+   │
+   │ process request
+   ▼
+PYTHON LOGIC
+   │
+   ▼
+DATABASE
+   │
+   │
+   ▼
+FASTAPI
+   │
+   │ 201 Created
+   │ JSON response
+   ▼
+CLIENT
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
