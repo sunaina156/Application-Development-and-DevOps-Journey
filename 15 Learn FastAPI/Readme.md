@@ -1433,6 +1433,60 @@ is completely fine for our basic endpoints. <br>
 
 ---
 
+# FastAPI and your existing URL Shortener
+
+Your current project is: <br>
+
+```text
+Python
+   ↓
+PostgreSQL
+   ↓
+CLI
+```
+
+<br> <br>
+Eventually we're going to transform the application into something like: <br>
+
+```text
+Frontend / Browser
+       ↓
+HTTP
+       ↓
+FastAPI
+       ↓
+Python logic
+       ↓
+PostgreSQL
+```
+
+<br> <br>
+Then eventually: <br>
+
+```text
+POST /urls
+       ↓
+Create short code
+       ↓
+Store in PostgreSQL
+       ↓
+Return short URL
+```
+
+<br> 
+and: <br>
+
+```text
+GET /abc123
+       ↓
+Find original URL
+       ↓
+Record click
+       ↓
+Redirect
+```
+
+---
 
 
 
