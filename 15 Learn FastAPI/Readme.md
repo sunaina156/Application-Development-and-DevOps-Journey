@@ -1347,8 +1347,91 @@ It's relatively concise while still providing powerful features.
 
 ---
 
+# Type hints - preview
 
+FastAPI makes extensive use of Python type hints. <br>
 
+Ex:  <br>
+
+```text
+def add(a: int, b: int):
+  return a + b
+```
+
+<br>
+
+The:  <br>
+
+```text
+: int
+```
+
+is a type hint. <br>
+
+Later we will use type hints in API models and validation. <br>
+
+Ex: <br>
+
+```text
+name: str
+age: int
+```
+
+---
+
+# Sync vs async — understand the idea
+
+You may see: <br>
+
+```text
+def home():
+```
+
+ <br>
+and: <br>
+
+```text
+async def home():
+```
+
+Today we're using: <br>
+```text
+def
+```
+
+because we're learning fundamentals. <br>
+
+async def is used for asynchronous functions and becomes particularly useful when dealing with I/O-bound operations. <br> <br>
+
+For example: <br>
+
+```text
+Waiting for database
+Waiting for another API
+Waiting for network
+```
+
+---
+
+# Why not make everything async?
+
+Because: <br>
+
+```text
+async ≠ automatically faster
+```
+
+Async programming is useful for particular workloads and requires understanding how asynchronous execution works. <br>
+
+For now: <br>
+
+```text
+def
+```
+
+is completely fine for our basic endpoints. <br>
+
+---
 
 
 
