@@ -1037,4 +1037,270 @@ Application
 
 ---
 
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def home():
+    return {
+        "message": "Welcome to my application"
+    }
+
+
+@app.get("/about")
+def about():
+    return {
+        "application": "URL Shortener",
+        "version": "1.0"
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+```
+
+---
+
+# FastAPI does NOT automatically mean REST
+
+FastAPI is a framework. <br>
+
+REST is an architectural style for designing APIs. <br>
+
+You can use FastAPI to build REST-style APIs, but: <br>
+
+```text
+FastAPI ≠ REST
+```
+
+ <br>
+Similarly: <br>
+
+JSON ≠ API <br>
+
+and: <br>
+
+Uvicorn ≠ FastAPI <br>
+
+---
+
+## Understand
+
+```text
+Python -> programming language
+FastAPI -> Python framework
+```
+
+<br>
+
+```text
+Uvicorn -> ASGI server
+FastAPI -> web framework  application
+```
+
+<br>
+JSON is not an API <br>
+JSON is a data format <br>
+
+<br>
+
+/users is not an API <br>
+More precisely: **GET /users** is an API operation/endpoint. <br>
+The method matters. <br> <br>
+
+The database is not part of FastAPI. <br>
+You can use FastAPI without a database <br>
+
+----
+
+# What happens if FastAPI isn't running?
+
+If you stop <br>
+```text
+Uvicorn
+```
+
+and then open:  <br>
+```text
+http://localhost:8000
+```
+
+TH browser won't receive a FastAPI response.  <br>
+Because nothing is listening on that port.  <br>
+
+We may see:  <br>
+
+```text
+ERR_CONNECTION_REFUSED
+```
+or a similar browser error.  <br>
+
+---
+
+# Troubleshooting FastAPI
+
+Problem: uvicorn not recognised <br>
+You might see: <br>
+
+```text
+'uvicorn' is not recognized...
+```
+
+ <br>
+First check if virtual environment is active: <br>
+
+```text
+.\venv\Scripts\Activate.ps1
+```
+
+Then: <br>
+
+```text
+pip install fastapi uvicorn
+```
+
+Check: <br>
+
+```text
+uvicorn --version
+```
+
+---
+
+# Problem: ModuleNotFoundError: No module named 'fastapi'
+
+Usually means FastAPI isn't installed in the Python environment you're currently using. <br>
+
+Check: <br>
+
+```text
+pip show fastapi
+```
+
+ <br> <br>
+Also: <br>
+
+```text
+python -m pip show fastapi
+```
+
+ <br> <br>
+
+If missing: <br>
+
+```text
+python -m pip install fastapi uvicorn
+```
+
+ <br> <br>
+Using: <br>
+
+```text
+python -m pip
+```
+
+can help ensure pip belongs to the Python interpreter you're using.
+
+---
+
+# Problem: Error loading ASGI app
+
+For example: <br>
+
+Error loading ASGI app. Could not import module "main" <br>
+
+Check: <br>
+
+1. Are you in the correct folder? <br>
+
+Run: <br>
+
+```text
+dir
+```
+
+ <br> 
+ 
+You should see: <br>
+
+```text
+main.py
+```
+
+ <br> <br>
+2. Is the filename actually main.py?
+
+Not: <br>
+
+main.py.txt <br> <br>
+
+3. Is your command correct? <br>
+
+```text
+uvicorn main:app --reload
+```
+
+ <br> <br>
+ 
+4. Does your code contain: <br>
+
+```text
+app = FastAPI()
+```
+
+---
+
+# Problem: 404 Not Found
+
+Suppose you defines <br>
+@app.get("/about") <br>
+but open /about-us <br>
+You will get 404. <br>
+Because /about-us doesnot match /about <br> <br> 
+Routes need to match. <br>
+
+---
+
+#  Problem: port already in use
+
+You may see something indicating: <br>
+Address already in use <br> <br>
+
+This usually means another process is already using port 8000 <br> <br>
+
+You can run FastAPI on another port: <br>
+
+```text
+uvicorn main:app --reload --port 8001
+```
+
+ <br> <br>
+Then use: <br>
+
+```text
+http://localhost:8001
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
