@@ -1488,6 +1488,85 @@ Redirect
 
 ---
 
+# A real-world mental model
+
+Imagine a restaurant. <br>
+
+```text
+Customer
+   ↓
+Waiter
+   ↓
+Kitchen
+   ↓
+Storage
+```
+
+<br>
+The customer doesn't walk into the kitchen and directly manipulate ingredients. <br>
+
+The waiter acts as an interface. <br> <br>
+
+Similarly: <br>
+
+```text
+Client
+   ↓
+API
+   ↓
+Business logic
+   ↓
+Database
+```
+
+ <br>
+The API provides a controlled interface. <br>
+
+FastAPI helps you build that API layer.
+
+---
+
+# Important distinction: API vs database
+
+Suppose your PostgreSQL database contains: <br>
+
+```text
+users
+urls
+clicks
+```
+
+ <br>
+The frontend shouldn't normally connect directly to PostgreSQL. <br>
+
+Instead: <br>
+
+```text
+Frontend
+   ↓
+FastAPI API
+   ↓
+PostgreSQL
+```
+
+ <br>
+Why? <br>
+
+Because the backend can enforce: <br>
+
+- authentication
+- authorization
+- validation
+- business rules
+- database access control
+- error handling
+
+ <br>
+This is a major reason backend applications exist.
+
+---
+
+
 
 
 
