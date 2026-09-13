@@ -307,6 +307,137 @@ CLIENT
 
 ---
 
+# Let's build a GET API
+
+main.py <br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/users")
+def get_users():
+  return [
+    {
+      "id": 1,
+      "name": "Sunaina"
+    },
+    {
+      "id": 2,
+      "name": "Rahul"
+    }
+  ]
+```
+
+ <br>
+Run:  <br>
+**uvicorn main:app --reload**  <br> <br>
+
+Open:  <br>
+**http://localhost:8000/users** <br> <br>
+
+You'll receive:  <br>
+
+```text
+[
+  {
+    "id": 1,
+    "name": "Sunaina"
+  },
+  {
+    "id": 2,
+    "name": "Rahul"
+  }
+]
+```
+
+ <br> <br>
+
+## What happened here?
+
+The client requested:  <br>
+**GET /users**  <br> <br>
+
+FastAPI found:  <br>
+**@app.get("/users")**  <br> <br>
+
+Then it called:  <br>
+**get_users()** <br> <br>
+
+The function returned a Python list containg dictionaries. <br>
+FastAPI converted that result into  a JSON response.  <br>
+
+So: <br>
+
+```text
+Python list/dict
+      ↓
+FastAPI
+      ↓
+JSON response
+```
+
+## GET does not mean "Python GET function"
+
+This: <br>
+**@app.get("/users")**  <br>
+
+is FastAPI's way of registering an HTTP GET operation. <br> <br>
+
+The function: <br>
+
+**def get_users():** <br>
+
+is just your Python function. <br> <br>
+
+You could technically call it: <br>
+
+**def hello():** <br>
+
+and it would still work <br>.
+
+The important part is: <br>
+
+**@app.get("/users")**
+
+
+## GET with a single object
+
+Try: <br>
+
+```text
+@app.get("/user")
+def get_user():
+    return {
+        "id": 1,
+        "name": "Sunaina",
+        "email": "sunaina@example.com"
+    }
+```
+
+ <br>
+Request: <br>
+
+```text
+GET /user
+```
+
+ <br>
+Response: <br>
+
+```text
+{
+    "id": 1,
+    "name": "Sunaina",
+    "email": "sunaina@example.com"
+}
+```
+
+---
+
+# POST
+
 
 
 
