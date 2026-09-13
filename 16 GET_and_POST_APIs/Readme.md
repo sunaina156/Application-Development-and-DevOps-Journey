@@ -438,6 +438,74 @@ Response: <br>
 
 # POST
 
+Let's create: <br>
+
+```text
+POST /users
+```
+
+ <br>
+We need to receive information from the client. <br>
+
+For example: <br>
+
+```text
+{
+    "name": "Aman",
+    "email": "aman@example.com"
+}
+```
+
+ <br>
+The backend needs a way to read this request body. <br>
+
+FastAPI provides several ways to do that. <br>
+
+## Using Body
+
+You can write: <br>
+
+```text
+from fastapi import FastAPI, Body
+
+app = FastAPI()
+
+@app.get("/users")
+def create_user(user: dict = Body(...)):
+  return {
+    "message": "User received",
+    "user": user
+  }
+```
+
+<br>
+Now the endpoint expects a request body. <br>
+
+### What does this mean?
+
+```text
+user: dict 
+```
+
+means: <br>
+
+user is expected to be a Python dictionary. <br>
+
+And: <br>
+
+```text
+Body(...)
+```
+
+ <br>
+tells FastAPI: <br>
+
+Get this value from the HTTP request body. <br>
+
+The ... means the body is required. <br>
+
+## Test the POST API
+
 
 
 
