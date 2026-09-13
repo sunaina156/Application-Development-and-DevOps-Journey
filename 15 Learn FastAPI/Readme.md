@@ -1289,9 +1289,63 @@ http://localhost:8001
 
 ---
 
+# Development vs Production
 
+During development: <br>
 
+```text
+uvicorn main:app --reload
+```
+ is convenient. <br> <br>
 
+Production deployment requires thinking about: <br>
+
+- process management
+- multiple workers/instances
+- reverse proxy/load balancer
+- containers
+- environment variables
+- logging
+- health checks
+- monitoring
+- resource limits
+- TLS/HTTPS
+- security
+
+<br>
+A command that is convenient for local development is not automatically a complete production deployment strategy.
+
+---
+
+# Why FastAPI is popular
+
+Some important reasons: <br>
+
+- Python
+
+You already know Python.
+
+- Type hints
+
+FastAPI makes heavy use of Python type hints.
+
+- Validation
+
+FastAPI works closely with Pydantic for data validation.
+
+- Automatic documentation
+
+OpenAPI documentation is generated automatically.
+
+- Async support
+
+FastAPI supports asynchronous Python.
+
+- Developer experience
+
+It's relatively concise while still providing powerful features.
+
+---
 
 
 
