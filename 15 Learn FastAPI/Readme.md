@@ -877,3 +877,164 @@ It uses the OpenAPI specification. <br>
 
 # What is OpenAPI?
 
+OpenAPI is a standardized specification for describing HTTP APIs. <br>
+
+It can describe things like: <br>
+
+- available endpoints
+- HTTP methods
+- parameters
+- request bodies
+- responses
+- schemas
+
+ <br>
+FastAPI generates an OpenAPI schema for your application. <br>
+
+You can normally access the raw schema at: <br>
+
+```text
+http://127.0.0.1:8000/openapi.json
+```
+
+ <br>
+You don't need to manually write that JSON.
+ <br>
+FastAPI generates it.
+
+---
+
+# Swagger UI vs OpenAPI vs ReDoc
+
+**OpenAPI** <br>
+
+The specification/documentation description of your API. <br>
+ <br>
+ 
+**Swagger UI** <br>
+
+An interactive interface that displays the API documentation. <br> <br>
+
+**ReDoc**  <br>
+
+Another interface for displaying OpenAPI documentation. <br>
+
+So: <br>
+
+```text
+FastAPI
+   ↓
+Generates OpenAPI schema
+   ↓
+Swagger UI / ReDoc
+   ↓
+Human-friendly documentation
+```
+
+---
+
+# /docs
+
+Interactive Swagger UI: <br>
+
+```text
+/docs
+```
+
+Useful for: 
+
+- testing endpoints
+- seeing parameters
+- seeing request schemas
+- seeing responses
+
+---
+
+# /redoc
+
+Alternative documentation interface: <br>
+
+```text
+/redoc
+```
+
+<br>
+It's generally more documentation-oriented and less focused on interactive testing.
+
+---
+
+# Why automatic documentation matters in real companies
+
+Imagine a company has: <br>
+
+```text
+Frontend Team
+Backend Team
+Mobile Team
+QA Team
+DevOps Team
+```
+
+ <br> <br>
+Backend developers create APIs. <br>
+
+Other teams need to know: <br>
+
+```text
+Which endpoints exist?
+What data do I send?
+What response do I receive?
+What parameters are required?
+```
+
+ <br>
+Good API documentation makes this much easier. <br>
+
+FastAPI automatically generating OpenAPI documentation is therefore more than a beginner convenience.
+
+---
+
+# Add a health endpoint
+
+A common pattern in real services is a health endpoint. <br>
+
+```text
+@app.get("/health")
+def health():
+  return {
+    "status": "healthy"
+}
+```
+
+<br>
+Now: <br>
+
+```text
+GET /health
+```
+
+ <br>
+
+returns:  <br>
+
+```text
+{
+  "status": "healthy"
+}
+```
+
+Later, infrastructure tools can use health endpoints for service checks. <br>
+
+Ex:  <br>
+
+```text
+Load Balancer
+      ↓
+GET /health
+      ↓
+Application
+```
+
+---
+
+
