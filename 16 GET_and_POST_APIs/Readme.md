@@ -1132,6 +1132,100 @@ Send request body
 
 ---
 
+# What is Postman?
+
+Postman is a tool commonly used for testing APIs. <br>
+
+Instead of: <br>
+
+```text
+Browser
+```
+
+ <br> <br>
+you can use: <br>
+
+```text
+Postman
+   ↓
+HTTP Request
+   ↓
+FastAPI
+   ↓
+Response
+```
+
+You don't need Postman for this course because FastAPI's /docs is already excellent for our current exercises.
+
+## Browser vs Swagger vs Postman
+
+All three can act as clients. <br>
+
+```text
+Browser
+   ↓
+HTTP request
+
+Swagger UI
+   ↓
+HTTP request
+
+Postman
+   ↓
+HTTP request
+```
+
+The FastAPI server doesn't fundamentally care which client sent the request. <br>
+
+It receives an HTTP request. <br>
+
+---
+
+# Build a small User API
+
+```text
+from fastapi import FastAPI, status
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class User(BaseModel):
+    name: str
+    email: str
+
+@app.get("/users")
+def get_users():
+    return [
+        {
+            "id": 1,
+            "name": "Sunaina",
+            "email": "sunaina@example.com"
+        },
+        {
+            "id": 2,
+            "name": "Rahul",
+            "email": "rahul@example.com"
+        }
+    ]
+
+@app.post("/users", status_code=status.HTTP_201_CREATED)
+def create_user(user: User):
+    return {
+        "message": "User created",
+        "user": user
+    }
+```
+
+<br>
+
+At this stage, <br>
+We are not using PostgreSQL. <br>
+The GET endpoint returns hard-coded data. <br>
+The POST endpoint receives data and returns it. <br>
+
+<br>
+
+## Why are we not storing POST data?
 
 
 
