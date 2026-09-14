@@ -802,7 +802,121 @@ This is a REST-style design principle.
 
 ---
 
+# Another Example: URL Shortener
 
+This is directly related to the application you have already built. <br>
+ <br>
+Imagine the future API:  <br>
+
+```text
+POST /urls
+```
+
+ <br> <br>
+
+Client sends:  <br>
+
+```text
+{
+  "original_url": "https://github.com"
+}
+```
+
+ <br> <br>
+Backend:  <br>
+
+```text
+Generate short code
+       ↓
+Store in PostgreSQL
+       ↓
+Return result
+```
+
+<br> <br>
+Response: <br>
+
+```text
+{
+    "short_code": "abc123",
+    "original_url": "https://github.com"
+}
+```
+
+<br> <br>
+Then later: <br>
+
+```text
+GET /abc123
+```
+
+will retrieve the URL and eventually redirect.
+
+---
+
+# GET request with query data - preview only
+
+You may see URLs like:  <br>
+**GET /users?limit=10** <br>
+
+ <br>
+The: <br>
+
+**?limit=10** <br>
+is a query parameter. <br>
+
+
+# POST body vs query parameter
+
+POST: <br>
+**POST /users** <br> <br>
+
+can receive: <br>
+
+```text
+{
+  "name": "Sunaina",
+  "email": "sunaina@example.com"
+}
+```
+
+as a request body <br> <br>
+
+Whereas: <br>
+**GET /users?limit=10** <br>
+has limit=10 <br>
+in the URL query string. <br> <br>
+
+
+# What does /docs do for POST?
+
+Open: <br>
+**http://localhost:8000/docs** <br> <br>
+
+FastAPI knows: <br>
+
+```text
+class User(BaseModel):
+  name: str
+  email: str
+```
+
+ <br> <br>
+So Swagger UI can display an expected request body such as: <br>
+
+```text
+{
+  "name": "string",
+  "email": "string"
+}
+```
+
+ <br>
+This is one of the major benefit of structure API definitions. <br> <br>
+
+---
+
+# Status Codes
 
 
 
