@@ -740,6 +740,68 @@ Different operation: <br>
 **GET** <br>
 **POST** <br>
 
+## This is the beginning of REST-style API design
+
+A common API design pattern is: <br>
+**/users** <br> 
+represents the user resource.  <br> <br>
+
+Then: <br>
+**GET /users**  <br>
+retrieve users <br> <br>
+
+**POST /users** <br>
+create user <br> <br>
+
+GET /users/10 <br>
+retrieve user 10 <br> <br>
+
+PUT /users/10  <br>
+replace user 10 <br> <br>
+
+PATCH /users/10 <br>
+partially update user 10 <br> <br>
+
+DELETE /users/10 <br>
+delete user 10
+
+## Don't create URLs like this unnecessarily
+
+A beginner might write: <br>
+
+```text
+/create-user
+/get-users
+/delete-user
+/update-user
+```
+
+ <br> <br>
+It is possible , but a more resource-oriented API design often uses: <br>
+
+```text
+/users
+```
+
+with HTTP methods expressing the operation. <br>
+ <br>
+
+Ex: <br>
+
+```text
+POST /users
+```
+
+instead of:  <br>
+
+```text
+POST /create-user
+```
+
+This is a REST-style design principle.
+
+---
+
 
 
 
