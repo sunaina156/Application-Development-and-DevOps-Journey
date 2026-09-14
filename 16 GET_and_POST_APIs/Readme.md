@@ -506,11 +506,67 @@ The ... means the body is required. <br>
 
 ## Test the POST API
 
+Go to: <br>
+http://localhost:8000/docs <br> <br>
+
+Find: <br>
+POST /users <br> <br>
+
+Try it out <br> <br>
+
+You can enter: <br>
+
+```text
+{
+    "name": "Aman",
+    "email": "aman@example.com"
+}
+```
+
+ <br> <br>
+Then click: <br>
+
+Execute <br> <br>
+
+You should receive something like:  <br>
 
 
+## But this isn't how we'll build production APIs
 
+This works: <br>
 
+user: dict <br>
 
+but it doesn't tell us exactly what the user data should look like. <br> <br>
+
+What if the client sends: <br>
+
+```text
+{
+    "banana": "hello"
+}
+
+or:
+
+{
+    "age": "something"
+}
+
+or:
+
+{
+    "name": 123
+}
+```
+
+ <br>
+We need proper schemas and validation. <br>
+
+That's where Pydantic models become important.
+
+---
+
+# Pydantic model
 
 
 
