@@ -1225,7 +1225,55 @@ The POST endpoint receives data and returns it. <br>
 
 <br>
 
-## Why are we not storing POST data?
+---
+
+# Stateless HTTP
+
+HTTP is generally treated as stateless.  <br>
+
+That means each request is independent unless the application uses mechanisms to maintain state, such as: <br>
+- cookies
+- sessions
+- tokens
+- database state
+
+ <br> <br>
+Ex:  <br>
+
+```text
+Request 1:
+GET /users
+
+Request 2:
+GET /users
+```
+
+ <br>
+The server doesn't inherently remeber everything about Request 1 simply because Request 2 came afterward. <br>
+Authentication systems later add mechanisms to maintain identity across requests. <br>
+
+## Wht this matters for application development
+
+Suppose a user logs in:  <br>
+POST /login <br> <br>
+
+Then later: <br>
+GET /profile <br> <br>
+
+How does the server know who the user is? <br>
+
+We will eventually use: <br>
+
+```text
+Authentication
+↓
+Token/session/cookie
+↓
+Request
+```
+
+---
+
 
 
 
