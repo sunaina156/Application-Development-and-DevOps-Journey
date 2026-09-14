@@ -568,6 +568,179 @@ That's where Pydantic models become important.
 
 # Pydantic model
 
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Helo, FastAPI!"}
+
+@app.get("/about")
+def about():
+    return {
+        "application": "URL Shortener",
+        "version": "1.0"
+    }
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+```
+
+
+## Understanding BaseModel
+
+```text
+class User(BaseModel):
+```
+
+<br>
+We are creating a Pydantic model called User. <br> <br>
+
+Then: <br>
+```text
+name: str
+email: str
+```
+
+<br>
+describe the expected data. <br> <br>
+
+
+## What request should we send?
+
+```text
+{
+    "name": "Aman",
+    "email": "aman@example.com"
+}
+```
+
+<br>
+FastAPI/Pydantic processes it according to the model. <br> <br>
+
+Then inside the function: <br>
+
+```text
+user
+```
+
+ <br>
+is a User model instance rather than an ordinary dictionary. <br> <br>
+
+You can access: <br>
+
+```text
+user.name
+```
+
+ <br>
+and: <br>
+
+```text
+user.email
+```
+
+## Why models are better
+
+Compare: <br>
+
+user: dict <br> <br>
+
+with: <br>
+
+user: User <br> <br>
+
+The second approach communicates much more clearly: <br>
+
+This endpoint expects a User object containing a name and email. <br> <br>
+
+It also gives FastAPI enough information to generate better API documentation and perform validation. <br>
+
+## What happens if required data is missing?
+
+Suppose your model is: <br>
+
+```text
+class User(BaseModel):
+    name: str
+    email: str
+```
+
+ <br> <br>
+but the client sends: <br>
+
+```text
+{
+    "name": "Aman"
+}
+```
+
+ <br> <br>
+The required email is missing. <br>
+
+FastAPI/Pydantic will reject the request instead of simply giving your function an incomplete object. <br> <br>
+
+The client receives a validation error response, typically: <br>
+
+422 Unprocessable Entity <br>
+
+Depending on the exact situation/version and validation semantics, the response contains details describing what failed. <br>
+
+---
+
+# GET and POST side by side
+
+```text
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class User(BaseModel):
+    name: str
+    email: str
+
+@app.get("/users")
+def get_users():
+    return [
+        {
+            "id": 1,
+            "name": "Sunaina",
+            "email": "sunaina@example.com"
+        }
+    ]
+
+@app.post("/users")
+def create_user(user: User):
+    return {
+        "message": "User received",
+        "user": user
+    }
+```
+
+<br>
+
+Now:  <br>
+
+**GET /users** <br>
+means Give me users. <br> <br>
+
+while:  <br>
+**POST /users** <br>
+means here's user data, process/create it. <br> <br>
+
+Same resource: <br>
+**users** <br>
+Different operation: <br>
+**GET** <br>
+**POST** <br>
+
+
 
 
 
