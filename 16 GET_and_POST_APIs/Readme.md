@@ -1060,6 +1060,77 @@ Later, when you deploy applications to Kubernetes, you'll troubleshoot the same 
 
 ---
 
+# Testing APIs — Swagger
+
+You don't need a frontend to test your API. <br>
+This is best thing about API. <br> <br>
+
+Use: <br>
+**/docs** <br> <br>
+
+Ex: <br>
+**POST /users** <br> <br>
+
+Click: <br>
+Try it out <br> <br>
+
+Enter: <br>
+
+```text
+{
+  "name": "Sunaina ",
+  "email": "sunaina@example.com"
+}
+```
+
+ <br>
+Execute. <br>
+This lets you test your backend independently. <br> <br>
+
+
+## Testing with curl
+
+You can also use curl. <br>
+
+For GET: <br>
+
+```text
+curl http://localhost:8000/users 
+```
+<br> <br>
+
+
+For POST: <br>
+
+```text
+curl -X POST http://localhost:8000/users `
+  -H "Content-Type: application/json" `
+  -d '{\"name\"Sunaina\",\"email\":\"sunaina@example.com\"}'
+```
+
+ <br>
+
+On windows Powershell, quoting/escaping cn be slightly different depending on the shell. Swagger UIeasier while learning, but your should understand what curl is doing. <br> <br>
+
+Conceptually: <br>
+
+```text
+-X POST
+    ↓
+Use POST method
+
+-H
+    ↓
+Add header
+
+-d
+    ↓
+Send request body
+```
+
+<br> <br>
+
+---
 
 
 
