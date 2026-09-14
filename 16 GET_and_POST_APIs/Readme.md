@@ -918,6 +918,149 @@ This is one of the major benefit of structure API definitions. <br> <br>
 
 # Status Codes
 
+**200 OK** <br>
+Request succeeded. <br>
+Ex: <br>
+GET /users <br>
+returns successfully <br> <br>
+
+**201 Created** <br>
+Usually used when a new resource was successfully created. <br>
+Ex: <br>
+POST /users <br>
+creates a user. <br> <br>
+
+We would respond with: <br>
+**201 created** <br>
+rather than kust 200 OK. <br> <br> <br>
+
+## Returning 201 from FastAPI
+
+You can specify: <br>
+
+```text
+from fastapi import FastAPI, status
+```
+
+ <br>
+
+Then:  <br>
+
+```text
+@app.post("/users", status_code=status.HTTP_201_CREATED)
+def create_user(user: User):
+  return {
+    "message": "User created",
+    "user": user
+  }
+```
+
+ <br>
+Now a successful request gets: <br>
+
+```text
+201 Created
+```
+
+This is better API design.
+
+ <br> <br>
+
+
+## Why not always return 200?
+
+Because status codes communicate meaning. <br> <br>
+
+Compare: <br>
+**200 OK** <br>  <br>
+with: <br>
+**201 Created** <br> <br>
+
+The second tells the client: <br>
+The request succeeded and a resource was created. <br> <br>
+
+## 400 Bad Request
+Means the server considers the request invalid. <br>
+Ex,  malformed or invalid client input may result in a 400 depending on the situation. <br>
+
+FastAPI/Pydantic validation oftens uses a more specific validation response, so don't assume every invalid input automatically means 400.
+
+ <br> <br>
+
+## 404 Not Found
+
+Ex: <br>
+**GET /something-that-doesn't-exist** <br>
+when no route matches can result in: <br>
+**404 Not Found** <br> <br>
+
+## 405 Method Not Allowed
+
+Suppose you define: <br>
+**@app.get("/users")** <br> <br>
+
+but send:  <br>
+**POST /users** <br> 
+The path exists, but that HTTP method isn't registered for that path. <br> <br>
+
+FastAPI can return:  <br>
+**405 Method Not Allowed** <br> <br>
+
+This is an important troubleshooting distinction: <br>
+
+```text
+404
+-> path/operation not found
+
+405
+-> path exists, but method isn't allowed
+```
+
+ <br> <br>
+
+## 500 Internal Server Error
+This usualy indiactes an unexpected error occured on the server. <br>
+
+Ex: <br>
+
+```text
+@app.get("/error")
+def error(0):
+  result = 10 / 0
+  return result
+```
+
+Requesting: <br>
+**GET /error** <br>
+causes a Python exception. <br> <br>
+
+The client can receive: <br>
+**500 Internal Server Error** <br>
+The acual error details will be in your server logs.
+
+This becomes very important for DevOps.
+
+ <br> <br>
+
+## Why server logs matter
+
+Supose the browser only shows: <br>
+**500 Internal Server Error** <br>
+That is not enough to know what happened. <br> <br>
+
+Look at your uvicorn terminal. <br>
+You might see:  <br>
+**ZeroDivisionError** <br>
+or:  <br>
+**AttributeError** <br>
+or:  <br>
+**psycopg2.Error** <br>
+
+Later, when you deploy applications to Kubernetes, you'll troubleshoot the same concept through container/pod logs.
+
+---
+
+
 
 
 
