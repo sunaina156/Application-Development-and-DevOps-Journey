@@ -31,4 +31,94 @@ Here: <br>
 
 # What is a Path Parameter?
 
+A path parameter is a value placed directly inside the URL path. <br>
+
+Ex: <br>
+GET /users/25 <br>
+ <br>
+Here: <br>
+/users/{user_id} <br>
+ <br>
+The {user_id} means: <br>
+This part of the URL will be provided dynamically by the client. <br>
+
+---
+
+# Basic FastAPI Path Parameter
+
+Create: <br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return {
+        "user_id": user_id
+    }
+```
+
+<br>
+
+Run: <br>
+
+```text
+uvicorn main:app --reload
+```
+
+Then open:  <br>
+
+```text
+http://localhost:8000/users/10
+```
+
+Response:  <br>
+
+```text
+{
+  "user_id": 10
+}
+```
+
+Try: <br>
+
+```text
+http://localhost:8000/users/25
+```
+
+Response: <br>
+
+```text
+{
+  "user_id": 25
+}
+```
+
+<br> <br>
+
+## What exactly happens internally?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
