@@ -670,6 +670,65 @@ def get_user(user_id: int):
 Now /users/me matches the specific route first. 
 <br>
 
+# URL Encoding
+Query parameters can contain characters that have special meanings in URLs. <br>
+
+Ex: <br>
+/search?q=hello world <br>
+Browser/clients encode spaces appropriately. <br> <br>
+
+You will often see: <br>
+hello%20world <br> <br>
+
+This is called URL encoding or percent encoding. <br>
+You don't normally need to manually encode simple values when using Swagger, Postman, frontend code or HTTP libraries bcoz the client handles it. <br> <br>
+
+# Query String Is Not Request Body
+
+**Query parameter** <br>
+GET /products?limit=10 <br>
+Information is in the URL. <br> <br>
+
+**Request body** <br>
+
+```text
+POST /products
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 50000
+}
+```
+
+ <br>
+Information is in the HTTP body. <br>
+
+# Why GET Usually Uses Query Parameters
+
+Suppose you are searching products. <br>
+You could theoretically send: <br>
+GET /products <br>
+with a body. <br> <br>
+
+But the normal API design is: <br>
+GET /products?category=laptop&limit=20 <br> <br>
+
+GET requests commony use: <br>
+- path parameters
+- query parameters
+
+ <br>
+
+POST/PUT/PATCH commonly use: <br>
+- path parameters
+- query parameters
+- request body
+
+depending on the API design. <br>
+
+---
+
 
 
 
