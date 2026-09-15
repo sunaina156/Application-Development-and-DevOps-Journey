@@ -567,6 +567,111 @@ Response: <br>
 
 ---
 
+# Path Parameters and Resource Identity
+
+Consider: <br>
+GET /users/10 <br> <br>
+
+The 10 identifies a particular resource. <br>
+Therefore, /users/{user_id} can be thought of as /users/{resource_identifier} <br>
+whereas, /users?limit=10 still refers to the users collection. <br> <br>
+
+# Query Parameter Validation Preview
+We can also impose rules. <br>
+
+Ex: <br>
+limit must be between 1 and 100 <br>
+FastAPI supportes this through Query. <br> <br>
+
+Ex: <br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/products")
+def get_products(
+  limit: int = Query(default=10, ge=1, le=100)
+):
+  return {
+    "limit": limit
+  }
+```
+
+ <br>
+Now: <br>
+/products?limit=50 works <br>
+But, /products?limit=0 fails. <br>
+
+ <br> <br>
+
+# Path Parameter Validation Preview
+
+You can also use Path. <br>
+
+```text
+from fastapi import FastAPI, Path
+
+app = FastAPI()
+
+@app.get("/users/{user_id}")
+def get_user(
+  user_id: int = Path(ge=1)
+):
+  return {
+    "user_id": user_id
+  }
+```
+
+ <br>
+Now, /users/10 is valid. <br>
+But, /users/0 is invalid bcoz user_id >= 1
+
+ <br> <br>
+
+# Important Route Ordering Problem
+
+Suppose we write: <br>
+
+```text
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return {"user_id": user_id}
+
+
+@app.get("/users/me")
+def get_current_user():
+    return {"user": "current user"}
+```
+
+<br> 
+
+You might expect: <br>
+/users/me to call get_current_user() <br>
+But /users/{user_id} can also look like user_id = "me" <br>
+Route ordering can therefore matter. <br>
+ <br>
+
+A safe approach is to declare the fixed route before the dynamic route.: <br>
+
+```text
+@app.get("/users/me")
+def get_current_user():
+    return {"user": "current user"}
+
+
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return {"user_id": user_id}
+```
+
+<br>
+Now /users/me matches the specific route first. 
+<br>
+
+
+
 
 
 
