@@ -332,6 +332,241 @@ Query parameter = How do I want the resource/data? <br>
 
 ---
 
+# Required Query Parameters
+
+If you write: <br>
+@app.get("/products") <br>
+def get_products(limit: int):  <br> <br>
+
+then: <br>
+/products?limit=10 works. <br> <br>
+But: /products does not provide limit. <br>
+FastAPI will return a validation error because limit is required. <br>
+
+# Optional Query Parameters
+
+Often query parameters should be optional. <br>
+
+Ex: <br>
+GET /products  <br>
+should return products. <br> <br>
+
+But: <br>
+GET /products?limit=10 <br>
+should return only 10. <br> <br>
+
+We can use **None**: <br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/products")
+def get_products(limit: int | None = None):
+  return {
+    "limit": limit
+  }
+```
+
+ <br>
+Now: /products <br>
+returns: <br>
+
+```text
+{
+  "limit": null
+}
+```
+
+And: <br>
+/products?limit=10 <br>
+returns: <br>
+
+```text
+{
+  "limit": 10
+}
+```
+
+# Why None?
+
+This: <br>
+limit: int | None = None <br> 
+means: <br>
+limit can be int or None <br> <br>
+
+And: <br>
+= None <br>
+means it is optional. <br> <br>
+
+So: /products <br>
+is valid <br> <br>
+
+# Multiple query Parameters
+
+Ex: <br>
+GET /products?category=laptop&limit=10 <br> <br>
+
+FastAPI: <br>
+
+```text
+@app.get("/products")
+def get_products(
+    category: str | None = None,
+    limit: int | None = None
+  ):
+    return {
+      "category": catgory,
+      "limit": limit
+    }
+``` 
+
+Response: <br>
+
+```text
+{
+  "category": "laptop",
+  "limit": 10
+}
+```
+
+ <br>
+The query parameters are separated by: <br>
+& <br> <br>
+
+Ex: <br>
+?category=laptop&limit=10&sort=price <br> <br>
+
+# Query Parameter Order
+
+The order generally doesn't matter. <br>
+
+/products?category=laptop&limit=10 <br>
+and: <br>
+/products?limit=10&category=laptop <br> <br>
+
+are equivalent. <br>
+FastAPI identifies parameters by their names. <br> <br>
+
+# Query Parameters with Boolean Values
+
+We cal also use: <br>
+
+```text
+@app.get("/products")
+def get_products(available: bool = True):
+  return {
+    "available": available
+  }
+```
+
+Ex: <br>
+/products?available=true <br> <br>
+
+or: <br>
+/products?available=false <br> <br>
+FastAPI converts the value according to the declared type. <br>
+
+# Query Parameters with Strings
+
+Ex: <br>
+
+```text
+@app.get("/search")
+def search(q: str):
+  return {
+    "search_query": q
+  }
+```
+
+Request: <br>
+/search?q=python <br> <br>
+
+Response: <br>
+```text
+{
+  "search_query": "python"
+}
+```
+
+This is common for search APIs
+
+# Real-world Query Parameters
+
+In an online shopping API. <br>
+
+We might have: <br>
+GET /products <br>
+All products <br> <br>
+
+Then: <br>
+GET /products?category=laptop <br>
+Products in the laptop category. <br> <br>
+
+Then:  <br>
+GET /products?category=laptop&limit=20 <br>
+Laptop products, maximum 20 <br> <br>
+
+Then: <br>
+GET /products?category=laptop&limit=20&sort=price <br>
+Laptop products, maximum 20, sorted by price. <br> <br>
+
+We are still talking about the /products collection. <br>
+The query parameters simply change how we retrieve it. <br> <br>
+
+
+---
+
+# Path + Query Parameters Together
+
+Ex: <br>
+GET /users/10/orders?limit=5 <br> <br>
+
+Here: <br>
+
+```text
+/users/10/orders
+      ↑
+   path parameter
+
+?limit=5
+ ↑
+query parameter
+```
+
+<br>
+
+FastAPI: <br>
+
+```text
+@app.get("/users/{user_id}/orders")
+def get_user_orders(
+    user_id: int,
+    limit: int | None = None
+  ):
+    return {
+      "user_id": user_id,
+      "limit": limit
+    }
+```
+
+<br> <br>
+
+Request: <br>
+/users/10/orders?limit=5 <br> <br>
+
+Response: <br>
+
+```text
+{
+  "user_id": 10,
+  "limit": 5
+}
+```
+
+---
+
 
 
 
