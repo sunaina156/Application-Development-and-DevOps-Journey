@@ -729,6 +729,211 @@ depending on the API design. <br>
 
 ---
 
+# URL Shortener Connection
+
+Your URL shortener eventually needs something like: <br>
+GET /{short_code} <br> <br>
+
+Ex: <br>
+GET /abc123 <br>
+Here, short_code = "abc123" <br>  
+is a path parameter. <br> <br>
+
+FastAPI could have: <br>
+
+```text
+@app.get("/{short_code}")
+def redirect_url(short_code: str):
+  ...
+```
+
+ <br>
+
+The future flow will be: <br>
+
+```text
+Client
+   ↓
+GET /abc123
+   ↓
+FastAPI
+   ↓
+short_code = "abc123"
+   ↓
+PostgreSQL
+   ↓
+Find original URL
+   ↓
+Record click
+   ↓
+Redirect user
+```
+
+# URL Shortener Could Also Use Query Parameters
+
+
+Suppose you wanted analytics: <br>
+GET /analytics/abc123 <br>
+Here abc123 is a path parameters <br> <br>
+
+You could then have: <br>
+GET /analytics/abc123?days=30 <br>
+Now, abc123 identifies the URL. <br>
+and days=30 controls the analytics request. <br>
+ <br>
+This is a realistic API design. <br>
+
+
+---
+---
+
+# Complete Practical Project
+
+main.py <br>
+
+```text
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+# Path parameter
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return {
+        "user_id": user_id,
+        "message": "User found"
+    }
+
+
+# Query parameter
+@app.get("/products")
+def get_products(
+    category: str | None = None,
+    limit: int | None = None
+):
+    return {
+        "category": category,
+        "limit": limit
+    }
+
+
+# Path + Query parameter
+@app.get("/users/{user_id}/orders")
+def get_user_orders(
+    user_id: int,
+    limit: int | None = None
+):
+    return {
+        "user_id": user_id,
+        "limit": limit
+    }
+```
+
+<br>
+
+Run: <br>
+**uvicorn main:app --reload** <br>
+
+<br>
+
+## Test 1 - Path Parameter
+
+http://localhost:8000/users/10 <br>
+
+expected: <be>
+
+```text
+{
+  "user_id": 10,
+  "message": "User found"
+}
+```
+
+## Test 2 - Invalid Path parameter
+
+http://localhost:8000/users/abc <br>
+<br>
+Your function expects user_id as int but receives "abc"
+<br>
+FastAPI will reject it with a validation error. <br>
+
+## Test 3 = Query Parameter 
+
+http://localhost:8000/products?category=laptop <br>
+
+Expected: <br>
+
+```text
+{
+ "category": "laptop",
+  "limit": null
+}
+```
+
+## Test 4 - Multiple Query Parameters
+
+http://localhost:8000/products?category=laptop&limit=10 <br>
+
+Expected: <br>
+
+```text
+{
+  "category": "laptop",
+  "limit": 10
+}
+```
+
+## Test 5 - Path + Query
+
+http://localhost:8000/users/10/orders?limit=5 <br>
+
+Expected: <br>
+
+```text
+{
+  "user_id": 10,
+  "limit": 5
+}
+```
+
+<br>
+
+```text
+/users/10/orders
+        ↑
+       path
+
+
+?limit=5
+ ↑
+query
+```
+
+<br>
+
+## Test Through Swagger
+
+Open: <br>
+http://localhost:8000/docs <br> <br>
+
+You should see: <br>
+
+GET /users/{user_id} <br>
+GET /products <br>
+GET /users/{user_id}/orders <br> <br>
+
+Click: <br>
+GET /users/{user_id} <br>
+Then: Try it out <br>
+Enter: 10 <br>
+Click: Execute <br>
+
+Swagger generates the request for you. <br>
+
+This is one reason /docs is extremely useful while learning and developing APIs. <br>
+
+
 
 
 
