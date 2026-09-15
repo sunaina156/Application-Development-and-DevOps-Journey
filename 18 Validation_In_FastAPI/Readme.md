@@ -261,5 +261,304 @@ Pydantic gives you a structured way to declare these rules <br>
 
 # Basic Type Validation
 
+Example: <br>
+
+```text
+class Product(BaseModel):
+    name: str
+    price: float
+    quantity: int
+```
+
+ <br> <br>
+This communicates: <br>
+
+```text
+name     → string
+price    → number
+quantity → integer
+```
+
+ <br> <br>
+Valid: <br>
+
+```text
+{
+    "name": "Laptop",
+    "price": 55000,
+    "quantity": 2
+}
+ <br> <br>
+
+Invalid: <br>
+
+```text
+{
+    "name": "Laptop",
+    "price": "very expensive",
+    "quantity": "many"
+}
+```
+
+ <br>
+Pydantic validates the incoming data before your endpoint logic proceeds <br>
 
 
+# Validation Happens Before Your Function
+
+This is a very important concept. <br>
+
+Consider: <br>
+
+```text
+@app.post("/products")
+def create_product(product: Product):
+    print("Function executed")
+    return product
+```
+
+ <br>
+Client sends invalid data. <br> <br>
+
+FastAPI doesn't simply do: <br>
+
+```text
+request
+ ↓
+function
+ ↓
+validation
+```
+
+ <br> <br>
+Conceptually, the process is: <br>
+
+```text
+Request
+   ↓
+Parse request data
+   ↓
+Validate against Product
+   ↓
+Valid?
+ ┌───┴────┐
+Yes       No
+ ↓         ↓
+Function   Error Response
+ ↓
+Response
+```
+
+ <br>
+So your business logic isn't supposed to receive data that failed the declared request-model validation. <br>
+
+# Required vs Optional Fields
+
+
+**Required** <br>
+
+```text
+class User(BaseModel):
+    name: str
+    email: str
+```
+
+ <br>
+Both are required. <br> <br>
+
+**Optional** <br>
+
+```text
+class User(BaseModel):
+    name: str
+    email: str | None = None
+```
+
+ <br>
+Now email can be omitted. <br> <br>
+
+Example: <br>
+
+```text
+{
+    "name": "Sunaina"
+}
+```
+
+ <br>
+is valid. <br>
+
+The value becomes: <br>
+
+None <br>
+
+# Optional Does Not Mean "Any Value"
+
+This is a common misunderstanding. <br>
+
+```text
+email: str | None = None
+```
+
+ <br>
+means: <br>
+
+```text
+email can be:
+    string
+    OR
+    None
+```
+
+ <br>
+It does not mean: <br>
+
+email can be anything <br>
+
+For example, your model still describes the expected type. <br>
+
+# Default Values
+
+You can provide defaults. <br>
+
+```text
+class Product(BaseModel):
+    name: str
+    price: float
+    quantity: int = 1
+```
+
+ <br>
+If the client sends: <br>
+
+```text
+{
+    "name": "Keyboard",
+    "price": 1000
+}
+```
+
+ <br>
+then: <br>
+
+quantity = 1
+ <br>
+will be used. <br> <br>
+
+This is useful for optional settings with sensible defaults <br>
+
+# String Constraints
+
+Now we move beyond basic types. <br>
+
+Suppose: <br>
+
+```text
+username:
+minimum 3 characters
+maximum 20 characters
+```
+
+ <br> <br>
+You can use Field. <br> 
+
+```text
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+
+app = FastAPI()
+
+
+class User(BaseModel):
+    username: str = Field(min_length=3, max_length=20)
+    email: str
+```
+
+ <br>
+Now: <br>
+
+ab <br>
+
+is too short. <br>
+
+And a username longer than 20 characters is rejected. <br> <br>
+
+# Numeric Constraints
+
+Suppose: <br>
+
+```text
+age must be >= 18
+```
+
+ <br>
+Use: <br>
+
+```text
+class User(BaseModel):
+    name: str
+    age: int = Field(ge=18)
+```
+
+ <br>
+ge means: <br>
+
+greater than or equal to <br>
+
+So: <br>
+
+```text
+age = 18 ✅
+age = 20 ✅
+age = 17 ❌
+```
+
+ <br> <br>
+
+ # Important Numeric Constraint Options
+
+You'll commonly see: <br>
+
+```text
+gt → greater than
+ge → greater than or equal to
+lt → less than
+le → less than or equal to
+```
+
+ <br>
+Examples: <br>
+
+```text
+price: float = Field(gt=0)
+```
+
+ <br>
+means: <br>
+price > 0 <br> <br>
+
+While: <br>
+
+```text
+age: int = Field(ge=18)
+```
+
+ <br>
+means: <br>
+
+age >= 18 <br> <br>
+
+And: <br>
+
+```text
+quantity: int = Field(ge=1, le=100)
+```
+
+ <br>
+means: <br>
+
+1 <= quantity <= 100 <br>
+
+---
+
+# 
