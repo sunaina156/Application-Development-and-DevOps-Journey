@@ -640,3 +640,189 @@ Your requirements.txt should then include the required dependency if your projec
 
 # Practical User Model
 
+```text
+from fastapi import FastAPI
+from pydantic import BaseModel, Field, EmailStr
+
+app = FastAPI()
+
+
+class User(BaseModel):
+    name: str = Field(min_length=2, max_length=100)
+    email: EmailStr
+    age: int = Field(ge=18, le=100)
+
+
+@app.post("/users")
+def create_user(user: User):
+    return {
+        "message": "User is valid",
+        "user": user
+    }
+```
+
+<br>
+Now your API expects: <br>
+
+```text
+name
+→ string
+→ 2–100 characters
+
+email
+→ valid email format
+
+age
+→ 18–100
+```
+
+<br>
+
+## Test Valid Data
+
+at http://localhost:8000/docs <br>
+
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com",
+    "age": 21
+}
+```
+
+ <br>
+Expected: <br>
+
+```text
+{
+    "message": "User is valid",
+    "user": {
+        "name": "Sunaina",
+        "email": "sunaina@example.com",
+        "age": 21
+    }
+}
+```
+
+## Test Missing Data
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "age": 21
+}
+```
+
+ <br>
+email is missing. <br> <br>
+
+Result: <br>
+
+```text
+Validation error
+```
+
+ <br>
+Your endpoint function won't process it as a valid User. <br>
+
+## Test Invalid Age
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com",
+    "age": 15
+}
+```
+
+ <br>
+Your rule says: <br>
+
+age: int = Field(ge=18, le=100) <br>
+
+Therefore: <br>
+
+15 < 18 <br>
+
+Validation fails <br> <br>
+
+## Test Invalid Email
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "hello",
+    "age": 21
+}
+```
+
+<br>
+The email validation fails. <br>
+
+## Test Short Name
+
+Send: <br>
+
+```text
+{
+    "name": "S",
+    "email": "sunaina@example.com",
+    "age": 21
+}
+```
+
+ <br>
+Your rule: <br>
+
+min_length=2 <br>
+
+is violated. <br>
+
+Validation fails <br>
+
+---
+
+# Validation Error Response
+
+FastAPI gives structured validation information. <br>
+
+A response can look conceptually like: <br>
+
+```text
+{
+    "detail": [
+        {
+            "loc": ["body", "age"],
+            "msg": "Input should be greater than or equal to 18",
+            "type": "greater_than_equal"
+        }
+    ]
+}
+```
+
+ <br>
+Don't memorize the exact wording. <br>
+
+Understand the structure: <br>
+
+```text
+detail
+ └── validation errors
+      ├── location
+      ├── message
+      └── error type
+```
+
+---
+
+# What Does loc Mean?
+      
