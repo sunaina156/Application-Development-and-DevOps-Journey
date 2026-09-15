@@ -561,4 +561,42 @@ means: <br>
 
 ---
 
-# 
+# Why Validation Rules Matter
+
+Imagine an e-commerce application: <br>
+
+```text
+class Product(BaseModel):
+    name: str
+    price: float
+    quantity: int
+```
+
+ <br> <br>
+Without constraints: <br>
+
+```text
+price = -5000
+quantity = -100
+```
+
+ <br>
+could potentially enter your application. <br> <br>
+
+But: <br>
+
+```text
+class Product(BaseModel):
+    name: str = Field(min_length=1)
+    price: float = Field(gt=0)
+    quantity: int = Field(ge=1)
+```
+
+ <br>
+creates much stronger boundaries. <br>
+
+---
+
+# Email Validation
+
+
