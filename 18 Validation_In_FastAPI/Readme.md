@@ -599,4 +599,44 @@ creates much stronger boundaries. <br>
 
 # Email Validation
 
+FastAPI itself doesn't magically know every business rule about email addresses just because you write: <br>
+email: str <br>
+That's only a string. <br> <br>
+
+For actual email-format validation, Pydantic provides an email-specific type. <br>
+
+```text
+from pydantic import BaseModel, EmailStr
+
+
+class User(BaseModel):
+    name: str
+    email: EmailStr
+```
+
+ <br>
+Now: <br>
+
+sunaina@example.com <br>
+
+is valid-looking email syntax. <br> <br>
+
+While something like: <br>
+
+hello <br>
+
+will fail email validation. <br> <br>
+
+You may need the email validation dependency: <br>
+
+```text
+pip install email-validator
+```
+
+ <br>
+Your requirements.txt should then include the required dependency if your project uses it.
+
+---
+
+# Practical User Model
 
