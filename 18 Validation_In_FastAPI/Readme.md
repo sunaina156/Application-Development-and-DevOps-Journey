@@ -1575,16 +1575,286 @@ Validation
 
 ---
 
+# Complete Practical
+
+main.py <br>
+
+```text
+from fastapi import FastAPI, Path, Query
+from pydantic import BaseModel, Field, EmailStr
+
+app = FastAPI()
 
 
+class UserCreate(BaseModel):
+    name: str = Field(min_length=2, max_length=100)
+    email: EmailStr
+    age: int = Field(ge=18, le=100)
 
 
+@app.post("/users")
+def create_user(user: UserCreate):
+    return {
+        "message": "User is valid",
+        "user": user
+    }
 
 
+@app.get("/users/{user_id}")
+def get_user(
+    user_id: int = Path(ge=1)
+):
+    return {
+        "user_id": user_id
+    }
 
 
+@app.get("/products")
+def get_products(
+    category: str | None = None,
+    limit: int = Query(default=10, ge=1, le=100)
+):
+    return {
+        "category": category,
+        "limit": limit
+    }
+```
+
+## Install Email Validation Dependency
+
+Because we are using **EmailStr** <br>
+install: <br>
+
+```text
+pip install email-validator
+```
+
+If you are maintaining your project dependencies: <br>
+
+```text
+pip freeze
+```
+
+can show installed packages, but for a clean project it's better to deliberately maintain requirements.txt rather than blindly copying your entire environment <br>
+
+Add **email-validator** to requirements.txt <br>
+
+## Run the API
+
+From your project directory: <br>
+
+```text
+uvicorn main:app --reload
+```
+
+<br>
+Open: <br>
+
+```text
+http://localhost:8000/docs
+```
+
+<br>
+You should see: <br>
+
+```text
+POST /users
+GET  /users/{user_id}
+GET  /products
+```
+
+## Test the POST API
+
+Use Swagger. <br>
+
+Click: <br>
+
+POST /users <br>
+
+→ Try it out <br>
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com",
+    "age": 21
+}
+```
+
+You should get a successful response. <br>
+
+## Test Missing Email
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "age": 21
+}
+```
+
+Observe the validation error. <br>
+
+Look carefully at: <br
+
+```text
+loc
+msg
+type
+```
+
+ <br
+Don't just look at the red error. <br
+
+Understand what FastAPI is telling you. <br
+
+## Test Invalid Age
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com",
+    "age": 15
+}
+```
+
+<br>
+Expected: <br>
+
+validation failure <br>
+
+because: <br>
+
+ge=18 <br>
+
+## Test Invalid Email
+
+Send: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "hello",
+    "age": 21
+}
+```
 
 
+Expected: <br>
+
+validation failure <br>
+
+## Test Path Validation
+
+Open: <br>
+
+http://localhost:8000/users/10 <br>
+
+Works. <br> <br>
+
+Try: <br>
+
+http://localhost:8000/users/0 <br>
+
+Fails because: <br>
+
+Path(ge=1) <br> <br>
+
+Try: <br>
+
+http://localhost:8000/users/abc <br>
+
+Fails because: <br>
+
+user_id: int <br>
+
+## Test Query Validation
+
+Try: <br>
+
+http://localhost:8000/products <br>
+
+You get: <br>
+
+```text
+{
+    "category": null,
+    "limit": 10
+}
+```
+
+ <br>
+Why? <br>
+
+Because: <br>
+
+limit: int = Query(default=10, ge=1, le=100) <br>
+
+has a default of 10. <br> <br>
+
+Now: <br>
+
+/products?limit=20 <br>
+
+works. <br> <br>
+
+But: <br>
+
+/products?limit=0 <br>
+
+fails. <br> <br>
+
+And: <br>
+
+/products?limit=101 <br>
+
+fails <br>
+
+### Validation Layers in a Real Application
+
+A mature application might have: <br>
+
+```text
+                    Client
+                      ↓
+              HTTP request
+                      ↓
+          FastAPI request validation
+                      ↓
+              Business validation
+                      ↓
+                 Service logic
+                      ↓
+               Database layer
+                      ↓
+          PostgreSQL constraints
+                      ↓
+                  Database
+```
+
+ <br>
+Each layer has a different responsibility.
+ <br>
+For example: <br>
+
+```text
+Pydantic
+Is age an integer?
+
+Business logic
+Is this user allowed to perform this operation?
+
+PostgreSQL
+Does this email violate UNIQUE?
+```
+Understanding this separation will help you later with real production systems.
+
+---
 
 
 
