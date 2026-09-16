@@ -276,7 +276,31 @@ Authorization           User can modify only their own URL
 
 ---
 
+# Error Handling in URL Shortener
 
+Your current application has several places where errors can happen. <br>
+
+```text
+Operation                          Possible error
+Create short URL               Database failure
+Find short URL                Short code does not exist
+Record click                  Database insertion failure
+Validate request              Invalid URL
+Connect to PostgreSQL         Database unavailable   
+```
+
+<br>
+We will improve the API so that : <br>
+- Expected client errors return clear HTTP responses.
+- Database transactions are rolled back on failure.
+- Database connections are closed.
+- Unexpected errors are not exposed with sensitive internal details.
+
+ <br>
+
+---
+
+# Add a Custom Error Response Model
 
 
 
