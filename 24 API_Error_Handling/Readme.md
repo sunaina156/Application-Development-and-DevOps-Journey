@@ -11,7 +11,7 @@ For example: <br>
 - A required resource is missing.
 
  <br>
-Error handling means detecting these situations and returning a meaningful response instead of allowing the application to fail unexpectedly. <br>
+Error handling means detecting these situations and returning a meaningful response instead of allowing the application to fail unexpectedly. <br> <br>
 
 ❌ Poor error handling <br>
 
