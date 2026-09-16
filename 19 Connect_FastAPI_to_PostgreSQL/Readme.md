@@ -196,6 +196,92 @@ Do not upload .env to GitHub.
 
 # db.py
 
+This file will contain the PostgreSQL connection function.
+
+```text
+import os
+
+import psycopg2
+from dotenv import load_dotenv
 
 
+load_dotenv()
 
+
+def get_connection():
+    connection = psycopg2.connect(
+        host=os.getenv("DB_HOST"),
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        port=os.getenv("DB_PORT")
+    )
+
+    return connection
+```
+
+<br>
+The flow is: <br>
+
+```text
+Python
+   ↓
+psycopg2
+   ↓
+PostgreSQL
+```
+
+---
+
+# Test the Database Connection
+
+Before connecting FastAPI, test the connection separately. <br>
+
+Create a temporary file: <br>
+
+test_db.py <br> <br>
+
+```text
+from db import get_connection
+
+
+connection = get_connection()
+
+print("Database connection successful!")
+
+connection.close()
+```
+
+Run: <br>
+
+```text
+python test_db.py
+```
+
+ <br>
+Expected output: <br>
+
+Database connection successful! <br> <br>
+
+After testing, you can delete test_db.py. <br> <br>
+
+---
+
+# Create the models.py File
+
+This file will contain the Pydantic models used for request validation. <br>
+
+```text
+from pydantic import BaseModel, EmailStr
+
+
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+```
+
+FastAPI automatically validates the request using Pydantic. <br>
+
+---
+
+# Create main.py
