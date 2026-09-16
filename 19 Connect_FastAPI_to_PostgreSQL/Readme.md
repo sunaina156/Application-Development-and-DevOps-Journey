@@ -430,11 +430,33 @@ __pycache__/
 *.pyc
 ```
 
+---
+
+# Run the FastAPI application
+
+Make sure the virtual environment is activated. <br>
+
+Run: <br>
+
+```text
+uvicorn main:app --reload
+```
+
+Test it : <br>
+
+```text
+http://localhost:8000/docs
+```
 
 
+<br>
+```text
+psql -U postgres
+\c fastapi_practice
+SELECT * FROM users;
+```
 
-
-
+---
 
 
 
