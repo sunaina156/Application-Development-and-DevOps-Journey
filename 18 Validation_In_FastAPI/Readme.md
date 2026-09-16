@@ -1036,10 +1036,332 @@ works.
 
 ---
 
-# 
+# Validation vs Database Constraints
+
+This is very important for your DevOps/backend understanding. <br>
+
+You might have: <br>
+
+```text
+FastAPI validation
++
+PostgreSQL constraints
+```
+
+ <br>
+They are not duplicates. <br>
+
+They protect different layers. <br> <br>
+
+For example: <br>
+
+**FastAPI** <br>
+```text
+email: EmailStr
+```
+
+ <br>
+checks incoming API data. <br>
+
+**PostgreSQL** <br>
+```text
+email VARCHAR(255) UNIQUE NOT NULL
+```
+
+protects the database itself. <br> <br>
+
+Think: <br>
+
+```text
+Client
+ ↓
+FastAPI validation
+ ↓
+Business logic
+ ↓
+PostgreSQL constraints
+ ↓
+Stored data
+```
+
+ <br>
+You want protection at multiple layers. <br>
+
+# Validation vs Business Logic
+
+This distinction is also extremely important. <br>
+
+Suppose: <br>
+
+```text
+age must be an integer
+```
+
+ <br>
+That's a validation rule. <br> <br>
+
+But: <br>
+
+```text
+user must be at least 18 to purchase alcohol
+```
+
+ <br>
+is a business rule. <br>
+
+Or: <br>
+
+```text
+a user can create maximum 10 active URLs
+```
+
+ <br>
+is a business rule. <br> <br>
+
+These may require database queries and application logic. <br>
+
+So don't try to put every possible application rule into Pydantic. <br>
+
+---
+
+# Example: URL Shortener
+
+This connects directly to your project. <br>
+
+Your URL shortening API might eventually receive: <br>
+
+```text
+{
+    "original_url": "https://github.com"
+}
+```
+
+ <br>
+You don't want: <br>
+
+```text
+{
+    "original_url": ""
+}
+```
+
+ <br>
+You could define: <br>
+
+```text
+from pydantic import BaseModel, Field
 
 
+class URLCreate(BaseModel):
+    original_url: str = Field(min_length=1)
+```
 
+ <br>
+Later, you can use stronger URL-specific validation. <br>
+
+The flow becomes: <br>
+
+```text
+POST /urls
+      ↓
+Request body
+      ↓
+Pydantic validation
+      ↓
+Is original_url valid?
+      ↓
+Business logic
+      ↓
+Generate short code
+      ↓
+PostgreSQL
+```
+
+Think: <br>
+
+```text
+Validation
+→ Is the input shaped correctly?
+
+Business logic
+→ Is this operation allowed?
+
+Database constraints
+→ Is the data allowed to exist consistently?
+```
+
+# Pydantic Model as an API Contract
+
+This is a powerful concept. <br>
+
+When you write: <br>
+
+```text
+class User(BaseModel):
+    name: str
+    email: EmailStr
+```
+
+ <br>
+you're establishing a contract: <br>
+
+Client must provide: <br>
+
+name → string <br>
+email → valid email <br> <br>
+
+So your model becomes a kind of agreement between: <br>
+
+```text
+Client ↔ API
+```
+
+ <br>
+This makes APIs predictable. <br> <br>
+
+---
+
+# Request Model vs Response Model
+
+You might have: <br>
+
+```text
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+```
+
+ <br>
+for incoming data. <br> <br>
+
+But your response might be: <br>
+
+```text
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+```
+
+ <br>
+Why? <br>
+
+Because the client shouldn't necessarily provide: <br>
+
+**id** <br>
+
+The database creates it. <br>
+
+So: <br>
+
+```text
+Request
+→ name + email
+
+Database
+→ creates id
+
+Response
+→ id + name + email
+```
+
+ <br>
+This pattern becomes very important once we connect FastAPI to PostgreSQL. <br>
+<br>
+
+# Example
+
+```text
+from fastapi import FastAPI
+from pydantic import BaseModel, EmailStr
+
+app = FastAPI()
+
+
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+
+
+@app.post("/users")
+def create_user(user: UserCreate):
+    # Database operation will come on Day 19
+    return {
+        "id": 1,
+        "name": user.name,
+        "email": user.email
+    }
+```
+
+<br>
+
+The client sends: <br>
+
+```text
+{
+    "name": "Sunaina",
+    "email": "sunaina@example.com"
+}
+```
+
+<br>
+The API returns: <br>
+
+```text
+{
+    "id": 1,
+    "name": "Sunaina",
+    "email": "sunaina@example.com"
+}
+```
+
+# Why Separate Models?
+
+Imagine: <br>
+
+**UserCreate** <br>
+
+means: <br>
+
+Data required to create a user. <br> <br>
+
+While: <br>
+
+**UserResponse** <br>
+
+means: <br>
+
+Data returned after creating a user. <br>
+
+They have different responsibilities. <br>
+
+This becomes extremely useful in real applications. <br>
+
+You'll eventually see models such as: <br>
+
+```text
+UserCreate
+UserUpdate
+UserResponse
+LoginRequest
+TokenResponse
+URLCreate
+URLResponse
+```
+
+ <br> <br>
+
+ ---
+
+ # Nested Validation
+
+ 
 
 
 
