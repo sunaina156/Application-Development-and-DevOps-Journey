@@ -313,3 +313,176 @@ def create_short_url(url_data: URLCreate):
 
 ---
 
+# Run the FastAPI Application
+
+```text
+uvicorn api_main:app --reload
+```
+
+Open Swagger UI <br>
+
+```text
+http://localhost:8000/docs
+```
+
+## Test the Root Endpoint
+
+In Swagger: <br>
+
+Open GET /. <br>
+Click Try it out. <br>
+Click Execute. <br>
+
+Expected response: <br>
+
+```text
+{
+    "message": "URL Shortener API is running"
+}
+```
+
+This confirms that your FastAPI application is running <br>
+
+
+
+## Test POST /urls
+
+In Swagger: <br>
+
+Open POST /urls. <br>
+
+Click Try it out. <br>
+
+Enter the following request: <br>
+
+```text
+{
+    "original_url": "https://github.com"
+}
+```
+
+Click Execute.
+ <br>
+Expected status: <br>
+
+201 Created
+ <br>
+Example response: <br>
+
+```text
+{
+    "id": 5,
+    "short_code": "aB12xY",
+    "original_url": "https://github.com",
+    "user_id": 1,
+    "created_at": "2026-09-16T..."
+}
+```
+
+Your ID, short code, and timestamp will be different. <br>
+
+## Verify the Record in PostgreSQL
+
+Open a second terminal while FastAPI continues running in the first terminal. <br>
+
+```text
+psql -U postgres
+
+\c url_shortener
+```
+
+ <br>
+Run: <br>
+
+```text
+SELECT
+    id,
+    short_code,
+    original_url,
+    user_id,
+    created_at
+FROM urls
+ORDER BY id DESC;
+```
+
+ <br>
+You should see the URL created through Swagger. <br>
+
+Verify a specific short code <br>
+
+Replace aB12xY with the code returned by your API: <br>
+
+```text
+SELECT *
+FROM urls
+WHERE short_code = 'aB12xY';
+```
+
+This proves the complete connection: <br>
+
+```text
+Swagger
+   ↓
+FastAPI
+   ↓
+Python
+   ↓
+psycopg2
+   ↓
+PostgreSQL
+   ↓
+urls table
+```
+
+---
+
+# main.py vs app_main.py
+
+main.py <br>
+User → Terminal → Python → PostgreSQL <br> <br>
+
+app_main.py <br>
+Client → FastAPI → Python → PostgreSQL <br>
+
+
+```text
+Python_URL_Shortener/
+│
+├── main.py       → CLI application
+└── api_main.py   → FastAPI application
+```
+
+<br>
+They can use the same PostgreSQL database, but they are separate programs. <br> <br>
+
+### Why keep main.py along with app_main.py
+
+- It contains your original Python practice.
+
+- You can compare CLI logic with FastAPI logic.
+
+- You can preserve your original implementation.
+
+- It helps you understand how the same business logic can be exposed through different interfaces.
+
+### Having both files does not mean both applications run simultaneously. You choose which one to start.
+
+- CLI: python main.py
+
+- API: uvicorn api_main:app --reload
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
