@@ -825,4 +825,235 @@ detail
 ---
 
 # What Does loc Mean?
+
+Suppose you see: <br>
+
+```text
+"loc": ["body", "age"]
+```
+
+ <br> 
+It means the invalid value was found in: <br>
+
+```text
+request body
+    ↓
+   age
+```
+
+ <br> <br>
+For a path parameter you might see something conceptually like: <br>
+
+```text
+["path", "user_id"]
+```
+
+ <br>
+For a query parameter: <br>
+
+```text
+["query", "limit"]
+```
+
+ <br>
+This becomes very useful when debugging APIs.
+
+---
+
+# Validating Path Parameters
+
+```text
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    ...
+```
+
+<br>
+You've already got basic validation: <br>
+
+```text
+user_id must be an integer
+```
+
+ <br>
+But we can add constraints. <br>
+
+```text
+from fastapi import FastAPI, Path
+
+app = FastAPI()
+
+
+@app.get("/users/{user_id}")
+def get_user(
+    user_id: int = Path(ge=1)
+):
+    return {
+        "user_id": user_id
+    }
+```
+
+ <br>
+Now: <br>
+
+```text
+/users/10
+```
+
+ <br>
+valid. <br>
+
+But: <br>
+
+```text
+/users/0
+```
+
+ <br>
+invalid. <br>
+
+# Path Parameter Description
+
+You can also add metadata: <br>
+
+```text
+user_id: int = Path(
+    ge=1,
+    description="The ID of the user"
+)
+```
+
+ <br>
+This information can appear in the generated API documentation. <br>
+
+That means validation isn't only about rejecting bad requests. <br>
+
+It also helps describe your API contract. <br>
+
+---
+
+# Validating Query Parameters
+
+Day 17 introduced: <br>
+
+```text
+limit: int | None = None
+```
+
+ <br>
+Now we can make it safer. <br>
+
+```text
+from fastapi import FastAPI, Query
+
+app = FastAPI()
+
+
+@app.get("/products")
+def get_products(
+    limit: int = Query(default=10, ge=1, le=100)
+):
+    return {
+        "limit": limit
+    }
+```
+
+This means: <br>
+
+default = 10 <br>
+minimum = 1 <br>
+maximum = 100 <br>
+
+# Test Query Validation
+
+```text
+Valid:
+/products?limit=20
+```
+
+```text
+Invalid:
+/products?limit=0
+```
+
+```text
+Invalid:
+/products?limit=101
+```
+
+```text
+Invalid:
+/products?limit=hello
+```
+
+<br>
+The validation layer catches these before your function gets a valid limit. <br>
+
+# Query String Length Validation
+
+Suppose you're building: <br>
+
+```text
+GET /search?q=python
+```
+
+ <br>
+You want: <br>
+
+```text
+q must contain at least 2 characters
+```
+
+ <br> <br>
+Use: <br>
+
+```text
+@app.get("/search")
+def search(
+    q: str = Query(min_length=2, max_length=50)
+):
+    return {
+        "query": q
+    }
+```
+
+ <br>
+Now: <br>
+
+```text
+/search?q=p
+
+fails.
+```
+
+While: <br>
+
+```text
+/search?q=python
+
+works.
+```
+
+---
+
+# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
