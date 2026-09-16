@@ -83,6 +83,25 @@ seed.sql         Sample data
 
 ---
 
+# Create the PostgreSQL database
+
+```text
+ psql -U postgres
+CREATE DATABASE url_shortener;
+\c url_shortener
+SELECT current_database():
+
+```
+# Create all tables and insert sample data
+
+```text
+ \i database.sql
+\i seed.sql
+```
+
+
+---
+
 # In Requirements.txt 
 
 appended <br>
