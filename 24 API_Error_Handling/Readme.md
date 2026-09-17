@@ -302,17 +302,310 @@ We will improve the API so that : <br>
 
 # Add a Custom Error Response Model
 
+We can use a Pydantic model to standardize our error responses. <br>
+
+Open: <br>
+app/models.py <br> <br>
+
+Update it to: <br>
+
+```text
+from pydantic import BaseModel, HttpUrl
 
 
+class URLCreate(BaseModel):
+    original_url: HttpUrl
 
 
+class ErrorResponse(BaseModel):
+    detail: str
+```
+
+ <br>
+ Why use an error model? <br>
+
+It documents the expected error format and helps keep API responses consistent. <br>
+
+For now, FastAPI's built-in validation errors may still use a different structure. We will handle those more comprehensively with exception handlers later.
+ <br>
+
+ ---
+
+ # Update app/routes/urls.py
+
+Your existing redirect endpoint already handles a missing short code: <bt>
+
+```text
+if result is None:
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Short URL not found"
+    )
+```
+
+<br>
+That is correct.
+<br>
+Now we will improve the endpoint declarations by adding response documentation. <br> <br> <br>
 
 
+## Update imports
+
+At the top of app/routes/urls.py, use: <br>
+
+```text
+import random
+import string
+
+from fastapi import APIRouter, HTTPException, Request, status
+from fastapi.responses import RedirectResponse
+
+from app.db import get_connection
+from app.models import ErrorResponse, URLCreate
+```
+
+## Update the POST endpoint
+
+Find: <br>
+
+```text
+@router.post("/urls", status_code=status.HTTP_201_CREATED)
+```
+
+<br>
+Replace it with: <br>
+
+```text
+@router.post(
+    "/urls",
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        500: {
+            "description": "Internal server error"
+        }
+    }
+)
+
+```
+
+<br>
+
+The endpoint's main logic can remain unchanged for now. <br>
+<br>
+Important <br>
+
+The responses parameter documents possible responses in Swagger. It does not automatically catch errors or change how exceptions are handled. <br>
+
+---
+
+# Improve Database Error Handling
+
+Your current code uses: <br>
+
+```text
+except Exception:
+    connection.rollback()
+    raise
+```
+
+ <br>
+This is useful because it: <br>
+
+- Rolls back the transaction.
+
+- Re-raises the original exception.
+
+- Allows FastAPI to handle the unexpected error.
 
 
+<br><br>
+However, exposing raw database errors to users is not appropriate in production.
+
+ <br> 
+For example, an error might reveal: <br>
+
+- Database table names
+
+- SQL statements
+
+- Internal infrastructure details
+
+- Connection information
+
+<br>
+Instead, we can log the internal error and return a generic message.
+ <br>
 
 
+ ## First, understand the pattern
 
+```text
+try:
+    # Perform database operation
+
+except Exception:
+    connection.rollback()
+
+    # Log the internal error
+
+    raise HTTPException(
+        status_code=500,
+        detail="An internal server error occurred"
+    )
+
+finally:
+    cursor.close()
+    connection.close()
+```
+
+<br>
+Important production consideration <br>
+
+Do not blindly replace every exception with a 500 response. <br>
+
+Some exceptions, such as an intentional HTTPException(404), should be preserved. Also, logging should capture useful diagnostic information without exposing secrets. <br> <br>
+
+---
+
+# Add Logging
+
+Python provides a built-in logging module. <br>
+
+Create a logger at the top of: <br>
+
+app/routes/urls.py <br>
+
+Add: <br>
+
+```text
+import logging
+
+
+logger = logging.getLogger(__name__)
+```
+
+ <br>
+Your imports should now include: <br>
+
+```text
+import logging
+import random
+import string
+```
+
+ <br> <br>
+Why use logging? <br>
+
+Logging helps developers troubleshoot problems without showing internal details to API users. <br> <br>
+
+Example: <br>
+
+```text
+logger.exception("Failed to create short URL")
+
+logger.exception() should be called inside an exception handler. It records the error and traceback.
+```
+
+ <br>
+
+## Update the Create URL Endpoint
+
+Replace your existing create_short_url() function with this version: <br>
+
+```text
+@router.post(
+    "/urls",
+    status_code=status.HTTP_201_CREATED
+)
+def create_short_url(url_data: URLCreate):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        short_code = generate_unique_short_code(cursor)
+
+        cursor.execute(
+            """
+            INSERT INTO urls (
+                short_code,
+                original_url,
+                user_id
+            )
+            VALUES (%s, %s, %s)
+            RETURNING id, short_code, original_url, user_id, created_at;
+            """,
+            (
+                short_code,
+                str(url_data.original_url),
+                1
+            )
+        )
+
+        created_url = cursor.fetchone()
+
+        connection.commit()
+
+        return {
+            "id": created_url[0],
+            "short_code": created_url[1],
+            "original_url": created_url[2],
+            "user_id": created_url[3],
+            "created_at": created_url[4]
+        }
+
+    except Exception:
+        connection.rollback()
+
+        logger.exception("Failed to create short URL")
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Unable to create short URL"
+        )
+
+    finally:
+        cursor.close()
+        connection.close()
+```
+
+ <br> <br>
+What changed? <br>
+
+Previously: <br>
+
+```text
+except Exception:
+    connection.rollback()
+    raise
+```
+
+ <br>
+Now: <br>
+
+```text
+except Exception:
+    connection.rollback()
+    logger.exception("Failed to create short URL")
+
+    raise HTTPException(
+        status_code=500,
+        detail="Unable to create short URL"
+    )
+```
+ <br>
+
+The user receives a generic message, while the internal logs retain diagnostic information. <br>
+
+A limitation in this version <br>
+
+get_connection() is called before the try block. Therefore, if the connection itself fails, this handler will not catch that exception. <br>
+  
+We will improve centralized error handling later. For now, this teaches the basic pattern. <br>
+
+---
+
+
+ 
 
 
 
