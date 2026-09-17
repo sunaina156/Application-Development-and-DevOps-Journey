@@ -720,6 +720,274 @@ Swagger UI can then display the Authorize button.
 
 # Understand OpenAPI JSON
 
+Open: <br>
+
+```text
+http://localhost:8000/openapi.json
+```
+
+ <br>
+You will see a JSON document containing information such as: <br>
+
+```text
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "URL Shortener API",
+    "version": "1.0.0"
+  },
+  "paths": {}
+}
+```
+
+ <br>
+The actual schema will contain your API's paths, models, parameters, and responses. <br>
+
+Why is OpenAPI useful? <br>
+
+OpenAPI can be used to: <br>
+
+```text
+Generate client SDKs
+Generate API documentation
+Validate API contracts
+Integrate with API testing tools
+```
+
+ <br>
+Help frontend developers understand backend endpoints <br>
+
+---
+
+# Swagger UI vs ReDoc
+
+```text
+Feature                       Swagger UI              ReDOc
+URL                              /docs               /redoc
+Interactive API testing          Yes                 Limited
+Request execution                Yes               No typical Try it out workflow
+API exploration                  Yes                  Yes
+Documentation presentation       Interactive        Documentation-focused
+```
+
+<br>
+
+---
+
+# Customize Documentation URLs
+
+You can customize or disable the default documentation URLs. <br>
+
+Example: <br>
+
+```text
+app = FastAPI(
+    title="URL Shortener API",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
+)
+```
+
+ <br>
+Now the URLs become: <br>
+
+```text
+/api/docs
+/api/redoc
+/api/openapi.json
+```
+
+ <br> <br>
+Security note <br>
+
+Changing the documentation URL is not a security mechanism. <br>
+
+If your production API should not expose interactive documentation publicly, configure access control or disable the documentation endpoints intentionally. <br>
+
+---
+
+# Add API Versioning
+
+As your application grows, you may introduce new API versions. <br>
+
+Example: <br>
+
+```text
+/api/v1/urls
+/api/v1/auth/login
+```
+
+You can add a prefix to your router: <br>
+
+```text
+router = APIRouter(
+    prefix="/api/v1",
+    tags=["URLs"]
+)
+```
+
+ <br>
+However, because your existing route structure uses /urls and /{short_code}, do not change the prefix without updating your expected URLs and tests. <br>
+
+A cleaner approach is to create a versioned parent router: <br>
+
+```text
+from fastapi import APIRouter
+
+api_router = APIRouter(
+    prefix="/api/v1"
+)
+
+api_router.include_router(
+    urls_router
+)
+
+api_router.include_router(
+    auth_router
+)
+```
+
+ <br>
+Then include the parent router in main.py. <br>
+
+For your current practice project, versioning is optional. Understand the concept first. <br>
+
+---
+
+# Create a Professional API Documentation Table
+
+You can maintain an endpoint reference in your README.md. <br>
+
+Example: <br>
+
+## API Endpoints
+
+
+| Method | Endpoint | Authentication | Description |
+|---|---|---|---|
+| POST | `/auth/register` | No | Register a user |
+| POST | `/auth/login` | No | Login and receive JWT |
+| POST | `/urls` | Yes | Create short URL |
+| GET | `/{short_code}` | No | Redirect to original URL |
+| GET | `/` | No | Health message |
+
+Add this to your README: <br>
+
+## Authentication
+
+Protected endpoints require a JWT token. <br>
+
+Send the token using the following header: <br>
+
+```text
+Authorization: Bearer <access_token>
+```
+
+ <br> <br>
+Why maintain README documentation? <br>
+
+Swagger documents the running API. <br>
+
+The README explains how someone can: <br>
+
+```text
+Install the project
+Configure environment variables
+Start the database
+Run the application
+Run tests
+Use the API
+```
+
+ <br>
+Both are useful. <br>
+
+--
+
+# Test Your Documentation
+
+Start FastAPI: <br>
+
+```text
+uvicorn app.main:app --reload
+```
+
+<br>
+Check the following: <br>
+
+```text
+Documentation Checklist
+Open /docs
+Open /redoc
+Open /openapi.json
+Check Authentication tag
+Check URLs tag
+Check request model descriptions
+Check response schemas
+Check error response descriptions
+Test the Authorize button
+Update the README API endpoint table
+```
+
+<br>
+
+---
+
+# API Documentation in DevOps
+
+API documentation is useful in CI/CD workflows. <br>
+
+Example: <br>
+
+```text
+Developer updates endpoint
+          |
+          v
+Automated tests execute
+          |
+          v
+OpenAPI schema generated
+          |
+          v
+Documentation is published
+          |
+          v
+Frontend and backend teams use the API
+```
+
+<br> <br>
+You can also use OpenAPI specifications for: <br>
+
+```text
+Contract testing
+API validation
+Generating client code
+Reviewing API changes
+Creating automated documentation deployments
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
