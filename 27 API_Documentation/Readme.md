@@ -542,8 +542,183 @@ Never return password hashes through your API.
 
 ---
 
+# Document Error Responses
 
+Your API may return errors such as: <br>
 
+```text
+{
+  "detail": "Invalid email or password"
+}
+```
+
+ <br>
+You can describe possible responses in the route decorator. <br>
+
+Example: <br>
+
+```text
+@router.post(
+    "/login",
+    response_model=TokenResponse,
+    responses={
+        401: {
+            "description": "Invalid email or password"
+        },
+        500: {
+            "description": "Internal server error"
+        }
+    }
+)
+```
+
+ <br>
+For the registration endpoint: <br>
+
+```text
+@router.post(
+    "/register",
+    status_code=status.HTTP_201_CREATED,
+    response_model=UserResponse,
+    responses={
+        400: {
+            "description": "Invalid registration data"
+        },
+        409: {
+            "description": "Email is already registered"
+        },
+        500: {
+            "description": "Internal server error"
+        }
+    }
+)
+```
+
+ <br> <br>
+Why document errors? <br>
+
+Consumers should know not only how a successful request looks, but also how failures are represented. <br>
+
+---
+
+# Document the Redirect Endpoint
+
+Your redirect endpoint may look similar to: <br>
+
+```text
+@router.get("/{short_code}")
+def redirect_to_original_url(short_code: str):
+```
+
+ <br>
+Improve the documentation: <br>
+
+```text
+@router.get(
+    "/{short_code}",
+    summary="Redirect to the original URL",
+    description="""
+    Finds the original URL using the short code,
+    records a click, and redirects the client.
+    """,
+    response_description="Temporary redirect to the original URL",
+    responses={
+        404: {
+            "description": "Short code not found"
+        },
+        307: {
+            "description": "Redirect to original URL"
+        }
+    }
+)
+def redirect_to_original_url(short_code: str):
+```
+
+ <br> <br>
+Important <br>
+
+Your redirect endpoint should not require authentication if you want anyone to use shortened links. <br>
+
+Your URL creation endpoint should remain protected. <br>
+
+---
+
+# Add Path Parameter Documentation
+
+You can use Path to describe and validate a path parameter. <br>
+
+In app/routes/urls.py: <br>
+
+```text
+from fastapi import Path
+```
+
+ <br>
+Update the endpoint: <br>
+
+```text
+@router.get(
+    "/{short_code}",
+    summary="Redirect to the original URL"
+)
+def redirect_to_original_url(
+    short_code: str = Path(
+        ...,
+        min_length=1,
+        max_length=20,
+        description="Short code assigned to the original URL",
+        examples=["abc123"]
+    )
+):
+```
+
+ <br> <br>
+This documents the expected short-code format and adds basic length validation. <br>
+
+If your application later uses a stricter short-code format, such as exactly six alphanumeric characters, you can use a regular expression or additional validation. <br>
+
+---
+
+# Add Authentication Documentation
+
+Your dependencies.py contains: <br>
+
+```text
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/auth/login"
+)
+```
+
+ <br>
+This allows Swagger UI to understand the OAuth2 password token endpoint. <br> <br>
+
+However, there is an important detail: <br>
+
+OAuth2PasswordBearer defines how the token is extracted. <br>
+ 
+Your login endpoint must return a valid token. <br>
+
+Protected routes must use Depends(get_current_user_id). <br>
+ <br>
+Example: <br>
+
+```text
+@router.post("/urls")
+def create_short_url(
+    url_data: URLCreate,
+    current_user_id: int = Depends(
+        get_current_user_id
+    )
+):
+```
+
+ <br>
+Swagger UI can then display the Authorize button.
+ <br>
+
+---
+
+# Understand OpenAPI JSON
 
 
 
