@@ -831,9 +831,145 @@ The detailed error should be available through appropriate internal logs. <br>
 
 # Test Your Error Handling
 
+## Invalid URL input
+
+Open: <br>
+
+http://localhost:8000/docs <br>
+
+Try: <br>
+
+```text
+{
+  "original_url": "hello"
+}
+```
+
+<br>
+Expected: Validation error, generally 422.
+
+
+## Missing short code
+
+Open: <br>
+
+http://localhost:8000/notfound123 <br>
+
+Expected: <br>
+
+```text
+{
+  "detail": "Short URL not found"
+}
+```
+
+Status: <br>
+
+404 <br>
+
+## Valid short code
+
+Create a URL: <br>
+
+```text
+{
+  "original_url": "https://github.com"
+}
+```
+
+ <br>
+Open the generated short URL. <br>
+ <br>
+Expected: <br>
+
+Browser redirects.
+ <br>
+Click is recorded.
+ <br>
+No unexpected error occurs.
+ <br>
 
 
 
+## Missing configuration
+
+Temporarily remove DB_NAME from .env and restart the application: <br>
+
+DB_NAME= <br>
+
+The configuration validation from Day 23 should raise a clear startup error.
+ <br>
+Restore the value afterward.
+ <br>
+ 
+---
+
+# Production Error Handling Principles
+
+These principles apply to almost every backend application. <br>
+
+1. Return meaningful status codes
+ <br>
+Do not return 200 OK for every situation. <br>
+
+For example: <br>
+
+```text
+Missing resource → 404
+Invalid input → 422 or 400
+Unauthenticated → 401
+Unexpected server error → 500
+```
+
+ <br>
+2. Do not expose sensitive details
+ <br>
+Avoid returning:
+ <br>
+
+ ```text
+Database passwords
+Internal SQL statements
+Stack traces
+Secret keys
+Infrastructure details
+```
+
+ <br>
+3. Log errors internally
+ <br>
+Logs help with: <br>
+
+```text
+Debugging
+Monitoring
+Incident investigation
+Identifying recurring failures
+```
+
+ <br>
+ 
+4. Roll back failed transactions
+ <br>
+If a database operation fails, roll back the transaction when appropriate.
+
+5. Always clean up resources
+ <br>
+Use finally to close database cursors and connections.
+
+6. Validate inputs
+ <br>
+Use Pydantic validation and business rules.
+
+7. Handle expected errors separately
+ <br>
+A missing resource is not the same as an unexpected database failure.
+
+  <br>
+
+ ---
+
+  
 
 
 
