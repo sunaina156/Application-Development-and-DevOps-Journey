@@ -418,17 +418,673 @@ True or False <br>
 
 token = create_access_token(user_id=1) <br>
 
-The token contains:
+The token contains: <br>
 
+```text
 {
   "sub": "1",
   "exp": "expiration time"
 }
+```
 
-The token is signed using your secret key.
+<br>
+The token is signed using your secret key. <br> <br>
+
+**decode_access_token()** <br>
+
+```text
+user_id = decode_access_token(token)
+```
+
+<br>
+This function: <br>
+
+Verifies the signature. <br>
+
+Checks token validity. <br>
+
+Checks the expiration claim. <br>
+
+Extracts the user ID. <br>
+
+---
+
+# Important Database Limitation
+
+Your current users table contains: <br>
+
+```text
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+ <br>
+It does not contain a password hash. <br>
+
+For authentication, add a new column. <br> <br>
+
+**Option A: Add the column using SQL** <br>
+
+Connect to PostgreSQL: <br>
+
+psql -U postgres <br>
+
+Select your database: <br>
+
+\c url_shortener <br>
+
+Run: <br>
+
+ALTER TABLE users <br>
+ADD COLUMN password_hash TEXT; <br>
+
+Check the table: <br>
+
+\d users <br> <br> <br>
+
+Why is the column nullable? <br>
+
+Your existing seed users do not have passwords yet. Making it nullable allows the migration to succeed without immediately breaking those existing rows. <br>
+
+For a production application, you should establish a proper migration and password-setting process. <br>
+
+---
+
+# Create a Registration Endpoint
+
+For this lesson, we will create a simple registration endpoint. <br>
+
+Update app/models.py: <br>
+
+```text
+from pydantic import BaseModel, EmailStr, HttpUrl
 
 
+class URLCreate(BaseModel):
+    original_url: HttpUrl
 
+
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+
+
+class ErrorResponse(BaseModel):
+    detail: str
+```
+
+ <br>
+Install email validation support: <br>
+
+pip install email-validator <br> <br>
+
+Update requirements: <br>
+
+pip freeze > requirements.txt <br> <br>
+Password validation <br>
+
+For now, we will add basic validation directly in the route. Later, you can move it into a dedicated Pydantic validator. <br>
+
+---
+
+# Create Authentication Routes
+
+Create: <br>
+
+app/routes/auth.py <br>
+
+Add: <br>
+
+```text
+import logging
+
+from fastapi import APIRouter, HTTPException, status
+
+from app.db import get_connection
+from app.models import UserCreate
+from app.security import hash_password
+
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter(
+    prefix="/auth",
+    tags=["Authentication"]
+)
+
+
+@router.post(
+    "/register",
+    status_code=status.HTTP_201_CREATED
+)
+def register_user(user: UserCreate):
+    """
+    Register a new user.
+    """
+
+    if len(user.password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least 8 characters"
+        )
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        password_hash = hash_password(user.password)
+
+        cursor.execute(
+            """
+            INSERT INTO users (
+                name,
+                email,
+                password_hash
+            )
+            VALUES (%s, %s, %s)
+            RETURNING id, name, email
+            """,
+            (
+                user.name,
+                user.email,
+                password_hash
+            )
+        )
+
+        created_user = cursor.fetchone()
+
+        connection.commit()
+
+        return {
+            "id": created_user[0],
+            "name": created_user[1],
+            "email": created_user[2]
+        }
+
+    except Exception as error:
+        if connection:
+            connection.rollback()
+
+        logger.exception(
+            "User registration failed"
+        )
+
+        if "duplicate key" in str(error).lower():
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Email is already registered"
+            ) from error
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Unable to register user"
+        ) from error
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if connection:
+            connection.close()
+```
+
+<br>
+
+---
+
+# Add the Login Model
+
+Add this model to app/models.py: <br>
+
+```text
+class UserLogin(BaseModel):
+    username: EmailStr
+    password: str
+```
+
+<br>
+FastAPI's OAuth2 password flow commonly uses the field name username, even when your application actually logs users in using an email address. <br>
+
+---
+
+# Add Login Endpoint
+
+Update app/routes/auth.py. <br>
+
+Add these imports: <br>
+
+```text
+from fastapi.security import OAuth2PasswordRequestForm
+
+from app.models import UserCreate, UserLogin
+from app.security import (
+    create_access_token,
+    hash_password,
+    verify_password
+)
+```
+
+ <br>
+You can remove UserLogin if you use OAuth2PasswordRequestForm; the form is used below. <br> <br>
+
+**Add the endpoint:** <br>
+
+```text
+@router.post("/login")
+def login_user(
+    form_data: OAuth2PasswordRequestForm = Depends()
+):
+    """
+    Authenticate a user and return a JWT token.
+    """
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, password_hash
+            FROM users
+            WHERE email = %s
+            """,
+            (form_data.username,)
+        )
+
+        user = cursor.fetchone()
+
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password",
+                headers={
+                    "WWW-Authenticate": "Bearer"
+                }
+            )
+
+        user_id, stored_password_hash = user
+
+        if stored_password_hash is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User password is not configured",
+                headers={
+                    "WWW-Authenticate": "Bearer"
+                }
+            )
+
+        if not verify_password(
+            form_data.password,
+            stored_password_hash
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password",
+                headers={
+                    "WWW-Authenticate": "Bearer"
+                }
+            )
+
+        access_token = create_access_token(user_id)
+
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+
+    except HTTPException:
+        raise
+
+    except Exception as error:
+        logger.exception(
+            "Login failed"
+        )
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Unable to process login"
+        ) from error
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if connection:
+            connection.close()
+```
+
+ <br>
+**Important: Add the missing import** <br>
+
+At the top of auth.py, include: <br>
+
+```text
+from fastapi import APIRouter, Depends, HTTPException, status
+```
+
+ <br>
+The complete imports should include: <br>
+
+```text
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status
+)
+
+from fastapi.security import OAuth2PasswordRequestForm
+```
+
+<br>
+
+---
+
+# Register the Authentication Router
+
+Update app/main.py. <br>
+
+Add: <br>
+
+```text
+from app.routes.auth import router as auth_router
+
+Then include the router:
+
+app.include_router(auth_router)
+
+Your relevant main.py structure:
+
+from fastapi import FastAPI
+
+from app.routes.auth import router as auth_router
+from app.routes.urls import router as urls_router
+
+
+app = FastAPI(
+    title="URL Shortener API",
+    description="A practice URL shortening API using FastAPI and PostgreSQL",
+    version="1.0.0"
+)
+
+
+@app.get("/")
+def home():
+    return {
+        "message": "URL Shortener API is running"
+    }
+
+
+app.include_router(auth_router)
+app.include_router(urls_router)
+```
+
+ <br>
+Keep your existing exception handler if you already have one. Do not accidentally remove it while adding the authentication router.
+ <br>
+
+ ---
+
+ # Create an Authentication Dependency
+
+Now we need a reusable function that checks whether a request contains a valid JWT. <br>
+
+Create: <br>
+
+app/dependencies.py <br>
+
+Add: <br>
+
+```text
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+from app.security import decode_access_token
+
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/auth/login"
+)
+
+
+def get_current_user_id(
+    token: str = Depends(oauth2_scheme)
+) -> int:
+    """
+    Extract and validate the current user's ID.
+    """
+
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={
+            "WWW-Authenticate": "Bearer"
+        }
+    )
+
+    try:
+        user_id = decode_access_token(token)
+
+        return user_id
+
+    except ValueError as error:
+        raise credentials_exception from error
+
+```
+
+ <br> <br>
+What does OAuth2PasswordBearer do? <br>
+
+It reads the token from: <br>
+
+Authorization: Bearer <token> <br>
+
+It does not itself verify the token. Your decode_access_token() function performs the validation. <br>
+
+---
+
+# Protect URL Creation
+
+Open: <br>
+
+app/routes/urls.py <br>
+
+Find your URL creation endpoint. <br>
+
+Add this import: <br>
+
+```text
+from fastapi import Depends
+
+Also import the dependency:
+
+from app.dependencies import get_current_user_id
+
+Change your endpoint from:
+
+@router.post("/urls", status_code=status.HTTP_201_CREATED)
+def create_short_url(url_data: URLCreate):
+
+To:
+
+@router.post(
+    "/urls",
+    status_code=status.HTTP_201_CREATED
+)
+def create_short_url(
+    url_data: URLCreate,
+    current_user_id: int = Depends(
+        get_current_user_id
+    )
+):
+
+Then replace the hardcoded user ID:
+
+user_id = 1
+
+with:
+
+user_id = current_user_id
+
+Your SQL insert should use:
+
+cursor.execute(
+    """
+    INSERT INTO urls (
+        short_code,
+        original_url,
+        user_id
+    )
+    VALUES (%s, %s, %s)
+    RETURNING short_code
+    """,
+    (
+        short_code,
+        str(url_data.original_url),
+        current_user_id
+    )
+)
+```
+
+ <br> <br>
+Why is this important? <br>
+
+Previously: <br>
+
+user_id = 1 <br>
+
+Every URL was assigned to the same user. <br> <br>
+
+Now: <br>
+
+current_user_id <br>
+
+The user ID is taken from the validated token. <br>
+
+This is the foundation for user-specific resources. <br>
+
+---
+
+# Updated Project Structure
+
+Your project should now look like this: <br>
+
+```text
+Python_URL_Shortener/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   ├── db.py
+│   ├── models.py
+│   ├── security.py
+│   ├── dependencies.py
+│   │
+│   └── routes/
+│       ├── __init__.py
+│       ├── auth.py
+│       └── urls.py
+│
+├── legacy/
+│   └── cli_main.py
+│
+├── database.sql
+├── seed.sql
+├── requirements.txt
+├── .env
+├── .gitignore
+└── venv/
+```
+
+<br>
+
+---
+
+# Test the Authentication Flow
+
+Start the application: <br>
+
+uvicorn app.main:app --reload <br>
+
+Open: <br>
+
+http://localhost:8000/docs  <br> <br>
+
+**Test 1: Register** <br>
+
+Open: <br>
+
+```text
+POST /auth/register
+```
+
+ <br>
+Request body: <br>
+
+```text
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "TestPassword123"
+}
+```
+
+ <br>
+Expected response: <br>
+
+```text
+{
+  "id": 4,
+  "name": "Test User",
+  "email": "test@example.com"
+}
+```
+
+ <br>
+The password should not be included in the response. <br>
+
+<br>
+
+**Test 2: Login**  <br>
+
+Open: <br>
+
+```text
+POST /auth/login
+```
+
+ <br>
+Click Try it out. <br>
+
+Use form values: <br>
+
+```text
+username: test@example.com
+password: TestPassword123
+```
+
+ <br>
+Expected response: <br>
+
+```text
+{
+  "access_token":
+```
+
+---
+  
 
 
 
