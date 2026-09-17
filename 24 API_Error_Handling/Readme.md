@@ -604,10 +604,232 @@ We will improve centralized error handling later. For now, this teaches the basi
 
 ---
 
+# Improve the Redirect Endpoint
 
- 
+Your redirect endpoint already handles HTTPException separately. Keep that behavior. <br>
+
+Replace the endpoint with: <br>
+
+```text
+@router.get("/{short_code}")
+def redirect_to_original_url(
+    short_code: str,
+    request: Request
+):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(
+            """
+            SELECT id, original_url
+            FROM urls
+            WHERE short_code = %s;
+            """,
+            (short_code,)
+        )
+
+        result = cursor.fetchone()
+
+        if result is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Short URL not found"
+            )
+
+        url_id = result[0]
+        original_url = result[1]
+
+        visitor_ip = None
+
+        if request.client is not None:
+            visitor_ip = request.client.host
+
+        cursor.execute(
+            """
+            INSERT INTO clicks (
+                url_id,
+                ip_address
+            )
+            VALUES (%s, %s);
+            """,
+            (url_id, visitor_ip)
+        )
+
+        connection.commit()
+
+        return RedirectResponse(
+            url=original_url,
+            status_code=status.HTTP_307_TEMPORARY_REDIRECT
+        )
+
+    except HTTPException:
+        connection.rollback()
+        raise
+
+    except Exception:
+        connection.rollback()
+
+        logger.exception("Failed to redirect short URL")
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Unable to process short URL"
+        )
+
+    finally:
+        cursor.close()
+        connection.close()
+ ```
+
+<br>
+
+Why is HTTPException handled separately? <br>
+
+Suppose the short code does not exist: <br>
+
+raise HTTPException(status_code=404) <br>
+
+We want to preserve the 404 response.
+ <br>
+If we caught all exceptions and returned 500, a missing URL would incorrectly appear as a server failure. <br>
+
+This is why exception handling order matters. <br>
+
+---
+
+# Centralized Exception Handling
+
+So far, we have handled errors inside individual endpoints. <br>
+
+But imagine you have 30 endpoints. <br>
+
+Would you want to repeat the same error-handling code 30 times? <br>
+
+Usually, no. <br> <br>
+
+FastAPI supports exception handlers, which allow you to define common behavior for specific exception types. <br>
+
+Example: Global unexpected error handler <br> <br>
+
+Open: <br>
+
+app/main.py <br>
+
+Update it to: <br>
+
+```text
+import logging
+
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
+from app.routes.urls import router as urls_router
 
 
+logger = logging.getLogger(__name__)
+
+
+app = FastAPI(
+    title="URL Shortener API",
+    description="A practice URL shortening API using FastAPI and PostgreSQL",
+    version="1.0.0"
+)
+
+
+@app.exception_handler(Exception)
+async def general_exception_handler(
+    request: Request,
+    exc: Exception
+):
+    logger.exception(
+        "Unhandled exception on %s %s",
+        request.method,
+        request.url.path
+    )
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "An internal server error occurred"
+        }
+    )
+
+
+@app.get("/")
+def home():
+    return {
+        "message": "URL Shortener API is running"
+    }
+
+
+app.include_router(urls_router)
+```
+
+What does this handler do? <br>
+
+If an unexpected exception reaches the application, this handler: <br>
+
+- Logs the internal exception. 
+
+- Returns status code 500.
+
+- Provides a generic error response.
+
+ <br> <br>
+Important <br>
+
+This is a basic educational handler. FastAPI's normal handling of HTTPException and validation errors should be preserved. In production, you should also consider environment-specific logging, monitoring, and avoiding overly broad exception handling that hides useful error information.
+ <br>
+
+---
+
+# What Happens During an Error?
+
+Consider this request: <br>
+
+```text
+GET /abc123
+```
+
+ <br>
+The database is temporarily unavailable. <br> <br>
+
+The flow is: <br>
+
+```text
+1. Request arrives
+2. API tries to connect/query PostgreSQL
+3. Database operation fails
+4. Exception is raised
+5. Transaction is rolled back where applicable
+6. Error is logged
+7. Client receives a safe error response
+```
+
+ <br>
+The user should not receive a response such as: <br>
+
+```text
+psycopg2.OperationalError:
+could not connect to server...
+```
+
+ <br>
+Instead: <br>
+
+```text
+{
+  "detail": "An internal server error occurred"
+}
+```
+
+ <br>
+The detailed error should be available through appropriate internal logs. <br>
+
+---
+
+# Test Your Error Handling
 
 
 
