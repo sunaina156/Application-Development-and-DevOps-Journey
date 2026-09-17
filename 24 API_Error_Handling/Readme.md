@@ -969,8 +969,10 @@ A missing resource is not the same as an unexpected database failure.
 
  ---
 
-  
+Professional API error handling means: <br>
 
+Detect errors → Return the correct status code → Log useful internal details → Protect sensitive information → Clean up resources.  
 
+<br>
 
 
